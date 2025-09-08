@@ -1,4 +1,4 @@
-//Interpolação
+//Interpolação Pts -> Pt
 // https://en.wikipedia.org/wiki/Lagrange_polynomial
 // 
 // Interpolação is a numerical method to 

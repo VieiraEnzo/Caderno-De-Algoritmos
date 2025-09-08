@@ -1037,7 +1037,28 @@ pair<int, vector<T>> gauss(vector<vector<T>> a, vector<T> b) {
 }
 \end{minted}
 
-\subsection{Interpolação}
+\subsection{Interpolation Pts-> Pol}
+\begin{minted}{cpp}
+ *  Description: Given $n$ points (x[i], y[i]), computes an n-1-degree polynomial $p$ that
+ *  passes through them: $p(x) = a[0]*x^0 + ... + a[n-1]*x^{n-1}$.
+ *  For numerical precision, pick $x[k] = c*\cos(k/(n-1)*\pi), k=0 \dots n-1$.
+ * Time: O(n^2)
+ */
+typedef vector<double> vd;
+vd interpolate(vd x, vd y, int n) {
+	vd res(n), temp(n);
+	for(int k = 0; k < n-1; ++k) for(int i = k+1; i < n; ++i)
+		y[i] = (y[i] - y[k]) / (x[i] - x[k]);
+	double last = 0; temp[0] = 1;
+	for(int k = 0; k < n; ++k) for(int i = 0; i < n; ++i) {
+		res[i] += y[k] * temp[i]; swap(last, temp[i]);
+		temp[i] -= last * x[k];
+	}
+	return res;
+}
+\end{minted}
+
+\subsection{Interpolação Pts -> Pt}
 \begin{minted}{cpp}
 // 
 // Interpolação is a numerical method to 
@@ -2115,6 +2136,22 @@ ll func(ll a, ll b){
 }
 \end{minted}
 
+\subsection{Sos DP}
+\begin{minted}{cpp}
+//I will be addressing the following problem: Given a fixed array A of 2N integers,
+//we need to calculate forAll x function F(x) = Sum of all A[i] such that x&i = i, i.e., i is a subset of x.
+//$$F[\text{mask}] = \sum_{i \subseteq \text{mask}} A[i]$$
+//F[mask]=i(\subseteq)mask\sumA[i]
+
+
+for(int i = 0; i<(1<<N); ++i)
+	F[i] = A[i];
+for(int i = 0;i < N; ++i) for(int mask = 0; mask < (1<<N); ++mask){
+	if(mask & (1<<i))
+		F[mask] += F[mask^(1<<i)];
+}
+\end{minted}
+
 \subsection{Submask DP}
 \begin{minted}{cpp}
 /*
@@ -2138,14 +2175,14 @@ for (int mask = 0; mask < (1 << n); mask++) {
 
 vector<pair<int,int>> sack; // {item, frequency}
 vector<int> dp(S+1, 0);
-
+dp[0] = 1;
 
 for(int i = 0; i < sack.size(); i++){
-    vector<int> ndp(n+1);
+    vector<int> ndp(S+1);
     auto [item, freq] = sack[i];
-    for(int j = 0; j < item; j++){
+    for(int j = 0; j < item; j++){  //starting at position j
         int numTrues = 0;
-        for(int k = j; k <= n; k += item){
+        for(int k = j; k <= S; k += item){
             ndp[k] = dp[k];
             if(numTrues > 0) ndp[k] = true;
             if(k - freq*item >= 0) numTrues -= dp[k - freq*item];
@@ -2398,6 +2435,244 @@ pair<vector<int>, vector<int>> manacher(string s) {
 }
 \end{minted}
 
+\subsection{Suffix Array - O(n log n)}
+\begin{minted}{cpp}
+// kasai recebe o suffix array e calcula lcp[i],
+// o lcp entre s[sa[i],...,n-1] e s[sa[i+1],..,n-1]
+// obs: lcp entre sufixo i e sufixo j é o minimo do lcp no intervalo apropriado
+//
+// Complexidades:
+// suffix_array - O(n log(n))
+// kasai - O(n)
+// Creditos: Caderno do breno Maletas
+
+vector<int> suffix_array(string s) {
+	s += "$";
+	int n = s.size(), N = max(n, 260);
+	vector<int> sa(n), ra(n);
+	for(int i = 0; i < n; i++) sa[i] = i, ra[i] = s[i];
+    
+	for(int k = 0; k < n; k ? k *= 2 : k++) {
+		vector<int> nsa(sa), nra(n), cnt(N);
+    
+		for(int i = 0; i < n; i++) nsa[i] = (nsa[i]-k+n)%n, cnt[ra[i]]++;
+		for(int i = 1; i < N; i++) cnt[i] += cnt[i-1];
+		for(int i = n-1; i+1; i--) sa[--cnt[ra[nsa[i]]]] = nsa[i];
+    
+		for(int i = 1, r = 0; i < n; i++) nra[sa[i]] = r += ra[sa[i]] !=
+			ra[sa[i-1]] or ra[(sa[i]+k)%n] != ra[(sa[i-1]+k)%n];
+		ra = nra;
+		if (ra[sa[n-1]] == n-1) break;
+	}
+	return vector<int>(sa.begin()+1, sa.end());
+}
+
+vector<int> kasai(string s, vector<int> sa) {
+	int n = s.size(), k = 0;
+	vector<int> ra(n), lcp(n);
+	for (int i = 0; i < n; i++) ra[sa[i]] = i;
+    
+	for (int i = 0; i < n; i++, k -= !!k) {
+		if (ra[i] == n-1) { k = 0; continue; }
+		int j = sa[ra[i]+1];
+		while (i+k < n and j+k < n and s[i+k] == s[j+k]) k++;
+		lcp[ra[i]] = k;
+	}
+	return lcp;
+}
+\end{minted}
+
+\subsection{Suffix Array - O(n)}
+\begin{minted}{cpp}
+// Rapidao
+// Computa o suffix array em 'sa', o rank em 'rnk'
+// e o lcp em 'lcp'
+// query(i, j) retorna o LCP entre s[i..n-1] e s[j..n-1]
+//
+// Complexidades
+// O(n) para construir
+// query - O(1)
+// Creditos: Caderno do Brawn Malous
+
+template<typename T> struct rmq {
+	vector<T> v;
+	int n; static const int b = 30;
+	vector<int> mask, t;
+    
+	int op(int x, int y) { return v[x] <= v[y] ? x : y; }
+	int msb(int x) { return __builtin_clz(1)-__builtin_clz(x); }
+	int small(int r, int sz = b) { return r-msb(mask[r]&((1<<sz)-1)); }
+	rmq() {}
+	rmq(const vector<T>& v_) : v(v_), n(v.size()), mask(n), t(n) {
+		for (int i = 0, at = 0; i < n; mask[i++] = at |= 1) {
+			at = (at<<1)&((1<<b)-1);
+			while (at and op(i-msb(at&-at), i) == i) at ^= at&-at;
+		}
+		for (int i = 0; i < n/b; i++) t[i] = small(b*i+b-1);
+		for (int j = 1; (1<<j) <= n/b; j++) for (int i = 0; i+(1<<j) <= n/b; i++)
+			t[n/b*j+i] = op(t[n/b*(j-1)+i], t[n/b*(j-1)+i+(1<<(j-1))]);
+	}
+	int index_query(int l, int r) {
+		if (r-l+1 <= b) return small(r, r-l+1);
+		int x = l/b+1, y = r/b-1;
+		if (x > y) return op(small(l+b-1), small(r));
+		int j = msb(y-x+1);
+		int ans = op(small(l+b-1), op(t[n/b*j+x], t[n/b*j+y-(1<<j)+1]));
+		return op(ans, small(r));
+	}
+	T query(int l, int r) { return v[index_query(l, r)]; }
+};
+
+struct suffix_array {
+	string s;
+	int n;
+	vector<int> sa, cnt, rnk, lcp;
+	rmq<int> RMQ;
+    
+	bool cmp(int a1, int b1, int a2, int b2, int a3=0, int b3=0) {
+		return a1 != b1 ? a1 < b1 : (a2 != b2 ? a2 < b2 : a3 < b3);
+	}
+	template<typename T> void radix(int* fr, int* to, T* r, int N, int k) {
+		cnt = vector<int>(k+1, 0);
+		for (int i = 0; i < N; i++) cnt[r[fr[i]]]++;
+		for (int i = 1; i <= k; i++) cnt[i] += cnt[i-1];
+		for (int i = N-1; i+1; i--) to[--cnt[r[fr[i]]]] = fr[i];
+	}
+	void rec(vector<int>& v, int k) {
+		auto &tmp = rnk, &m0 = lcp;
+		int N = v.size()-3, sz = (N+2)/3, sz2 = sz+N/3;
+		vector<int> R(sz2+3);
+		for (int i = 1, j = 0; j < sz2; i += i%3) R[j++] = i;
+    
+		radix(&R[0], &tmp[0], &v[0]+2, sz2, k);
+		radix(&tmp[0], &R[0], &v[0]+1, sz2, k);
+		radix(&R[0], &tmp[0], &v[0]+0, sz2, k);
+    
+		int dif = 0;
+		int l0 = -1, l1 = -1, l2 = -1;
+		for (int i = 0; i < sz2; i++) {
+			if (v[tmp[i]] != l0 or v[tmp[i]+1] != l1 or v[tmp[i]+2] != l2)
+				l0 = v[tmp[i]], l1 = v[tmp[i]+1], l2 = v[tmp[i]+2], dif++;
+			if (tmp[i]%3 == 1) R[tmp[i]/3] = dif;
+			else R[tmp[i]/3+sz] = dif;
+		}
+    
+		if (dif < sz2) {
+			rec(R, dif);
+			for (int i = 0; i < sz2; i++) R[sa[i]] = i+1;
+		} else for (int i = 0; i < sz2; i++) sa[R[i]-1] = i;
+    
+		for (int i = 0, j = 0; j < sz2; i++) if (sa[i] < sz) tmp[j++] = 3*sa[i];
+		radix(&tmp[0], &m0[0], &v[0], sz, k);
+		for (int i = 0; i < sz2; i++)
+			sa[i] = sa[i] < sz ? 3*sa[i]+1 : 3*(sa[i]-sz)+2;
+    
+		int at = sz2+sz-1, p = sz-1, p2 = sz2-1;
+		while (p >= 0 and p2 >= 0) {
+			if ((sa[p2]%3==1 and cmp(v[m0[p]], v[sa[p2]], R[m0[p]/3],
+				R[sa[p2]/3+sz])) or (sa[p2]%3==2 and cmp(v[m0[p]], v[sa[p2]],
+				v[m0[p]+1], v[sa[p2]+1], R[m0[p]/3+sz], R[sa[p2]/3+1])))
+				sa[at--] = sa[p2--];
+			else sa[at--] = m0[p--];
+		}
+		while (p >= 0) sa[at--] = m0[p--];
+		if (N%3==1) for (int i = 0; i < N; i++) sa[i] = sa[i+1];
+	}
+    
+	suffix_array(const string& s_) : s(s_), n(s.size()), sa(n+3),
+			cnt(n+1), rnk(n), lcp(n-1) {
+		vector<int> v(n+3);
+		for (int i = 0; i < n; i++) v[i] = i;
+		radix(&v[0], &rnk[0], &s[0], n, 256);
+		int dif = 1;
+		for (int i = 0; i < n; i++)
+			v[rnk[i]] = dif += (i and s[rnk[i]] != s[rnk[i-1]]);
+		if (n >= 2) rec(v, dif);
+		sa.resize(n);
+    
+		for (int i = 0; i < n; i++) rnk[sa[i]] = i;
+		for (int i = 0, k = 0; i < n; i++, k -= !!k) {
+			if (rnk[i] == n-1) {
+				k = 0;
+				continue;
+			}
+			int j = sa[rnk[i]+1];
+			while (i+k < n and j+k < n and s[i+k] == s[j+k]) k++;
+			lcp[rnk[i]] = k;
+		}
+		RMQ = rmq<int>(lcp);
+	}
+    
+	int query(int i, int j) {
+		if (i == j) return n-i;
+		i = rnk[i], j = rnk[j];
+		return RMQ.query(min(i, j), max(i, j)-1);
+	}
+	pair<int, int> next(int L, int R, int i, char c) {
+		int l = L, r = R+1;
+		while (l < r) {
+			int m = (l+r)/2;
+			if (i+sa[m] >= n or s[i+sa[m]] < c) l = m+1;
+			else r = m;
+		}
+		if (l == R+1 or s[i+sa[l]] > c) return {-1, -1};
+		L = l;
+    
+		l = L, r = R+1;
+		while (l < r) {
+			int m = (l+r)/2;
+			if (i+sa[m] >= n or s[i+sa[m]] <= c) l = m+1;
+			else r = m;
+		}
+		R = l-1;
+		return {L, R};
+	}
+    	// quantas vezes 't' ocorre em 's' - O(|t| log n)
+	int count_substr(string& t) {
+		int L = 0, R = n-1;
+		for (int i = 0; i < t.size(); i++) {
+			tie(L, R) = next(L, R, i, t[i]);
+			if (L == -1) return 0;
+		}
+		return R-L+1;
+	}
+    
+    	// exemplo de f que resolve o problema
+    	// https://codeforces.com/edu/course/2/lesson/2/5/practice/contest/269656/problem/D
+	ll f(ll k) { return k*(k+1)/2; }
+    
+	ll dfs(int L, int R, int p) { // dfs na suffix tree chamado em pre ordem
+		int ext = L != R ? RMQ.query(L, R-1) : n - sa[L];
+    
+    		// Tem 'ext - p' substrings diferentes que ocorrem 'R-L+1' vezes
+    		// O LCP de todas elas eh 'ext'
+		ll ans = (ext-p)*f(R-L+1);
+    
+    		// L eh terminal, e folha sse L == R
+		if (sa[L]+ext == n) L++;
+    
+    		// se for um SA de varias strings separadas como s#t$u&, usar no lugar do if de cima
+    		//	(separadores < 'a', diferentes e inclusive no final)
+    		// while (L <= R && (sa[L]+ext == n || s[sa[L]+ext] < 'a')) {
+    		//   L++;
+    		// }
+    
+		while (L <= R) {
+			int idx = L != R ? RMQ.index_query(L, R-1) : -1;
+			if (idx == -1 or lcp[idx] != ext) idx = R;
+    
+			ans += dfs(L, idx, ext);
+			L = idx+1;
+		}
+		return ans;
+	}
+    
+    	// sum over substrings: computa, para toda substring t distinta de s,
+    	// \sum f(# ocorrencias de t em s) - O (n)
+	ll sos() { return dfs(0, n-1, 0); }
+};
+\end{minted}
+
 \subsection{Trie}
 \begin{minted}{cpp}
 
@@ -2429,6 +2704,62 @@ struct Trie{
         }
         t[p].output++;
     }
+};
+\end{minted}
+
+\subsection{Trie pro caio não chorar}
+\begin{minted}{cpp}
+// trie T() constroi uma trie para o alfabeto das letras minusculas
+// trie T(tamanho do alfabeto, menor caracter) tambem pode ser usado
+// 
+// T.insert(s) - O(|s|*sigma)
+// T.erase(s) - O(|s|)
+// T.find(s) retorna a posicao, -1 se nao achar - O(|s|)
+// T.count_pref(s) numero de strings que possuem s como prefixo - O(|s|)
+// Creditos: Bruno meleitas dnv, o caderno inteiro é dele já a esse ponto
+
+struct trie {
+	vector<vector<int>> to;
+	vector<int> end, pref;
+	int sigma; char norm;
+	trie(int sigma_=26, char norm_='a') : sigma(sigma_), norm(norm_) {
+		to = {vector<int>(sigma)};
+		end = {0}, pref = {0};
+	}
+	void insert(string s) {
+		int x = 0;
+		for (auto c : s) {
+			int &nxt = to[x][c-norm];
+			if (!nxt) {
+				nxt = to.size();
+				to.push_back(vector<int>(sigma));
+				end.push_back(0), pref.push_back(0);
+			}
+			x = nxt, pref[x]++;
+		}
+		end[x]++, pref[0]++;
+	}
+	void erase(string s) {
+		int x = 0;
+		for (char c : s) {
+			int &nxt = to[x][c-norm];
+			x = nxt, pref[x]--;
+			if (!pref[x]) nxt = 0;
+		}
+		end[x]--, pref[0]--;
+	}
+	int find(string s) {
+		int x = 0;
+		for (auto c : s) {
+			x = to[x][c-norm];
+			if (!x) return -1;
+		}
+		return x;
+	}
+	int count_pref(string s) {
+		int id = find(s);
+		return id >= 0 ? pref[id] : 0;
+	}
 };
 \end{minted}
 
@@ -3055,6 +3386,16 @@ struct DSU
 
 \section{Extra}
 
+\subsection{BitOperators.h}
+\begin{minted}{cpp}
+Pra fazer funcionar com long long é só colocar ll no final da função, por exemplo "_builtin_clz(x)" vira "_builtin_clzll(x)"
+__builtin_clz(x): Count leading zeros. Retorna o número de zeros no início da representação binária de x (incio == bits mais significativos)
+__builtin_ctz(x): Count trailing zeros. Retorna o número de zeros no final da representação binária de x
+__builtin_popcount(x): Population count. Retorna o número de bits definidos como 1 na representação binária de x
+__builtin_parity(x): Parity. Retorna 1 se o número de bits definidos como 1 for ímpar e 0 se for par.
+int L = 32 - __builtin_clz(n), n = 1 << L; : "n" se torna a primeira potencia de 2 estritamente maior que n 
+\end{minted}
+
 \subsection{XorBasis.h}
 \begin{minted}{cpp}
 //Xor Basis
@@ -3139,6 +3480,14 @@ int ternSearch(int a, int b) {
 		if (f(a) < f(i)) a = i; // (B)
 	return a;
 }
+\end{minted}
+
+\subsection{Makefile.h}
+\begin{minted}{cpp}
+WARNINGS := -Wshift-overflow=2 -Wfloat-equal -Wconversion
+SANITIZERS := -fsanitize=address -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -fsanitize=undefined
+a.out: a.cpp
+	g++ -Dlocal $(WARNINGS) $(SANITIZERS) a.cpp
 \end{minted}
 
 \subsection{Brute.h}

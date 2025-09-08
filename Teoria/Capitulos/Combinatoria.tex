@@ -1,0 +1,44 @@
+\section{Combinatória}
+
+\subsection{Stars and Bars Bounded}
+
+De quantas formas podemos definir uma sequencia $x$ tal que:
+
+$$ \sum^{n}_{i=0} x_i = M $$
+$$ l_i \leq x_i \leq r_i $$
+
+\subsubsection{Existência de solução}
+
+A existência  de solução é garantida se e somente se:
+
+$$ \sum^{n}_{i=0} l_i \leq M \leq \sum^{n}_{i=0} r_i $$
+
+\subsection{Solução com DP em $ O(NM^2) $}
+
+$$ DP(N, M) = \sum^{r_n}_{i=l_n} DP(N-1, M-i) $$
+
+$$
+DP(0, M) =
+    \begin{cases}
+        0, M \neq 0 \\
+        1, M = 0
+    \end{cases}
+$$
+
+\subsection{Caso Particular $ l_i = 0 , r_i = M$}
+
+Stars and Bars com N-1 Barras
+
+$$ Resposta = \binom{M+N-1}{M} $$
+
+\subsection{Redução do problema para $l_i = 0$}
+
+$$ M \xleftarrow{} M - \sum^{n}_{i=0} l_i $$
+$$ x_i \xleftarrow{} x_i - l_i $$
+$$ r_i \xleftarrow{} r_i - l_i $$
+$$ l_i \xleftarrow{} 0 $$
+
+\subsection{Caso Especial $ r_i = R $}
+
+$$ Resposta = \sum^{N}_{k=0} (-1)^k \binom{N}{k} \binom{M - (R + 1) k + N - 1}{N-1} $$
+

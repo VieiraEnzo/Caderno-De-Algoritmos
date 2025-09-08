@@ -1,0 +1,6 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n+nl}{WARNINGS}\PYG{+w}{ }\PYG{p}{:}\PYG{o}{=}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{n}{Wshift}\PYG{o}{\PYGZhy{}}\PYG{n}{overflow}\PYG{o}{=}\PYG{l+m+mi}{2}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{n}{Wfloat}\PYG{o}{\PYGZhy{}}\PYG{n}{equal}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{n}{Wconversion}
+\PYG{n+nl}{SANITIZERS}\PYG{+w}{ }\PYG{p}{:}\PYG{o}{=}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{n}{fsanitize}\PYG{o}{=}\PYG{n}{address}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{n}{D\PYGZus{}GLIBCXX\PYGZus{}DEBUG}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{n}{D\PYGZus{}GLIBCXX\PYGZus{}DEBUG\PYGZus{}PEDANTIC}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{n}{fsanitize}\PYG{o}{=}\PYG{n}{undefined}
+\PYG{n}{a}\PYG{p}{.}\PYG{n}{out}\PYG{o}{:}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{.}\PYG{n}{cpp}
+\PYG{+w}{	}\PYG{n}{g}\PYG{o}{++}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{n}{Dlocal}\PYG{+w}{ }\PYG{n}{\PYGZdl{}}\PYG{p}{(}\PYG{n}{WARNINGS}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{\PYGZdl{}}\PYG{p}{(}\PYG{n}{SANITIZERS}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{.}\PYG{n}{cpp}
+\end{Verbatim}
