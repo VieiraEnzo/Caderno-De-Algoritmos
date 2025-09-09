@@ -271,7 +271,7 @@ int main(int argc, char** argv) {
 		cerr << endl;
 	}
 
-	cout << "\\pagebreak" << endl;
+	// cout << "\\pagebreak" << endl;
 	printa_section("Extra");
 	vector<pair<string, string>> files;
 	dfs(files, path + "Extra", true);
