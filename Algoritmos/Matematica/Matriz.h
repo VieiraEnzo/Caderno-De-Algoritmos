@@ -1,7 +1,6 @@
 //Matrix
 //Multiplicação e Exponensiação de Matrizes
-//Utilizado principalmente em recorrencias lineares
-//
+//Cuido, tirar o mod em caso de matrizes de double
 
 template<typename T> struct Matriz
 {
@@ -30,6 +29,7 @@ template<typename T> struct Matriz
     }
 
 	Matriz<T> operator^(long long e){
+        assert(n == m);
 		Matriz<T> R(n, n), b = *this;
         for(int i = 0; i < n; i++) R[i][i] = 1;
 		while (e) {

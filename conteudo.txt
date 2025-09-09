@@ -1,8 +1,1 @@
-- Formulas de pa pg infinita e tals
-- Blog de Matematica lá do caio (MORGAN (FREEMAN?))
-- Hockey-stick identity
-
-
--> Heavy Light Decomposition?
--> Codigo de 2 ponteiros do caio
--> Problemas classicos em strings
+Para adicionar:

@@ -156,3 +156,6 @@ for (int l = 1, r; l <= n; l = r + 1) {
 \textbf{Generalization:} For sums like $\sum_{i=1}^{n} g(i) \cdot f(\lfloor \frac{n}{i} \rfloor)$, the contribution of a block $[l, r]$ is:
 $$ (G(r) - G(l-1)) \cdot f\left(\left\lfloor \frac{n}{l} \right\rfloor\right) $$
 where $G(k)$ is the prefix sum $\sum_{i=1}^k g(i)$, which must be efficiently computable.
+
+\subsection{Goldbach's Conjecture}
+Every even integer greater than 2 is the sum of two prime numbers. Verified for all even numbers up to $4 \times 10^{18}$

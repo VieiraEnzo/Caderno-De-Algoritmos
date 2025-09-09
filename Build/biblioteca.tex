@@ -748,6 +748,81 @@ bool simple(vector<pt> v) {
 
 \section{Matematica}
 
+\subsection{Aritmetica Modular}
+\begin{minted}{cpp}
+// O mod tem q ser primo
+// Creditos: vc já sabe :) B
+
+template<int p> struct mod_int {
+	ll expo(ll b, ll e) {
+		ll ret = 1;
+		while (e) {
+			if (e % 2) ret = ret * b % p;
+			e /= 2, b = b * b % p;
+		}
+		return ret;
+	}
+	ll inv(ll b) { return expo(b, p-2); }
+    
+	using m = mod_int;
+	int v;
+	mod_int() : v(0) {}
+	mod_int(ll v_) {
+		if (v_ >= p or v_ <= -p) v_ %= p;
+		if (v_ < 0) v_ += p;
+		v = v_;
+	}
+	m& operator +=(const m& a) {
+		v += a.v;
+		if (v >= p) v -= p;
+		return *this;
+	}
+	m& operator -=(const m& a) {
+		v -= a.v;
+		if (v < 0) v += p;
+		return *this;
+	}
+	m& operator *=(const m& a) {
+		v = v * ll(a.v) % p;
+		return *this;
+	}
+	m& operator /=(const m& a) {
+		v = v * inv(a.v) % p;
+		return *this;
+	}
+	m operator -(){ return m(-v); }
+	m& operator ^=(ll e) {
+		if (e < 0) {
+			v = inv(v);
+			e = -e;
+		}
+		v = expo(v, e);
+    		// possivel otimizacao:
+    		// cuidado com 0^0
+    		// v = expo(v, e%(p-1)); 
+		return *this;
+	}
+	bool operator ==(const m& a) { return v == a.v; }
+	bool operator !=(const m& a) { return v != a.v; }
+    
+	friend istream& operator >>(istream& in, m& a) {
+		ll val; in >> val;
+		a = m(val);
+		return in;
+	}
+	friend ostream& operator <<(ostream& out, m a) {
+		return out << a.v;
+	}
+	friend m operator +(m a, m b) { return a += b; }
+	friend m operator -(m a, m b) { return a -= b; }
+	friend m operator *(m a, m b) { return a *= b; }
+	friend m operator /(m a, m b) { return a /= b; }
+	friend m operator ^(m a, ll e) { return a ^= e; }
+};
+
+typedef mod_int<(int)1e9+7> mint;
+\end{minted}
+
 \subsection{Combinatorics}
 \begin{minted}{cpp}
 
@@ -1098,45 +1173,48 @@ struct Interpolation
 
 \subsection{Matrix}
 \begin{minted}{cpp}
-//Utilizado principalmente em recorrencias lineares
-//
-//https://www.codemarathon.com.br/conteudos/matematica/recorrencia-linear
-//
+//Cuido, tirar o mod em caso de matrizes de double
 
-
-const int D = 2;
-const int MOD = 1000000007;
-struct Matriz{
-  int mat[D][D];
-  int* operator[](int i){
-    return mat[i];
-  }
-  Matriz operator*(Matriz oth){
-    Matriz res;
-    for(int i=0; i<D; i++){
-      for(int j=0; j<D; j++){
-        res[i][j] = 0;
-        for(int k=0; k<D; k++)
-          res[i][j] = (res[i][j]+(mat[i][k]*1LL*oth[k][j])%MOD)%MOD;
-      }
+template<typename T> struct Matriz
+{
+    int n, m;
+    vector<vector<T>> mat;
+    const int MOD = 1e9+7;
+        
+    Matriz(int n, int m) : n(n), m(m), mat(n, vector<T> (m)) {}
+    
+    T* operator[](int i){
+        return mat[i].data();
     }
-    return res;
-  }
-  Matriz exp(long long e){
-    Matriz res;
-    for(int i=0; i<D; i++)
-      for(int j=0; j<D; j++)
-        res[i][j] = (i==j);    
-    Matriz base = *this;  
-    while(e > 0){
-      if(e & 1LL)
-        res = res * base;
-      base = base*base;
-      e = e>>1;
+    
+    Matriz<T> operator*(Matriz<T> &oth){
+        assert(m == oth.n);
+        Matriz<T> res(n, oth.m);
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < oth.m; j++) { 
+                res[i][j] = 0;
+                for(int k = 0; k < m; k++) { 
+                    res[i][j] = (res[i][j] + (mat[i][k] * 1LL * oth[k][j]) % MOD) % MOD;
+                }
+            }
+        }
+        return res;
     }
-    return res;
-  }
+    
+	Matriz<T> operator^(long long e){
+        assert(n == m);
+		Matriz<T> R(n, n), b = *this;
+        for(int i = 0; i < n; i++) R[i][i] = 1;
+		while (e) {
+			if (e&1) R = R*b;
+			b = b*b;
+			e >>= 1;
+		}
+		return R;
+	}
 };
+
+using M = Matriz<int>;
 \end{minted}
 
 \subsection{NTT}

@@ -1,0 +1,17 @@
+\section{Grafos}
+
+\subsection{Min Cut Max Flow Duality}
+We seek to construct a binary string $S$ of length $n$ that minimizes a total cost. The cost is defined as follows:
+\begin{itemize}
+    \item If $S_i=0$, a cost of $A_i$ is incurred.
+    \item If $S_i=1$, a cost of $B_i$ is incurred.
+    \item If $S_i=1$ and $S_j=0$, a penalty of $C_{i,j}$ is incurred.
+\end{itemize}
+The total cost is the sum of all such costs and penalties for the chosen string $S$.
+\begin{enumerate}
+    \item For each node $i$, add an edge $s \to i$ with capacity $B_i$. This represents the cost of setting $S_i=1$.
+    \item For each node $i$, add an edge $i \to t$ with capacity $A_i$. This represents the cost of setting $S_i=0$.
+    \item For each pair $(i, j)$ with a penalty, add an edge $i \to j$ with capacity $C_{i,j}$. This represents the penalty for setting $S_i=1$ and $S_j=0$.
+\end{enumerate}
+
+The capacity of a cut in this graph corresponds to the total cost of the binary string defined by the partition. For example, if node $i$ is in the $T$-partition ($S_i=1$) and node $j$ is in the $S$-partition ($S_j=0$), the edge $i \to j$ must be cut, adding the penalty $C_{i,j}$ to the total cost. By the max-flow min-cut theorem, the minimum cost is equal to the maximum flow from $s$ to $t$.
