@@ -13,7 +13,7 @@ A existência  de solução é garantida se e somente se:
 
 $$ \sum^{n}_{i=0} l_i \leq M \leq \sum^{n}_{i=0} r_i $$
 
-\subsection{Solução com DP em $ O(NM^2) $}
+\subsubsection{Solução com DP em $ O(NM^2) $}
 
 $$ DP(N, M) = \sum^{r_n}_{i=l_n} DP(N-1, M-i) $$
 
@@ -25,20 +25,35 @@ DP(0, M) =
     \end{cases}
 $$
 
-\subsection{Caso Particular $ l_i = 0 , r_i = M$}
+\subsubsection{Caso Particular $ l_i = 0 , r_i = M$}
 
 Stars and Bars com N-1 Barras
 
 $$ Resposta = \binom{M+N-1}{M} $$
 
-\subsection{Redução do problema para $l_i = 0$}
+\subsubsection{Redução do problema para $l_i = 0$}
 
 $$ M \xleftarrow{} M - \sum^{n}_{i=0} l_i $$
 $$ x_i \xleftarrow{} x_i - l_i $$
 $$ r_i \xleftarrow{} r_i - l_i $$
 $$ l_i \xleftarrow{} 0 $$
 
-\subsection{Caso Especial $ r_i = R $}
+\subsubsection{Caso Especial $ r_i = R $}
 
 $$ Resposta = \sum^{N}_{k=0} (-1)^k \binom{N}{k} \binom{M - (R + 1) k + N - 1}{N-1} $$
 
+\subsection{Formulas Básicas}
+
+\subsection*{Permutação Circular}
+O número de maneiras de ordenar $n$ objetos distintos em um círculo.
+$$ PC_n = (n-1)! $$
+
+\subsection*{Permutação com Repetição}
+O número de maneiras de ordenar $n$ objetos, onde existem $n_1$ objetos idênticos de um tipo, $n_2$ de outro, e assim por diante.
+$$ P_n^{n_1, n_2, \dots, n_k} = \frac{n!}{n_1! n_2! \dots n_k!} $$
+
+\subsection*{Combinação Caótica (Desarranjo)}
+O número de permutações de $n$ objetos onde nenhum objeto permanece em sua posição original.
+$$ D_n = n! \sum_{k=0}^{n} \frac{(-1)^k}{k!} $$
+Aproximação para $n$ grande:
+$$ D_n \approx \frac{n!}{e} $$

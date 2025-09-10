@@ -1,7 +1,7 @@
 // Aritmetica Modular
 //
 // O mod tem q ser primo
-// Creditos: vc já sabe :) B
+// Creditos: bruno meleca
 
 template<int p> struct mod_int {
 	ll expo(ll b, ll e) {
