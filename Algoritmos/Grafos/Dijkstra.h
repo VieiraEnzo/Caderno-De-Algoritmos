@@ -1,9 +1,9 @@
-//Dykstra
+//Dijkstra - O(nlog)
 //
 //Algoritmo de Caminho mínimo para grafos compesos não negativos. Um para todos
 //Complexidade: O(n log n) onde n é o número de vértices do grafo.
 
-template<typename T> struct Dykstra
+struct Dykstra
 {
     ll INF = 1e18;
 
@@ -20,11 +20,9 @@ template<typename T> struct Dykstra
 
     void run(ll v){
 
-        //preparing structures
         priority_queue<pair<ll,ll>, vector<pair<ll,ll>>, 
         greater<pair<ll,ll>>> fila;
 
-        //setting up
         fila.push({0,v});
         
         while (!fila.empty())

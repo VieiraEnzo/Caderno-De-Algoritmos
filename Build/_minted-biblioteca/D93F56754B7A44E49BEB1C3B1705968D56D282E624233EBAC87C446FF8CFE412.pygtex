@@ -1,0 +1,28 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{//Algoritmo todos para todos de distancia mínima}
+\PYG{c+c1}{//Se houver ciclos negativos, para algum vertice a  \PYGZhy{}\PYGZgt{} dist[a][a] \PYGZlt{} 0}
+\PYG{c+c1}{//Complexidade: O(n\PYGZca{}3)}
+
+\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{FloydWarshall}
+\PYG{p}{\PYGZob{}}
+
+\PYG{+w}{    }\PYG{k}{const}\PYG{+w}{ }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{MAXN}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{500}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{cont}\PYG{+w}{ }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{INF}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{1e18}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{vector}\PYG{+w}{ }\PYG{n+nf}{dist}\PYG{p}{(}\PYG{n}{maxn}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{ll}\PYG{o}{\PYGZgt{}}\PYG{p}{(}\PYG{n}{maxn}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{INF}\PYG{p}{));}
+
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n+nf}{floydWarshall}\PYG{p}{(}\PYG{+w}{ }\PYG{p}{)\PYGZob{}}
+
+\PYG{+w}{        }\PYG{k}{for}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{MAXN}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}\PYG{n}{dist}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{n}{i}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{;}
+
+\PYG{+w}{        }\PYG{k}{for}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{k}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{k}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{MAXN}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{k}\PYG{o}{++}\PYG{p}{)}
+\PYG{+w}{            }\PYG{k}{for}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{MAXN}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{i}\PYG{o}{++}\PYG{p}{)}
+\PYG{+w}{                }\PYG{k}{for}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{j}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{j}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{MAXN}\PYG{p}{;}\PYG{+w}{ }\PYG{n}{j}\PYG{o}{++}\PYG{p}{)\PYGZob{}}
+\PYG{+w}{                    }\PYG{k}{if}\PYG{p}{(}\PYG{n}{dist}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{n}{k}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{INF}\PYG{+w}{ }\PYG{o}{\PYGZam{}\PYGZam{}}\PYG{+w}{ }\PYG{n}{dist}\PYG{p}{[}\PYG{n}{k}\PYG{p}{][}\PYG{n}{j}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{INF}\PYG{p}{)}
+\PYG{+w}{                        }\PYG{n}{dist}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{n}{j}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{min}\PYG{p}{(}\PYG{n}{dist}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{n}{j}\PYG{p}{],}\PYG{+w}{ }\PYG{n}{dist}\PYG{p}{[}\PYG{n}{i}\PYG{p}{][}\PYG{n}{k}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{dist}\PYG{p}{[}\PYG{n}{k}\PYG{p}{][}\PYG{n}{j}\PYG{p}{]);}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+
+\PYG{p}{\PYGZcb{};}
+\end{Verbatim}

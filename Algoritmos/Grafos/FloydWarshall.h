@@ -4,7 +4,7 @@
 //Se houver ciclos negativos, para algum vertice a  -> dist[a][a] < 0
 //Complexidade: O(n^3)
 
-template<typename T> struct FloydWarshall
+struct FloydWarshall
 {   
 
     const int MAXN = 500;

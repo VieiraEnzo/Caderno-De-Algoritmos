@@ -1,0 +1,50 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{//Algoritmo de Caminho mínimo para grafos compesos não negativos. Um para todos}
+\PYG{c+c1}{//Complexidade: O(n log n) onde n é o número de vértices do grafo.}
+
+\PYG{k}{struct}\PYG{+w}{ }\PYG{n+nc}{Dykstra}
+\PYG{p}{\PYGZob{}}
+\PYG{+w}{    }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{INF}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{1e18}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{ll}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{dist}\PYG{p}{;}
+\PYG{+w}{    }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{k+kt}{int}\PYG{p}{,}\PYG{k+kt}{int}\PYG{o}{\PYGZgt{}\PYGZgt{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{g}\PYG{p}{;}
+
+\PYG{+w}{    }\PYG{n}{Dykstra}\PYG{p}{(}\PYG{k+kt}{int}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{n}\PYG{p}{(}\PYG{n}{n}\PYG{p}{),}\PYG{+w}{ }\PYG{n}{dist}\PYG{p}{(}\PYG{n}{n}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{n}{INF}\PYG{p}{),}\PYG{+w}{ }\PYG{n}{g}\PYG{p}{(}\PYG{n}{n}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n}{addEdge}\PYG{p}{(}\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{v}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{u}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{)\PYGZob{}}
+\PYG{+w}{        }\PYG{n}{g}\PYG{p}{[}\PYG{n}{v}\PYG{p}{].}\PYG{n}{push\PYGZus{}back}\PYG{p}{(\PYGZob{}}\PYG{n}{u}\PYG{p}{,}\PYG{n}{p}\PYG{p}{\PYGZcb{});}
+\PYG{+w}{        }\PYG{n}{g}\PYG{p}{[}\PYG{n}{u}\PYG{p}{].}\PYG{n}{push\PYGZus{}back}\PYG{p}{(\PYGZob{}}\PYG{n}{v}\PYG{p}{,}\PYG{n}{p}\PYG{p}{\PYGZcb{});}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{k+kt}{void}\PYG{+w}{ }\PYG{n}{run}\PYG{p}{(}\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{v}\PYG{p}{)\PYGZob{}}
+
+\PYG{+w}{            }\PYG{c+c1}{//preparing structures}
+\PYG{+w}{        }\PYG{n}{priority\PYGZus{}queue}\PYG{o}{\PYGZlt{}}\PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{n}{ll}\PYG{p}{,}\PYG{n}{ll}\PYG{o}{\PYGZgt{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{vector}\PYG{o}{\PYGZlt{}}\PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{n}{ll}\PYG{p}{,}\PYG{n}{ll}\PYG{o}{\PYGZgt{}\PYGZgt{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n}{greater}\PYG{o}{\PYGZlt{}}\PYG{n}{pair}\PYG{o}{\PYGZlt{}}\PYG{n}{ll}\PYG{p}{,}\PYG{n}{ll}\PYG{o}{\PYGZgt{}\PYGZgt{}\PYGZgt{}}\PYG{+w}{ }\PYG{n}{fila}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{c+c1}{//setting up}
+\PYG{+w}{        }\PYG{n}{fila}\PYG{p}{.}\PYG{n}{push}\PYG{p}{(\PYGZob{}}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{n}{v}\PYG{p}{\PYGZcb{});}
+
+\PYG{+w}{        }\PYG{k}{while}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{!}\PYG{n}{fila}\PYG{p}{.}\PYG{n}{empty}\PYG{p}{())}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{vert}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{fila}\PYG{p}{.}\PYG{n}{top}\PYG{p}{().}\PYG{n}{second}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{price}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{fila}\PYG{p}{.}\PYG{n}{top}\PYG{p}{().}\PYG{n}{first}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n}{fila}\PYG{p}{.}\PYG{n}{pop}\PYG{p}{();}
+
+\PYG{+w}{            }\PYG{k}{if}\PYG{p}{(}\PYG{n}{dist}\PYG{p}{[}\PYG{n}{vert}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{!=}\PYG{+w}{ }\PYG{n}{INF}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{continue}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{n}{dist}\PYG{p}{[}\PYG{n}{vert}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{price}\PYG{p}{;}
+
+\PYG{+w}{            }\PYG{k}{for}\PYG{p}{(}\PYG{k}{auto}\PYG{+w}{ }\PYG{n}{viz}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{g}\PYG{p}{[}\PYG{n}{vert}\PYG{p}{])\PYGZob{}}
+\PYG{+w}{                }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{nxt}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{viz}\PYG{p}{.}\PYG{n}{first}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n}{ll}\PYG{+w}{ }\PYG{n}{cost}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{viz}\PYG{p}{.}\PYG{n}{second}\PYG{p}{;}
+\PYG{+w}{                }\PYG{n}{fila}\PYG{p}{.}\PYG{n}{push}\PYG{p}{(\PYGZob{}}\PYG{n}{price}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{cost}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{nxt}\PYG{p}{\PYGZcb{});}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+
+\PYG{p}{\PYGZcb{};}
+
+\end{Verbatim}

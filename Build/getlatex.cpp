@@ -235,6 +235,14 @@ string lower(string s) {
 	return s;
 }
 
+void add_figure(string path, string width, string caption = "") {
+    cout << "\\begin{figure}[h!]" << "\n"; 
+    cout << "    \\centering" << "\n";
+    cout << "    \\includegraphics[width=" << width << "\\textwidth]{" << path << "}" << "\n";
+    if(caption != "") cout << "    \\caption{"<< caption << "}\n";
+    cout << "\\end{figure}" << "\n"; 
+}
+
 int main(int argc, char** argv) {
 	if (argc > 1) {
 		string arg1(argv[1]);
@@ -275,6 +283,8 @@ int main(int argc, char** argv) {
 	printa_section("Extra");
 	vector<pair<string, string>> files;
 	dfs(files, path + "Extra", true);
+
+    add_figure("Imagens/HEDSIGMA.jpg", "0.3");
 
 	cout << "\\end{document}\n";
 	return 0;
