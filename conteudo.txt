@@ -1,1 +1,4 @@
 Para adicionar:
+
+- Problema classico strings: Número de substrings distintas (Z function O(n*n))
+- Problema classico strings: Matching com até k erros consecutivos (Z function O(n))
