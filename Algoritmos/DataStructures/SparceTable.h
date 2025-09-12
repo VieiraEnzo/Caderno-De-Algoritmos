@@ -29,18 +29,20 @@ struct SparseTable{
         return min(st[i][l], st[i][r-(1<<i)+1]);
     }
 
+    //Query [l,r]
     int querylog(int l , int r){
 
-        int ans = st[0][l];
+        int neutral = 1e9; //elemento neutro
         int dif = r-l+1;
 
-        for(int i = 0; i < K; i++){
+        for(int i = 0; i <= K; i++){
             if((1<<i) & dif){
-                ans = min(ans,st[i][l]);
+                neutral = min(neutral,st[i][l]);
                 l = l + (1<<i);
             }
         }
 
-        return ans;
+        return neutral;
     }
+
 };

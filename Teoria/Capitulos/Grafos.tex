@@ -15,3 +15,22 @@ The total cost is the sum of all such costs and penalties for the chosen string 
 \end{enumerate}
 
 The capacity of a cut in this graph corresponds to the total cost of the binary string defined by the partition. For example, if node $i$ is in the $T$-partition ($S_i=1$) and node $j$ is in the $S$-partition ($S_j=0$), the edge $i \to j$ must be cut, adding the penalty $C_{i,j}$ to the total cost. By the max-flow min-cut theorem, the minimum cost is equal to the maximum flow from $s$ to $t$.
+
+
+\subsection{Notable Applications and Equivalences on Flow}
+
+\begin{itemize}
+    \item \textbf{Bipartite Matching:}\\
+    The size of the maximum matching in a bipartite graph is equal to the maximum flow in a network constructed from the graph.
+    
+    \item \textbf{Kőnig's Theorem:}\\
+    In any bipartite graph, the number of edges in the maximum matching is equal to the number of vertices in the minimum vertex cover.
+    $$ \text{Maximum Matching} = \text{Minimum Vertex Cover} $$
+    $$ \text{Maximum Independent Set} = |V| - \text{Maximum Matching} $$
+
+    \item \textbf{Menger's Theorem:}\\
+    The maximum number of vertex-disjoint paths between two vertices $u, v$ is equal to the minimum number of vertices to be removed to disconnect $u$ and $v$.
+        
+    \item \textbf{Project Selection Problem (Min-Cut):}\\
+    Binary decision problems with interdependent costs and profits can be modeled as a minimum cut problem, where the cut separates the "chosen" decisions from the "not chosen" ones.
+\end{itemize}

@@ -1,0 +1,32 @@
+\section{Game Theory}
+
+\subsection*{The Game of Nim}
+Nim is the canonical impartial game. It consists of several piles of stones. A move consists of choosing one pile and removing any positive number of stones from it.
+\paragraph{Winning Condition:} The winning strategy is determined by the \textbf{Nim-Sum} of the pile sizes, which is their bitwise XOR sum. Let the pile sizes be $p_1, p_2, \dots, p_k$.
+$$ \text{Nim-Sum} = p_1 \oplus p_2 \oplus \dots \oplus p_k $$
+A position is a P-position (losing) if and only if its Nim-Sum is 0. Otherwise, it is an N-position (winning).
+
+\subsection*{The Sprague-Grundy Theorem}
+This is the fundamental theorem of impartial games. It states that every impartial game under the normal play convention is equivalent to a Nim pile of a certain size. This "equivalent size" is called the \textbf{Grundy number} (or \textbf{nim-value}).
+
+\paragraph{Grundy Numbers (g-numbers):}
+The Grundy number of a game state $S$, denoted $g(S)$, is defined recursively as the smallest non-negative integer that is not among the Grundy numbers of the states reachable in one move from $S$. This is the \textbf{Minimum Excluded value (MEX)} of that set.
+$$ g(S) = \text{mex} \{ g(S') \mid S' \text{ is reachable from } S \text{ in one move} \} $$
+The MEX of a set of non-negative integers is the smallest non-negative integer not in the set. For example, $\text{mex}\{0, 1, 3, 4\} = 2$.
+
+\paragraph{Sum of Games:}
+Many games can be decomposed into a sum of independent sub-games (e.g., a game played on multiple disconnected boards). The Sprague-Grundy theorem states that the g-number of a sum of games is the Nim-Sum of the g-numbers of the sub-games.
+$$ g(G_1 + G_2 + \dots + G_k) = g(G_1) \oplus g(G_2) \oplus \dots \oplus g(G_k) $$
+
+\paragraph{Winning Condition (General Games):}
+Combining these ideas provides a universal winning condition for any impartial game:
+\begin{center}
+    A game state is a P-position (losing) if and only if its Grundy number is 0.
+\end{center}
+
+\subsection*{Classic Games and their Grundy Numbers}
+\begin{itemize}
+    \item \textbf{A single pile of Nim:} For a pile of size $n$, the g-number is simply $n$. So, $g(n) = n$. This is why the XOR sum works for multiple piles.
+    \item \textbf{Subtraction Games:} A game with a single pile where a player can remove any number of stones $s \in \{s_1, s_2, \dots, s_k\}$. The g-number for a pile of size $n$ is:
+    $$ g(n) = \text{mex} \{ g(n-s_i) \mid s_i \in S, n \ge s_i \} $$
+\end{itemize}

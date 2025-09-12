@@ -1643,11 +1643,9 @@ struct Dykstra
     
     void run(ll v){
     
-            //preparing structures
         priority_queue<pair<ll,ll>, vector<pair<ll,ll>>, 
         greater<pair<ll,ll>>> fila;
     
-            //setting up
         fila.push({0,v});
             
         while (!fila.empty())
@@ -2370,6 +2368,70 @@ struct Centroid{
 };
 \end{minted}
 
+\subsection{Heavy Light Decomposition}
+\begin{minted}{cpp}
+/**
+ * Description: Heavy-Light Decomposition, add val to verts 
+ 	* and query sum in path/subtree.
+ * Time: any tree path is split into $O(\log N)$ parts
+ * Source: http://codeforces.com/blog/entry/22072, https://codeforces.com/blog/entry/53170
+ * Verification: *
+ */
+
+#include "../../data-structures/1D Range Queries (9.2)/LazySeg (15.2).h"
+
+template<int SZ, bool VALS_IN_EDGES> struct HLD { 
+	int N; vi adj[SZ];
+	int par[SZ], root[SZ], depth[SZ], sz[SZ], ti;
+	int pos[SZ]; vi rpos; // rpos not used but could be useful
+	void ae(int x, int y) { adj[x].pb(y), adj[y].pb(x); }
+	void dfsSz(int x) { 
+		sz[x] = 1; 
+		each(y,adj[x]) {
+			par[y] = x; depth[y] = depth[x]+1;
+			adj[y].erase(find(all(adj[y]),x)); /// remove parent from adj list
+			dfsSz(y); sz[x] += sz[y];
+			if (sz[y] > sz[adj[x][0]]) swap(y,adj[x][0]);
+		}
+	}
+	void dfsHld(int x) {
+		pos[x] = ti++; rpos.pb(x);
+		each(y,adj[x]) {
+			root[y] = (y == adj[x][0] ? root[x] : y);
+			dfsHld(y); }
+	}
+	void init(int _N, int R = 0) { N = _N; 
+		par[R] = depth[R] = ti = 0; dfsSz(R); 
+		root[R] = R; dfsHld(R); 
+	}
+	int lca(int x, int y) {
+		for (; root[x] != root[y]; y = par[root[y]])
+			if (depth[root[x]] > depth[root[y]]) swap(x,y);
+		return depth[x] < depth[y] ? x : y;
+	}
+    	/// int dist(int x, int y) { // # edges on path
+    	/// 	return depth[x]+depth[y]-2*depth[lca(x,y)]; }
+	LazySeg<ll,SZ> tree; // segtree for sum
+	template <class BinaryOp>
+	void processPath(int x, int y, BinaryOp op) {
+		for (; root[x] != root[y]; y = par[root[y]]) {
+			if (depth[root[x]] > depth[root[y]]) swap(x,y);
+			op(pos[root[y]],pos[y]); }
+		if (depth[x] > depth[y]) swap(x,y);
+		op(pos[x]+VALS_IN_EDGES,pos[y]); 
+	}
+	void modifyPath(int x, int y, int v) { 
+		processPath(x,y,[this,&v](int l, int r) { 
+			tree.upd(l,r,v); }); }
+	ll queryPath(int x, int y) { 
+		ll res = 0; processPath(x,y,[this,&res](int l, int r) { 
+			res += tree.query(l,r); });
+		return res; }
+	void modifySubtree(int x, int v) { 
+		tree.upd(pos[x]+VALS_IN_EDGES,pos[x]+sz[x]-1,v); }
+};
+\end{minted}
+
 \subsection{Lowest Common Ancestor}
 \begin{minted}{cpp}
 struct LCA{
@@ -2432,6 +2494,36 @@ struct LCA{
     }
     
 };
+\end{minted}
+
+\subsection{Virtual Tree}
+\begin{minted}{cpp}
+// O(NlogN), sendo N o tamanho do conjunto de vértices passados
+/*
+Dado o conjunto de vértices do vector v, uma árvore minimal com esse conjunto
+é construida, a virtual tree possui no máximo 2*n-1 vértices
+
+virt[i] guarda os vizinhos do vértice i, 
+com um pair que guarda o vértice e a distância até ele
+*/
+
+vector<pair<int, int> > virt[mxn];
+
+int build(vector<int> v){
+    auto cmp = [&](int a, int b) {return tempo[a]<tempo[b];};
+    sort(v.begin(), v.end(), cmp);
+    for(int i=(int)v.size()-1; i>0; i--) v.push_back(lca(v[i], v[i-1]));
+    sort(v.begin(), v.end(), cmp);
+    v.erase(unique(v.begin(), v.end()), v.end());
+    for(int i=0; i<v.size(); i++) virt[v[i]].clear();
+    for(int i=1; i<v.size(); i++) virt[lca(v[i], v[i-1])].clear();
+    for(int i=1; i<v.size(); i++){
+        int pai = lca(v[i], v[i-1]);
+        int d = dist(pai, v[i]);
+        virt[pai].emplace_back(v[i], d);
+    }
+    return v[0];
+}
 \end{minted}
 
 
@@ -3450,20 +3542,22 @@ struct SparseTable{
         return min(st[i][l], st[i][r-(1<<i)+1]);
     }
     
+        //Query [l,r]
     int querylog(int l , int r){
     
-        int ans = st[0][l];
+        int neutral = 1e9; //elemento neutro
         int dif = r-l+1;
     
-        for(int i = 0; i < K; i++){
+        for(int i = 0; i <= K; i++){
             if((1<<i) & dif){
-                ans = min(ans,st[i][l]);
+                neutral = min(neutral,st[i][l]);
                 l = l + (1<<i);
             }
         }
     
-        return ans;
+        return neutral;
     }
+    
 };
 \end{minted}
 
@@ -3636,6 +3730,43 @@ echo "My:"
 cat myAnswer
 echo "correct:"
 cat correctAnswer
+\end{minted}
+
+\subsection{2pointer.h}
+\begin{minted}{cpp}
+x = 0, L = 0 
+for R = 0..n-1
+    x += a[R]
+    while x > s:
+        x -= a[L]
+        L++
+    res = max(res, R - L + 1)
+
+x = 0, L = 0
+for R = 0..n-1
+    x += a[R]
+    while x - a[L] >= s:
+        x -= a[L]
+        L++
+    if x >= s:
+       res = min(res, R - L + 1)
+
+Suppose you received a problem at the contest in which you need to do something similar: find the longest (shortest) good segment or count the number of good segments.
+How do you know if you can apply the two-pointer method to it?
+First, one of the following two properties must be met:
+
+    if the segment [L,R] is good, then any segment nested in it is also good (in this case, you can apply the code from the first problem);
+    if the segment [L,R] is good, then any segment that contains it is also good (in this case, you can apply the code from the second problem). 
+
+Secondly, you should be able to recalculate your function (check if current segment is good or bad), while moving the left or right border by one to the right.
+In such tasks, the code almost always looks like this:
+
+L = 0
+for R = 0..n-1
+    add(a[R])
+    while not good():
+        remove(a[L])
+        L++
 \end{minted}
 
 \begin{figure}[h!]

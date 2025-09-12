@@ -4,7 +4,6 @@ using namespace std;
 #include "../../Algoritmos/DataStructures/SparceTable.h"
 
 int main() {
-
     cin.tie(0);
     ios_base::sync_with_stdio(false);
 
@@ -16,7 +15,7 @@ int main() {
     while (q--) {
         int l, r;
         cin >> l >> r;
-        if(q%2) cout << st.query(l, r-1) << '\n';
+        if(q%2) cout << st.query(l,r-1) << '\n';
         else cout << st.querylog(l,r-1) << "\n";
     }
     return 0;

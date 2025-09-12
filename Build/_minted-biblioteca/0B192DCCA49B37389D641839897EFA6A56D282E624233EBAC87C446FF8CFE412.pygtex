@@ -1,0 +1,35 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{x}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{L}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}
+\PYG{k}{for}\PYG{+w}{ }\PYG{n}{R}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0.}\PYG{p}{.}\PYG{n}{n}\PYG{l+m+mi}{\PYGZhy{}1}
+\PYG{+w}{    }\PYG{n}{x}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{[}\PYG{n}{R}\PYG{p}{]}
+\PYG{+w}{    }\PYG{k}{while}\PYG{+w}{ }\PYG{n}{x}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{s}\PYG{o}{:}
+\PYG{+w}{        }\PYG{n}{x}\PYG{+w}{ }\PYG{o}{\PYGZhy{}=}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{[}\PYG{n}{L}\PYG{p}{]}
+\PYG{+w}{        }\PYG{n}{L}\PYG{o}{++}
+\PYG{+w}{    }\PYG{n}{res}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{max}\PYG{p}{(}\PYG{n}{res}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{R}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{L}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}
+
+\PYG{n}{x}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{L}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}
+\PYG{k}{for}\PYG{+w}{ }\PYG{n}{R}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0.}\PYG{p}{.}\PYG{n}{n}\PYG{l+m+mi}{\PYGZhy{}1}
+\PYG{+w}{    }\PYG{n}{x}\PYG{+w}{ }\PYG{o}{+=}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{[}\PYG{n}{R}\PYG{p}{]}
+\PYG{+w}{    }\PYG{k}{while}\PYG{+w}{ }\PYG{n}{x}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{[}\PYG{n}{L}\PYG{p}{]}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{n}{s}\PYG{o}{:}
+\PYG{+w}{        }\PYG{n}{x}\PYG{+w}{ }\PYG{o}{\PYGZhy{}=}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{[}\PYG{n}{L}\PYG{p}{]}
+\PYG{+w}{        }\PYG{n}{L}\PYG{o}{++}
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{n}{x}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{n}{s}\PYG{o}{:}
+\PYG{+w}{       }\PYG{n}{res}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{min}\PYG{p}{(}\PYG{n}{res}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{R}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{L}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}
+
+\PYG{n}{Suppose}\PYG{+w}{ }\PYG{n}{you}\PYG{+w}{ }\PYG{n}{received}\PYG{+w}{ }\PYG{n}{a}\PYG{+w}{ }\PYG{n}{problem}\PYG{+w}{ }\PYG{n}{at}\PYG{+w}{ }\PYG{n}{the}\PYG{+w}{ }\PYG{n}{contest}\PYG{+w}{ }\PYG{n}{in}\PYG{+w}{ }\PYG{n}{which}\PYG{+w}{ }\PYG{n}{you}\PYG{+w}{ }\PYG{n}{need}\PYG{+w}{ }\PYG{n}{to}\PYG{+w}{ }\PYG{k}{do}\PYG{+w}{ }\PYG{n}{something}\PYG{+w}{ }\PYG{n}{similar}\PYG{o}{:}\PYG{+w}{ }\PYG{n}{find}\PYG{+w}{ }\PYG{n}{the}\PYG{+w}{ }\PYG{n}{longest}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{shortest}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{good}\PYG{+w}{ }\PYG{n}{segment}\PYG{+w}{ }\PYG{k}{or}\PYG{+w}{ }\PYG{n}{count}\PYG{+w}{ }\PYG{n}{the}\PYG{+w}{ }\PYG{n}{number}\PYG{+w}{ }\PYG{n}{of}\PYG{+w}{ }\PYG{n}{good}\PYG{+w}{ }\PYG{n}{segments}\PYG{p}{.}
+\PYG{n}{How}\PYG{+w}{ }\PYG{k}{do}\PYG{+w}{ }\PYG{n}{you}\PYG{+w}{ }\PYG{n}{know}\PYG{+w}{ }\PYG{k}{if}\PYG{+w}{ }\PYG{n}{you}\PYG{+w}{ }\PYG{n}{can}\PYG{+w}{ }\PYG{n}{apply}\PYG{+w}{ }\PYG{n}{the}\PYG{+w}{ }\PYG{n}{two}\PYG{o}{\PYGZhy{}}\PYG{n}{pointer}\PYG{+w}{ }\PYG{n}{method}\PYG{+w}{ }\PYG{n}{to}\PYG{+w}{ }\PYG{n}{it}\PYG{o}{?}
+\PYG{n}{First}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{one}\PYG{+w}{ }\PYG{n}{of}\PYG{+w}{ }\PYG{n}{the}\PYG{+w}{ }\PYG{n}{following}\PYG{+w}{ }\PYG{n}{two}\PYG{+w}{ }\PYG{n}{properties}\PYG{+w}{ }\PYG{n}{must}\PYG{+w}{ }\PYG{n}{be}\PYG{+w}{ }\PYG{n}{met}\PYG{o}{:}
+
+\PYG{+w}{    }\PYG{k}{if}\PYG{+w}{ }\PYG{n}{the}\PYG{+w}{ }\PYG{n}{segment}\PYG{+w}{ }\PYG{p}{[}\PYG{n}{L}\PYG{p}{,}\PYG{n}{R}\PYG{p}{]}\PYG{+w}{ }\PYG{n}{is}\PYG{+w}{ }\PYG{n}{good}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{then}\PYG{+w}{ }\PYG{n}{any}\PYG{+w}{ }\PYG{n}{segment}\PYG{+w}{ }\PYG{n}{nested}\PYG{+w}{ }\PYG{n}{in}\PYG{+w}{ }\PYG{n}{it}\PYG{+w}{ }\PYG{n}{is}\PYG{+w}{ }\PYG{n}{also}\PYG{+w}{ }\PYG{n}{good}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{in}\PYG{+w}{ }\PYG{k}{this}\PYG{+w}{ }\PYG{k}{case}\PYG{p}{,}\PYG{+w}{ }\PYG{n+no}{you}\PYG{+w}{ }\PYG{n+no}{can}\PYG{+w}{ }\PYG{n+no}{apply}\PYG{+w}{ }\PYG{n+no}{the}\PYG{+w}{ }\PYG{n+no}{code}\PYG{+w}{ }\PYG{n+no}{from}\PYG{+w}{ }\PYG{n+no}{the}\PYG{+w}{ }\PYG{n+no}{first}\PYG{+w}{ }\PYG{n+no}{problem}\PYG{p}{)}\PYG{err}{;}
+\PYG{+w}{    }\PYG{n+no}{if}\PYG{+w}{ }\PYG{n+no}{the}\PYG{+w}{ }\PYG{n+no}{segment}\PYG{+w}{ }\PYG{p}{[}\PYG{n+no}{L}\PYG{p}{,}\PYG{n+no}{R}\PYG{p}{]}\PYG{+w}{ }\PYG{n+no}{is}\PYG{+w}{ }\PYG{n+no}{good}\PYG{p}{,}\PYG{+w}{ }\PYG{n+no}{then}\PYG{+w}{ }\PYG{n+no}{any}\PYG{+w}{ }\PYG{n+no}{segment}\PYG{+w}{ }\PYG{n+no}{that}\PYG{+w}{ }\PYG{n+no}{contains}\PYG{+w}{ }\PYG{n+no}{it}\PYG{+w}{ }\PYG{n+no}{is}\PYG{+w}{ }\PYG{n+no}{also}\PYG{+w}{ }\PYG{n+no}{good}\PYG{+w}{ }\PYG{p}{(}\PYG{n+no}{in}\PYG{+w}{ }\PYG{n+no}{this}\PYG{+w}{ }\PYG{n+no}{case}\PYG{p}{,}\PYG{+w}{ }\PYG{n+no}{you}\PYG{+w}{ }\PYG{n+no}{can}\PYG{+w}{ }\PYG{n+no}{apply}\PYG{+w}{ }\PYG{n+no}{the}\PYG{+w}{ }\PYG{n+no}{code}\PYG{+w}{ }\PYG{n+no}{from}\PYG{+w}{ }\PYG{n+no}{the}\PYG{+w}{ }\PYG{n+no}{second}\PYG{+w}{ }\PYG{n+no}{problem}\PYG{p}{).}
+
+\PYG{n+no}{Secondly}\PYG{p}{,}\PYG{+w}{ }\PYG{n+no}{you}\PYG{+w}{ }\PYG{n+no}{should}\PYG{+w}{ }\PYG{n+no}{be}\PYG{+w}{ }\PYG{n+no}{able}\PYG{+w}{ }\PYG{n+no}{to}\PYG{+w}{ }\PYG{n+no}{recalculate}\PYG{+w}{ }\PYG{n+no}{your}\PYG{+w}{ }\PYG{n+no}{function}\PYG{+w}{ }\PYG{p}{(}\PYG{n+no}{check}\PYG{+w}{ }\PYG{n+no}{if}\PYG{+w}{ }\PYG{n+no}{current}\PYG{+w}{ }\PYG{n+no}{segment}\PYG{+w}{ }\PYG{n+no}{is}\PYG{+w}{ }\PYG{n+no}{good}\PYG{+w}{ }\PYG{n+no}{or}\PYG{+w}{ }\PYG{n+no}{bad}\PYG{p}{),}\PYG{+w}{ }\PYG{n+no}{while}\PYG{+w}{ }\PYG{n+no}{moving}\PYG{+w}{ }\PYG{n+no}{the}\PYG{+w}{ }\PYG{n+no}{left}\PYG{+w}{ }\PYG{n+no}{or}\PYG{+w}{ }\PYG{n+no}{right}\PYG{+w}{ }\PYG{n+no}{border}\PYG{+w}{ }\PYG{n+no}{by}\PYG{+w}{ }\PYG{n+no}{one}\PYG{+w}{ }\PYG{n+no}{to}\PYG{+w}{ }\PYG{n+no}{the}\PYG{+w}{ }\PYG{n+no}{right}\PYG{p}{.}
+\PYG{n+no}{In}\PYG{+w}{ }\PYG{n+no}{such}\PYG{+w}{ }\PYG{n+no}{tasks}\PYG{p}{,}\PYG{+w}{ }\PYG{n+no}{the}\PYG{+w}{ }\PYG{n+no}{code}\PYG{+w}{ }\PYG{n+no}{almost}\PYG{+w}{ }\PYG{n+no}{always}\PYG{+w}{ }\PYG{n+no}{looks}\PYG{+w}{ }\PYG{n+no}{like}\PYG{+w}{ }\PYG{n+no}{this}\PYG{p}{:}
+
+\PYG{n}{L}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}
+\PYG{k}{for}\PYG{+w}{ }\PYG{n}{R}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mf}{0.}\PYG{p}{.}\PYG{n}{n}\PYG{l+m+mi}{\PYGZhy{}1}
+\PYG{+w}{    }\PYG{n}{add}\PYG{p}{(}\PYG{n}{a}\PYG{p}{[}\PYG{n}{R}\PYG{p}{])}
+\PYG{+w}{    }\PYG{k}{while}\PYG{+w}{ }\PYG{k}{not}\PYG{+w}{ }\PYG{n}{good}\PYG{p}{()}\PYG{o}{:}
+\PYG{+w}{        }\PYG{n}{remove}\PYG{p}{(}\PYG{n}{a}\PYG{p}{[}\PYG{n}{L}\PYG{p}{])}
+\PYG{+w}{        }\PYG{n}{L}\PYG{o}{++}
+\end{Verbatim}

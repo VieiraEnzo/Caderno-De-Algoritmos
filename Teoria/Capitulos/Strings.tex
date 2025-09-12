@@ -1,0 +1,10 @@
+\section{Strings}
+
+\subsubsection{The Concatenation Trick}
+An elegant way to solve the string matching problem is to construct a new string $S = P + \# + T$, where $\#$ is a delimiter character not present in $P$ or $T$. We then compute the prefix function $\pi_S$ for this combined string.
+
+\subsubsection{Finding the Smallest Period of a String}
+The smallest period of a string $S$ of length $n$ can be found using $\pi[n-1]$. The value $k = n - \pi[n-1]$ is a potential period. If $n$ is divisible by $k$, then $k$ is the length of the smallest period. Otherwise, the smallest period is $n$ itself. The intuition is that $\pi[n-1]$ represents the largest overlap between the beginning and the end of the string, so the non-overlapping part, $n - \pi[n-1]$, must be the repeating unit.
+
+\subsubsection{String Compression}
+This is equivalent to finding the smallest period. The problem asks for the shortest string $t$ such that $S$ can be represented as $k$ concatenations of $t$. The length of this base string $t$ is $n - \pi[n-1]$, provided $n$ is divisible by this length.
