@@ -1,7 +1,7 @@
 {
-"OJ-tests/DataStructures/BIT.test.cpp": "2025-09-11 21:34:05 -0300",
-"OJ-tests/DataStructures/Dsu.test.cpp": "2025-09-11 21:34:05 -0300",
-"OJ-tests/DataStructures/SegTree.test.cpp": "2025-09-11 21:34:05 -0300",
-"OJ-tests/DataStructures/SparceTable.test.cpp": "2025-09-11 21:34:05 -0300",
-"OJ-tests/Grafos/Kosaraju.test.cpp": "2025-09-11 21:34:05 -0300"
+"OJ-tests/DataStructures/BIT.test.cpp": "2025-09-12 20:06:45 -0300",
+"OJ-tests/DataStructures/Dsu.test.cpp": "2025-09-12 20:06:45 -0300",
+"OJ-tests/DataStructures/SegTree.test.cpp": "2025-09-12 20:06:45 -0300",
+"OJ-tests/DataStructures/SparceTable.test.cpp": "2025-09-12 20:06:45 -0300",
+"OJ-tests/Grafos/Kosaraju.test.cpp": "2025-09-12 20:06:45 -0300"
 }
