@@ -15,17 +15,19 @@
 template<class cost_t> pair<cost_t, vector<int>> hungarian(const vector<vector<cost_t>> &a){
     int n = a.size() + 1, m = a[0].size() + 1;
     
+    cost_t INF = 1e9; //Change here
+
     vector<int> p(m), ans(n - 1);
     vector<cost_t> u(n), v(m); 
 	for(int i = 1; i < n; ++i) { 
 		p[0] = i; int j0 = 0;
-		vector<cost_t> dist(m, 1e9);  
+		vector<cost_t> dist(m, INF); 
         vector<int> pre(m, -1); 
 		vector<bool> done(m + 1);   
 		do {
 			done[j0] = true;
 			int i0 = p[j0], j1; 
-            cost_t delta = 1e9;
+            cost_t delta = INF;
 			for(int j = 1; j < m; ++j) if (!done[j]) {
 				auto cur = a[i0-1][j-1] - u[i0] - v[j];
 				if (cur < dist[j]) dist[j] = cur, pre[j] = j0;

@@ -11,13 +11,13 @@ vector<int> find_pi(string s){
     return pi;
 };
 
-vector<int> kmp(string t, string p){
+vector<int> kmp(string s, string t){
     
-    vector<int> pi= find_pi(p + '$'), match;
+    vector<int> pi= find_pi(s), match;
     for(int i = 0, j = 0; i < t.size(); i++){
-        while(j > 0 && t[i] != p[j]) j = pi[j-1];
-        if(t[i] == p[j]) j++;
-        if(j == p.size()) match.push_back(i-j+1);
+        while(j > 0 && t[i] != s[j]) j = pi[j-1];
+        if(t[i] == s[j]) j++;
+        if(j == s.size()) {match.push_back(i-j+1); j = pi[j-1];}
     }
     return match;
 };
