@@ -823,6 +823,35 @@ template<int p> struct mod_int {
 typedef mod_int<(int)1e9+7> mint;
 \end{minted}
 
+\subsection{Chinise Reamainder Theorem for General equations}
+\begin{minted}{cpp}
+// Combina equacoes modulares lineares: x = a (mod m)
+// O m final eh o lcm dos m's, e a resposta eh unica mod o lcm
+// Os m nao precisam ser coprimos
+// Se nao tiver solucao, o 'a' vai ser -1
+
+template<typename T> tuple<T, T, T> ext_gcd(T a, T b) {
+    if (!a) return {b, 0, 1};
+    auto [g, x, y] = ext_gcd(b%a, a);
+    return {g, y - b/a*x, x};
+}
+
+template<typename T = ll> struct crt {
+	T a, m;
+    
+	crt() : a(0), m(1) {}
+	crt(T a_, T m_) : a(a_), m(m_) {}
+	crt operator * (crt C) {
+		auto [g, x, y] = ext_gcd(m, C.m);
+		if ((a - C.a) % g) a = -1;
+		if (a == -1 or C.a == -1) return crt(-1, 0);
+		T lcm = m/g*C.m;
+		T ans = a + (x*(C.a-a)/g % (C.m/g))*m;
+		return crt((ans % lcm + lcm) % lcm, lcm);
+	}
+};
+\end{minted}
+
 \subsection{Combinatorics}
 \begin{minted}{cpp}
 
@@ -928,20 +957,20 @@ int egcd(int a, int b, int& x, int& y) {
  * Também chamada de Transformada Rápida de Walsh-Hadamard
  */
 
-void FST(vi& a, bool inv) {
-	for (int n = sz(a), step = 1; step < n; step *= 2) {
-		for (int i = 0; i < n; i += 2 * step) rep(j,i,i+step) {
+void FST(vector<int> &a, bool inv) {
+	for (int n = a.size(), step = 1; step < n; step *= 2) {
+		for (int i = 0; i < n; i += 2 * step) for(int j = i; j < i+step; ++j) {
 			int &u = a[j], &v = a[j + step]; tie(u, v) =
-    				// inv ? pii(v - u, u) : pii(v, u + v); // AND /// include-line
-    				// inv ? pii(v, u - v) : pii(u + v, u); // OR  /// include-line
-    				// pii(u + v, u - v);                   // XOR /// include-line
+				inv ? pii(v - u, u) : pii(v, u + v); // AND
+				inv ? pii(v, u - v) : pii(u + v, u); // OR
+				pii(u + v, u - v);                   // XOR
 		}
 	}
-    	// if (inv) for (int& x : a) x /= sz(a); // XOR only /// include-line
+	if (inv) for(auto &x : a) x /= a.size(); // XOR only
 }
-vi conv(vi a, vi b) {
+vector<int> conv(vector<int> a, vector<int> b) {
 	FST(a, 0); FST(b, 0);
-	rep(i,0,sz(a)) a[i] *= b[i];
+	for(int i = 0; i < a.size(); ++i) a[i] *= b[i];
 	FST(a, 1); return a;
 }
 \end{minted}
@@ -1917,17 +1946,19 @@ struct Hop{
 template<class cost_t> pair<cost_t, vector<int>> hungarian(const vector<vector<cost_t>> &a){
     int n = a.size() + 1, m = a[0].size() + 1;
         
+    cost_t INF = 1e9; //Change here
+    
     vector<int> p(m), ans(n - 1);
     vector<cost_t> u(n), v(m); 
 	for(int i = 1; i < n; ++i) { 
 		p[0] = i; int j0 = 0;
-		vector<cost_t> dist(m, 1e9);  
+		vector<cost_t> dist(m, INF); 
         vector<int> pre(m, -1); 
 		vector<bool> done(m + 1);   
 		do {
 			done[j0] = true;
 			int i0 = p[j0], j1; 
-            cost_t delta = 1e9;
+            cost_t delta = INF;
 			for(int j = 1; j < m; ++j) if (!done[j]) {
 				auto cur = a[i0-1][j-1] - u[i0] - v[j];
 				if (cur < dist[j]) dist[j] = cur, pre[j] = j0;
@@ -2256,6 +2287,34 @@ ll func(ll a, ll b){
 }
 \end{minted}
 
+\subsection{Divide and Conquer DP}
+\begin{minted}{cpp}
+// Particiona o array em k subarrays
+// minimizando o somatorio das queries
+//
+// O(k n log n), assumindo quer query(l, r) eh O(1)
+
+ll dp[MAX][2];
+
+void solve(int k, int l, int r, int lk, int rk) {
+	if (l > r) return;
+	int m = (l+r)/2, p = -1;
+	auto& ans = dp[m][k&1] = LINF;
+	for (int i = max(m, lk); i <= rk; i++) {
+		ll at = dp[i+1][~k&1] + query(m, i);
+		if (at < ans) ans = at, p = i;
+	}
+	solve(k, l, m-1, lk, p), solve(k, m+1, r, p, rk);
+}
+
+ll DC(int n, int k) {
+	dp[n][0] = dp[n][1] = 0;
+	for (int i = 0; i < n; i++) dp[i][0] = LINF;
+	for (int i = 1; i <= k; i++) solve(i, 0, n-i, 0, n-i);
+	return dp[0][k&1];
+}
+\end{minted}
+
 \subsection{Sos DP}
 \begin{minted}{cpp}
 //I will be addressing the following problem: Given a fixed array A of 2N integers,
@@ -2432,6 +2491,137 @@ template<int SZ, bool VALS_IN_EDGES> struct HLD {
 };
 \end{minted}
 
+\subsection{Isomorfismo de arvores}
+\begin{minted}{cpp}
+// thash() retorna o hash da arvore (usando centroids como vertices especiais).
+// Duas arvores sao isomorfas sse seu hash eh o mesmo
+//
+// O(|V|.log(|V|))
+
+map<vector<int>, int> mphash;
+
+struct tree {
+	int n;
+	vector<vector<int>> g;
+	vector<int> sz, cs;
+    
+	tree(int n_) : n(n_), g(n_), sz(n_) {}
+    
+	void dfs_centroid(int v, int p) {
+		sz[v] = 1;
+		bool cent = true;
+		for (int u : g[v]) if (u != p) {
+			dfs_centroid(u, v), sz[v] += sz[u];
+			if(sz[u] > n/2) cent = false;
+		}
+		if (cent and n - sz[v] <= n/2) cs.push_back(v);
+	}
+	int fhash(int v, int p) {
+		vector<int> h;
+		for (int u : g[v]) if (u != p) h.push_back(fhash(u, v));
+		sort(h.begin(), h.end());
+		if (!mphash.count(h)) mphash[h] = mphash.size();
+		return mphash[h];
+	}
+	ll thash() {
+		cs.clear();
+		dfs_centroid(0, -1);
+		if (cs.size() == 1) return fhash(cs[0], -1);
+		ll h1 = fhash(cs[0], cs[1]), h2 = fhash(cs[1], cs[0]);
+		return (min(h1, h2) << 30) + max(h1, h2);
+	}
+};
+\end{minted}
+
+\subsection{LCA Path query}
+\begin{minted}{cpp}
+struct LCAQ{
+        
+    const int neutral = 0;
+    int n;
+    const int sz = 32;
+    vector<int> marc, height, val;
+    vector<vector<int>> g, bl, tb;
+    
+        //Trocar se a raiz nao for 1
+    LCAQ(int n) : n(n), g(n+1), bl(sz, vector<int> (n+1, 1)), tb(sz, vector<int> (n+1, 1)), marc(n+1), height(n+1){}
+    
+    void add_edge(int a, int b){
+        g[a].push_back(b);
+        g[b].push_back(a);
+    }
+    
+    void set_val(int i, int x){
+        val[i] = x;
+    }
+    
+        //Trocar se a raiz nao for 1
+    void build(int x = 1){ 
+        marc[x] = 1;
+        for(int i = 1; i < sz; i++){
+            bl[i][x] = bl[i-1][bl[i-1][x]];
+            tb[i][x] = tb[i-1][x] + tb[i-1][bl[i-1][x]];
+        }
+    
+        for(auto viz : g[x]){
+            if(marc[viz]) continue;
+            bl[0][viz] = x;
+            tb[0][viz] = val[x];
+            height[viz] = height[x]+1;
+            build(viz);
+        }
+    }
+    
+    int find_lca(int a, int b){
+        if(height[a] < height[b]) swap(a,b);
+    
+        int dif = height[a] - height[b];
+        for(int i = 0; i < sz; i++){
+            if((1<<i) & dif){
+                a = bl[i][a];
+            }
+        }
+    
+        assert(height[a] == height[b]);
+        if(a == b) return a;
+    
+        for(int i = sz-1; i >=0; i--){
+            if(bl[i][a] == bl[i][b]) continue;
+            a = bl[i][a];
+            b = bl[i][b];
+        }
+            
+        assert(a != b);
+        assert(bl[0][a] == bl[0][b]);
+        return bl[0][a];
+    }
+    
+    int dist(int a, int b){
+        int l = find_lca(a,b);  
+        return height[a] + height[b] - 2*height[l];
+    }
+    
+    int query_lca(int a, int lca){
+        int ans = neutral;
+        int dif = height[lca] - height[a];
+        for(int i = 0; i < sz; i++){
+            if((1<<i) & dif){
+                ans = ans + tb[i][a];
+                a = bl[i][a];
+            }
+        }
+    
+        assert(a == lca);
+        return ans;
+    };
+    
+    int query(int a, int b){
+        int lca = find_lca(a,b);
+        return val[a] + val[b] + query(a,lca) + query(b,lca) - val[lca];
+    }
+};
+\end{minted}
+
 \subsection{Lowest Common Ancestor}
 \begin{minted}{cpp}
 struct LCA{
@@ -2588,13 +2778,13 @@ vector<int> find_pi(string s){
     return pi;
 };
 
-vector<int> kmp(string t, string p){
+vector<int> kmp(string s, string t){
         
-    vector<int> pi= find_pi(p + '$'), match;
+    vector<int> pi= find_pi(s), match;
     for(int i = 0, j = 0; i < t.size(); i++){
-        while(j > 0 && t[i] != p[j]) j = pi[j-1];
-        if(t[i] == p[j]) j++;
-        if(j == p.size()) match.push_back(i-j+1);
+        while(j > 0 && t[i] != s[j]) j = pi[j-1];
+        if(t[i] == s[j]) j++;
+        if(j == s.size()) {match.push_back(i-j+1); j = pi[j-1];}
     }
     return match;
 };
@@ -3090,52 +3280,53 @@ int rsq(int i, int j){
 
 \subsection{BIT 2D}
 \begin{minted}{cpp}
+// BIT de soma, update incrementa posicao
+// Tem que construir com um vetor com todos os pontos
+// que vc quer um dia atualizar (os pontos q vc vai chamar update)
+// Serve para queries Sparse
+//
+// Complexidades:
+// construir - O(n log(n))
+// update e query - O(log^2(n))
+// Creditos: BM
 
-#define pii pair<ll,ll>
-#define upper(v, x) (upper_bound(begin(v), end(v), x) - begin(v))
-
-struct BIT2D{
-    vector<ll> ord;
-    vector<vector<ll>> bit,coord;
-    BIT2D(vector<pii> pts){
-        sort(begin(pts),end(pts));
-     
-        for(auto [x,y] : pts)
-            if(ord.empty() || x != ord.back())
-                ord.push_back(x);
-            
-        bit.resize(ord.size() + 1);
-        coord.resize(ord.size() + 1);
-            
-        sort(begin(pts),end(pts), [&](pii &a , pii& b){
-            return a.second < b.second;
-        });
-     
-        for(auto [x,y] : pts)
-            for(int i = upper(ord,x); i < bit.size(); i += i & -i)
-                if(coord[i].empty() || coord[i].back() != y)
-                    coord[i].push_back(y);
-            
-        for(int i = 0; i < bit.size(); i++) bit[i].assign(coord[i].size() + 1,0);
-    }
-     
-    void update(ll X, ll Y, ll v){
-        for(int i = upper(ord, X); i < bit.size(); i += i & -i)
-            for(int j = upper(coord[i], Y); j < bit[i].size(); j += j & -j)
-                bit[i][j] += v;
-    }
-     
-    ll query(ll X, ll Y){
-        ll sum = 0;
-        for(int i = upper(ord,X); i > 0; i -= i & -i)
-            for(int j = upper(coord[i], Y); j > 0; j -= j & -j)
-                sum += bit[i][j];
-        return sum;
-    }
-     
-    ll queryArea(ll xi , ll yi, ll xf, ll yf){
-        return query(xf,yf) - query(xf, yi-1) - query(xi-1, yf) + query(xi-1, yi-1);
-    }
+template<class T = int> struct bit2d {
+	vector<T> X;
+	vector<vector<T>> Y, t;
+    
+	int ub(vector<T>& v, T x) {
+		return upper_bound(v.begin(), v.end(), x) - v.begin();
+	}
+	bit2d(vector<pair<T, T>> v) {
+		for (auto [x, y] : v) X.push_back(x);
+		sort(X.begin(), X.end());
+		X.erase(unique(X.begin(), X.end()), X.end());
+    
+		t.resize(X.size() + 1);
+		Y.resize(t.size());
+		sort(v.begin(), v.end(), [](auto a, auto b) {
+			return a.second < b.second; });
+		for (auto [x, y] : v) for (int i = ub(X, x); i < t.size(); i += i&-i)
+			if (!Y[i].size() or Y[i].back() != y) Y[i].push_back(y);
+    
+		for (int i = 0; i < t.size(); i++) t[i].resize(Y[i].size() + 1);
+	}
+    
+        //Adds v to [x,y]
+	void update(T x, T y, T v) {
+		for (int i = ub(X, x); i < t.size(); i += i&-i)
+			for (int j = ub(Y[i], y); j < t[i].size(); j += j&-j) t[i][j] += v;
+	}
+    
+	T query(T x, T y) {
+		T ans = 0;
+		for (int i = ub(X, x); i; i -= i&-i)
+			for (int j = ub(Y[i], y); j; j -= j&-j) ans += t[i][j];
+		return ans;
+	}
+	T query(T x1, T y1, T x2, T y2) {
+		return query(x2, y2)-query(x2, y1-1)-query(x1-1, y2)+query(x1-1, y1-1);
+	}
 };
 \end{minted}
 
@@ -3288,7 +3479,7 @@ struct pref2D{
     }
     
     int query(int rowl, int rowr, int coll, int colr){
-            //rowl++, rowr++, coll++, colr++;
+        rowl++, rowr++, coll++, colr++;
         if(rowl > rowr) swap(rowl, rowr);
         if(coll > colr) swap(colr, coll);
         return pref[rowr][colr] - pref[rowl-1][colr] - pref[rowr][coll-1] + pref[rowl-1][coll-1];
@@ -3609,6 +3800,36 @@ __builtin_ctz(x): Count trailing zeros. Retorna o número de zeros no final da r
 __builtin_popcount(x): Population count. Retorna o número de bits definidos como 1 na representação binária de x
 __builtin_parity(x): Parity. Retorna 1 se o número de bits definidos como 1 for ímpar e 0 se for par.
 int L = 32 - __builtin_clz(n), n = 1 << L; : "n" se torna a primeira potencia de 2 estritamente maior que n 
+
+// I'ésimo numero do GrayCode
+int g (int n) {
+    return n ^ (n >> 1);
+}
+
+// GrayCode Reverso
+int rev_g (int g) {
+  int n = 0;
+  for (; g; g >>= 1)
+    n ^= g;
+  return n;
+}
+
+Some properties of bitwise operations:
+
+a|b = a^b + a&b
+a^(a&b) = (a|b)^b
+b^(a&b) = (a|b)^a
+(a&b)^(a|b) = a^b
+
+Addition:
+a+b = a|b + a&b
+a+b = a^b + 2(a&b)
+
+Subtraction:
+a-b = (a^(a&b))-((a|b)^a)
+a-b = ((a|b)^b)-((a|b)^a)
+a-b = (a^(a&b))-(b^(a&b))
+a-b = ((a|b)^b)-(b^(a&b))
 \end{minted}
 
 \subsection{XorBasis.h}
@@ -3616,30 +3837,27 @@ int L = 32 - __builtin_clz(n), n = 1 << L; : "n" se torna a primeira potencia de
 //Xor Basis
 
 struct Basis{
-  vector <int> basis;
+  long long neutral = (1ll << 31) - 1;
+  vector <pair<int, int>> basis;
   Basis(){
-
+ 
   }
-  Basis(int x){
-    add(x);
-  }
-  Basis operator+(Basis other) const{
-    Basis res;
-    for(int x : basis){
-      res.add(x);
-    }
-    for(int x : other.basis){
-      res.add(x);
-    }
-    return res;
-  }
-  void add(int x){
+  void add(pair<int, int> x){
     for(auto& i : basis){
-      x = min(x, x^i);
+      x.first = min(x.first, x.first^i.first);
     }
-    if(x){
+    if(x.first != 0){
       basis.push_back(x);
     }
+  }
+  int mx(int l){
+    long long x = neutral;
+    for(auto& i : basis){
+      if(i.second >= l){
+        x = min(x, x^i.first);
+      }
+    }
+    return x ^ neutral;      
   }
 };
 \end{minted}
@@ -3730,6 +3948,32 @@ echo "My:"
 cat myAnswer
 echo "correct:"
 cat correctAnswer
+\end{minted}
+
+\subsection{Gen.h}
+\begin{minted}{cpp}
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+
+mt19937 rng((uint32_t)chrono::steady_clock::now().time_since_epoch().count());
+
+int main(){
+
+    cin.tie(0), ios_base::sync_with_stdio(false);
+    int n = uniform_int_distribution<int> (1, 3)(rng);
+}
+\end{minted}
+
+\subsection{compression.h}
+\begin{minted}{cpp}
+//To recover: d[arr[i]]
+vector<int> d = arr;
+sort(d.begin(), d.end());
+d.resize(unique(d.begin(), d.end()) - d.begin());
+for (int i = 0; i < n; ++i) {
+    arr[i] = lower_bound(d.begin(), d.end(), arr[i]) - d.begin();
+}
 \end{minted}
 
 \subsection{2pointer.h}

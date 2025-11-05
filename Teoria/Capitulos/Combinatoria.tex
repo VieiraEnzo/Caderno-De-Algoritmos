@@ -57,3 +57,13 @@ O número de permutações de $n$ objetos onde nenhum objeto permanece em sua po
 $$ D_n = n! \sum_{k=0}^{n} \frac{(-1)^k}{k!} $$
 Aproximação para $n$ grande:
 $$ D_n \approx \frac{n!}{e} $$
+
+\section*{Generalization for calculating number of elements in exactly \( r \) sets}
+A princípio da inclusão-exclusão pode ser reescrito para calcular o número de elementos que estão presentes em zero conjuntos:
+\[
+\left| \bigcap_{i=1}^{n} A_i \right| = \sum_{m=0}^{n} (-1)^m \sum_{\substack{|X|=m}} \left| \bigcap_{i \in X} A_i \right|
+\]
+Considere sua generalização para calcular o número de elementos que estão presentes em exatamente \( r \) conjuntos:
+\[
+\left| \bigcup_{|B|=r} \left[ \bigcap_{i \in B} A_i \cap \bigcap_{j \notin B} A_j \right] \right| = \sum_{m=r}^{n} (-1)^{m-r} \binom{m}{r} \sum_{\substack{|X|=m}} \left| \bigcap_{i \in X} A_i \right|
+\]

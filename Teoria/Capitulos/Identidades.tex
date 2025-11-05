@@ -39,6 +39,12 @@ $$
 (1 + x)^{n} = \sum_{k=0}^{n} \binom{n}{k} x^{k}
 \\[10pt]
 2\sum_{i = L}^R \binom{n}{i} - \binom{n}{L} - \binom{n}{R} = \sum_{i = L+1}^R \binom{n+1}{i}
+& 
+$$ \binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k}$$
+\\[10pt]
+$$ \binom{C_1 + C_2 + \dots + C_N}{C_1, C_2, \dots, C_N} = \prod_{i=1}^{N} \binom{\sum_{j=1}^{i} C_j}{C_i} $$
+
+
 \end{array}
 $$
 
@@ -57,3 +63,12 @@ $$
 \textbf{Soma Finita:} \quad $ S_n = a_1 \frac{q^n - 1}{q - 1} $
 
 \textbf{Soma Infinita ($|q|<1$):} \quad $ S_{\infty} = \frac{a_1}{1 - q} $
+
+
+\subsection{Funções Geradoras}
+
+\begin{align*}
+    (1+x)^n &= \sum_{k\ge 0} \binom{n}{k} x^k \\[6pt]
+    \frac{1}{(1-x)^{m+1}} &= \sum_{k\ge 0} \binom{k+m}{m} x^k \\[6pt]
+    \frac{x^m}{(1-x)^{m+1}} &= \sum_{k\ge 0} \binom{k}{m} x^k
+\end{align*}

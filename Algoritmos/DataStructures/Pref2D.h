@@ -19,7 +19,7 @@ struct pref2D{
     }
 
     int query(int rowl, int rowr, int coll, int colr){
-        //rowl++, rowr++, coll++, colr++;
+        rowl++, rowr++, coll++, colr++;
         if(rowl > rowr) swap(rowl, rowr);
         if(coll > colr) swap(colr, coll);
         return pref[rowr][colr] - pref[rowl-1][colr] - pref[rowr][coll-1] + pref[rowl-1][coll-1];

@@ -8,3 +8,14 @@ The smallest period of a string $S$ of length $n$ can be found using $\pi[n-1]$.
 
 \subsubsection{String Compression}
 This is equivalent to finding the smallest period. The problem asks for the shortest string $t$ such that $S$ can be represented as $k$ concatenations of $t$. The length of this base string $t$ is $n - \pi[n-1]$, provided $n$ is divisible by this length.
+
+\subsection{Number of Distinct Substrings ($O(n^2)$):}
+A classic solution is to iterate through all $n$ suffixes $S[i..]$. For each suffix, we compute its Z-function in $O(n)$. The largest $Z[j]$ value found for this suffix represents the LCP (Longest Common Prefix) with another suffix $S[j..]$ that starts later. The number of \textit{new} substrings introduced at $i$ is the length of the suffix ($n-i$) minus the largest $Z$ value found. The total sum gives us the number of distinct substrings.
+
+\subsection{Matching with $\le k$ consecutive errors ($O(n)$):}
+To find a pattern $P$ in a text $T$ (length $n$) allowing a block of up to $k$ consecutive errors, we use the Z-function twice.
+\begin{enumerate}
+    \item Compute $Z(P + \text{"\$"} + T)$ to find the LCP of $P$ with each suffix $T[i..]$. This gives us $\text{lcp}[i]$, the length of the match \textit{before} the first mismatch.
+    \item Compute $Z(P^R + \text{"\$"} + T^R)$ (reversed strings). This allows us to find the LCS (Longest Common Suffix) of $P$ ending at each position $j$ in the text, let's call it $\text{lcs}[j]$.
+\end{enumerate}
+A valid occurrence of $P$ starts at $T[i]$ if the sum of the prefix match and the suffix match covers almost the entire pattern, i.e.: $\text{lcp}[i] + \text{lcs}[i + |P| - 1] \ge |P| - k$.
