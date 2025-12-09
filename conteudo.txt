@@ -1,1 +1,2 @@
 Para adicionar:
+    - Condições de caminho estão estranhas: está 0 ou 2 mas 0 é ciclo nescessariamente
