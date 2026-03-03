@@ -1,0 +1,19 @@
+\section{Game Theory}
+
+\textbf{Impartial Games (Normal Play):} Último a jogar vence.
+\begin{itemize}[leftmargin=*, nosep]
+    \item \textbf{Nim-Sum:} $G = p_1 \oplus p_2 \oplus \dots \oplus p_k$. 
+    \item \textbf{P-position (Losing):} $G = 0$. \textbf{N-position (Winning):} $G \neq 0$.
+    \item \textbf{Sprague-Grundy:} Qualquer estado $S$ equivale a uma pilha de Nim de tamanho $g(S)$.
+    \item \textbf{Cálculo de $g(S)$:} $g(S) = \text{mex}(\{g(S') \mid S \to S'\})$.
+    \item \textbf{Soma de Jogos:} $g(G_1 + \dots + G_k) = g(G_1) \oplus \dots \oplus g(G_k)$.
+    \item \textbf{Movimento de Divisão:} Se uma jogada divide o jogo em subjogos $A$ e $B$, o valor de Grundy dessa jogada é $g(A) \oplus g(B)$. O $g(S)$ final será o MEX de todos os valores de jogadas possíveis.
+    \item \textbf{Subtraction Games:} $g(n) = \text{mex}(\{g(n-s_i) \mid s_i \in S\})$. Costuma ser periódico; procure o ciclo para $n$ grandes.
+    \item \textbf{Misere Play:} Último a jogar PERDE. No Nim, jogue normalmente até que reste apenas uma pilha de tamanho $>1$. Nesse momento, mova para deixar um número ÍMPAR de pilhas de tamanho 1.
+\end{itemize}
+
+\textbf{Green Hackenbush:} 
+\begin{itemize}[leftmargin=*, nosep]
+    \item \textbf{Em Árvore:} $g(\text{node}) = \bigoplus (g(\text{filho}) + 1)$.
+    \item \textbf{Colon Principle:} Quando arestas se encontram em um vértice, substitua por uma única aresta com valor $g = \text{XOR}$ dos Grundy das arestas originais.
+\end{itemize}

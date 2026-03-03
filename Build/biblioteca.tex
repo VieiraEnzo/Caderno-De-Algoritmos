@@ -1,46 +1,80 @@
-\documentclass[11pt, a4paper, twoside]{article}
+\documentclass[9pt, a4paper, notitlepage]{extreport}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb,amsmath}
 \usepackage[brazil]{babel}
 \usepackage{comment}
 \usepackage{datetime}
-\usepackage[pdfusetitle]{hyperref}
-\usepackage[all]{xy}
+\usepackage[colorlinks=true]{hyperref}
 \usepackage{graphicx}
-\addtolength{\parskip}{.5\baselineskip}
-% --- Configuração de Margens ---
-\usepackage[landscape, left=0.5cm, right=0.5cm, top=1cm, bottom=1.5cm]{geometry} 
+\usepackage{multicol}
+\usepackage{fancyhdr}
+\usepackage[table]{xcolor}
+\usepackage{enumitem}
 
-% --- Configuração do MINTED ---
+% --- Configuração de Margens compactas ---
+\usepackage[a4paper, landscape, left=0.5cm, right=0.5cm, top=1.2cm, bottom=0.8cm]{geometry}
+
+% --- Configuração do MINTED (compacto) ---
 \usepackage{minted}
+\usemintedstyle{bw}  % Estilo preto e branco, mais compacto
 
-% Estilo de cores que se assemelha ao seu antigo 'listings'
-\usemintedstyle{perldoc} 
-% \usemintedstyle{emacs} 
-
-% Opções globais para todos os ambientes 'minted'
+% Opções globais para minted - máxima compactação
 \setminted{
-    fontsize=\footnotesize,  % Tamanho da fonte
-    tabsize=4,               % Tamanho da tabulação
-    breaklines,              % Quebra de linhas longas
+    fontsize=\small,
+    tabsize=2,
+    breaklines,
     breakanywhere,
-    autogobble,              % Remove indentação extra do bloco
-    frame=lines,             % Desenha linhas no topo e na base
-    framesep=2mm             % Espaçamento da moldura
+    autogobble,
+    frame=none,
+    framesep=0pt,
+    xleftmargin=0pt,
+    numbersep=2pt,
+    baselinestretch=0.8
 }
-% -----------------------------
 
-\setlength{\columnseprule}{0.2pt} % barra separando as duas colunas
-\setlength{\columnsep}{10pt}      % distancia do texto ate a barra
+% Remove espaçamento extra
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\columnsep}{8pt}
+\setlength{\columnseprule}{0.2pt}
 
+% Configuração de cabeçalho e rodapé
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small UFRJ -- Meu nome é shadow. Sou aquele que deixou todo o seu passado para trás. Não faço esse contest por ninguém, não estou preso a nada}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\setlength{\headheight}{12pt}
+
+% Compactar seções
+\usepackage{titlesec}
+\titlespacing*{\section}{0pt}{4pt plus 2pt minus 2pt}{2pt plus 1pt minus 1pt}
+\titlespacing*{\subsection}{0pt}{3pt plus 1pt minus 1pt}{1pt plus 1pt minus 1pt}
+\titleformat{\section}{\normalfont\large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{0.8em}{}
+
+% Compactar TOC
+\usepackage{tocloft}
+\setlength{\cftbeforesecskip}{1pt}
+\setlength{\cftbeforesubsecskip}{0pt}
+\renewcommand{\cftsecfont}{\small}
+\renewcommand{\cftsubsecfont}{\footnotesize}
+\renewcommand{\cftsecpagefont}{\small}
+\renewcommand{\cftsubsecpagefont}{\footnotesize}
 
 \begin{document}
+
+% Include cover page
 \input{titlepage}
 
-\twocolumn
+\begin{multicols}{2}
+% \tableofcontents
+\end{multicols}
 
-\tableofcontents
+\vspace{2mm}
+
+\begin{multicols}{3}
 
 
 %%%%%%%%%%%%%%%%%%%%
@@ -205,7 +239,7 @@ pt inter(line r, line s) { // r inter s
 bool interseg(line r, line s) { // se o seg de r intersecta o seg de s
 	if (isinseg(r.p, s) or isinseg(r.q, s)
 		or isinseg(s.p, r) or isinseg(s.q, r)) return 1;
-    
+
 	return ccw(r.p, r.q, s.p) != ccw(r.p, r.q, s.q) and
 			ccw(s.p, s.q, r.p) != ccw(s.p, s.q, r.q);
 }
@@ -222,13 +256,13 @@ ld disttoseg(pt p, line r) { // distancia do ponto ao seg
 
 ld distseg(line a, line b) { // distancia entre seg
 	if (interseg(a, b)) return 0;
-    
+
 	ld ret = DINF;
 	ret = min(ret, disttoseg(a.p, b));
 	ret = min(ret, disttoseg(a.q, b));
 	ret = min(ret, disttoseg(b.p, a));
 	ret = min(ret, disttoseg(b.q, a));
-    
+
 	return ret;
 }
 
@@ -299,9 +333,9 @@ bool interpol(vector<pt> v1, vector<pt> v2) { // se dois poligonos se intersecta
 
 ld distpol(vector<pt> v1, vector<pt> v2) { // distancia entre poligonos
 	if (interpol(v1, v2)) return 0;
-    
+
 	ld ret = DINF;
-    
+
 	for (int i = 0; i < v1.size(); i++) for (int j = 0; j < v2.size(); j++)
 		ret = min(ret, distseg(line(v1[i], v1[(i + 1) % v1.size()]),
 					line(v2[j], v2[(j + 1) % v2.size()])));
@@ -330,12 +364,12 @@ vector<pt> convex_hull(vector<pt> v) { // convex hull - O(n log(n))
 
 struct convex_pol {
 	vector<pt> pol;
-    
-    	// nao pode ter ponto colinear no convex hull
+
+	// nao pode ter ponto colinear no convex hull
 	convex_pol() {}
 	convex_pol(vector<pt> v) : pol(convex_hull(v)) {}
-    
-    	// se o ponto ta dentro do hull - O(log(n))
+
+	// se o ponto ta dentro do hull - O(log(n))
 	bool is_inside(pt p) {
 		if (pol.size() == 0) return false;
 		if (pol.size() == 1) return p == pol[0];
@@ -349,8 +383,8 @@ struct convex_pol {
 		if (l == pol.size()) return false;
 		return !ccw(p, pol[l], pol[l-1]);
 	}
-    	// ponto extremo em relacao a cmp(p, q) = p mais extremo q
-    	// (copiado de https://github.com/gustavoM32/caderno-zika)
+	// ponto extremo em relacao a cmp(p, q) = p mais extremo q
+	// (copiado de https://github.com/gustavoM32/caderno-zika)
 	int extreme(const function<bool(pt, pt)>& cmp) {
 		int n = pol.size();
 		auto extr = [&](int i, bool& cur_dir) {
@@ -417,7 +451,7 @@ vector<pt> circ_inter(pt a, pt b, ld r, ld R) { // intersecao da circunf (a, r) 
 }
 
 bool operator <(const line& a, const line& b) { // comparador pra reta
-    	// assume que as retas tem p < q
+	// assume que as retas tem p < q
 	pt v1 = a.q - a.p, v2 = b.q - b.p;
 	if (!eq(angle(v1), angle(v2))) return angle(v1) < angle(v2);
 	return ccw(a.p, a.q, b.p); // mesmo angulo
@@ -429,7 +463,7 @@ bool operator ==(const line& a, const line& b) {
 // comparador pro set pra fazer sweep line com segmentos
 struct cmp_sweepline {
 	bool operator () (const line& a, const line& b) const {
-    		// assume que os segmentos tem p < q
+		// assume que os segmentos tem p < q
 		if (a.p == b.p) return ccw(a.p, a.q, b.q);
 		if (!eq(a.p.x, a.q.x) and (eq(b.p.x, b.q.x) or a.p.x+eps < b.p.x))
 			return ccw(a.p, a.q, b.p);
@@ -521,7 +555,7 @@ bool isinseg(pt p, line r) { // se p pertence ao seg de r
 bool interseg(line r, line s) { // se o seg de r intersecta o seg de s
 	if (isinseg(r.p, s) or isinseg(r.q, s)
 		or isinseg(s.p, r) or isinseg(s.q, r)) return 1;
-    
+
 	return ccw(r.p, r.q, s.p) != ccw(r.p, r.q, s.q) and
 			ccw(s.p, s.q, r.p) != ccw(s.p, s.q, r.q);
 }
@@ -603,12 +637,12 @@ ll interior_points(vector<pt> v) { // pontos inteiros dentro de um poligono simp
 
 struct convex_pol {
 	vector<pt> pol;
-    
-    	// nao pode ter ponto colinear no convex hull
+
+	// nao pode ter ponto colinear no convex hull
 	convex_pol() {}
 	convex_pol(vector<pt> v) : pol(convex_hull(v)) {}
-    
-    	// se o ponto ta dentro do hull - O(log(n))
+
+	// se o ponto ta dentro do hull - O(log(n))
 	bool is_inside(pt p) {
 		if (pol.size() == 0) return false;
 		if (pol.size() == 1) return p == pol[0];
@@ -622,8 +656,8 @@ struct convex_pol {
 		if (l == pol.size()) return false;
 		return !ccw(p, pol[l], pol[l-1]);
 	}
-    	// ponto extremo em relacao a cmp(p, q) = p mais extremo q
-    	// (copiado de https://github.com/gustavoM32/caderno-zika)
+	// ponto extremo em relacao a cmp(p, q) = p mais extremo q
+	// (copiado de https://github.com/gustavoM32/caderno-zika)
 	int extreme(const function<bool(pt, pt)>& cmp) {
 		int n = pol.size();
 		auto extr = [&](int i, bool& cur_dir) {
@@ -656,7 +690,7 @@ struct convex_pol {
 };
 
 bool operator <(const line& a, const line& b) { // comparador pra reta
-    	// assume que as retas tem p < q
+	// assume que as retas tem p < q
 	pt v1 = a.q - a.p, v2 = b.q - b.p;
 	bool b1 = compare_angle(v1, v2), b2 = compare_angle(v2, v1);
 	if (b1 or b2) return b1;
@@ -669,7 +703,7 @@ bool operator ==(const line& a, const line& b) {
 // comparador pro set pra fazer sweep line com segmentos
 struct cmp_sweepline {
 	bool operator () (const line& a, const line& b) const {
-    		// assume que os segmentos tem p < q
+		// assume que os segmentos tem p < q
 		if (a.p == b.p) return ccw(a.p, a.q, b.q);
 		if (a.p.x != a.q.x and (b.p.x == b.q.x or a.p.x < b.p.x))
 			return ccw(a.p, a.q, b.p);
@@ -714,7 +748,7 @@ bool simple(vector<pt> v) {
 		seg.push_back(line(at, nxt));
 		w.push_back({at, {0, i}});
 		w.push_back({nxt, {1, i}});
-    		// casos degenerados estranhos
+		// casos degenerados estranhos
 		if (isinseg(v[(i+2)%v.size()], line(at, nxt))) return 0;
 		if (isinseg(v[(i+v.size()-1)%v.size()], line(at, nxt))) return 0;
 	}
@@ -763,7 +797,7 @@ template<int p> struct mod_int {
 		return ret;
 	}
 	ll inv(ll b) { return expo(b, p-2); }
-    
+
 	using m = mod_int;
 	int v;
 	mod_int() : v(0) {}
@@ -797,14 +831,14 @@ template<int p> struct mod_int {
 			e = -e;
 		}
 		v = expo(v, e);
-    		// possivel otimizacao:
-    		// cuidado com 0^0
-    		// v = expo(v, e%(p-1)); 
+		// possivel otimizacao:
+		// cuidado com 0^0
+		// v = expo(v, e%(p-1)); 
 		return *this;
 	}
 	bool operator ==(const m& a) { return v == a.v; }
 	bool operator !=(const m& a) { return v != a.v; }
-    
+
 	friend istream& operator >>(istream& in, m& a) {
 		ll val; in >> val;
 		a = m(val);
@@ -838,7 +872,7 @@ template<typename T> tuple<T, T, T> ext_gcd(T a, T b) {
 
 template<typename T = ll> struct crt {
 	T a, m;
-    
+
 	crt() : a(0), m(1) {}
 	crt(T a_, T m_) : a(a_), m(m_) {}
 	crt operator * (crt C) {
@@ -852,41 +886,6 @@ template<typename T = ll> struct crt {
 };
 \end{minted}
 
-\subsection{Combinatorics}
-\begin{minted}{cpp}
-
-const int maxn = 1e6;
-vector<ll> fact(maxn+1), ifact(maxn+1);
-
-ll fastexp(ll b, ll e){
-    ll res = 1;
-    while(e){
-        if(e&1) res = (res * b)%mod;
-        b = (b * b)%mod;
-        e/=2;
-    }
-    return res;
-}
-
-ll inv(ll x){
-    return fastexp(x, mod-2);
-}
-
-ll choose(ll a, ll b){
-    if(a < b) return 0;
-    return fact[a] * ifact[b] %mod * ifact[a-b] %mod;    
-}
-
-void build(){
-    
-    fact[0] = 1;
-    for(int i = 1; i <= maxn; i++) fact[i] = (fact[i-1] * i)%mod;
-    ifact[maxn] = inv(fact[maxn]);
-    for(int i = maxn-1; i >= 0; i--) ifact[i] = (ifact[i+1] * (i+1))%mod;
-    
-}
-\end{minted}
-
 \subsection{Crivo + Fatoração}
 \begin{minted}{cpp}
 struct Sieve{
@@ -896,10 +895,10 @@ struct Sieve{
         this->maxn = n;
         is_prime.assign(n+1, 1);
         min_div.resize(n+1);
-    
+
         for(int i = 0; i <= n; i++)
             min_div[i] = i;
-    
+
         is_prime[0] = is_prime[1] = 0;
         for (int i = 2; i <= n; i++) {
             if (is_prime[i] && (long long)i * i <= n) {
@@ -910,7 +909,7 @@ struct Sieve{
             }
         }
     }
-    
+
     vector<pair<int,int>> factorize(int n){
         assert(n <= maxn);
         vector <pair<int,int>> fact;
@@ -982,8 +981,8 @@ struct FFT{
     typedef vector<double> vd;
     typedef vector<long long int> vl;
     typedef vector<int> vi;
-     
-        /*
+ 
+    /*
         * Author: Ludo Pulles, chilli, Simon Lindholm
         * Date: 2019-01-09
         * License: CC0
@@ -1016,14 +1015,14 @@ struct FFT{
         for(int i = 0; i < n; i++)  if (i < rev[i]) swap(a[i], a[rev[i]]);
         for (int k = 1; k < n; k *= 2)
             for (int i = 0; i < n; i += 2 * k) for(int j = 0; j < k; j++) {
-                    // C z = rt[j+k] * a[i+j+k]; // (25% faster if hand-rolled)  /// include-line
+                // C z = rt[j+k] * a[i+j+k]; // (25% faster if hand-rolled)  /// include-line
                 auto x = (double *)&rt[j+k], y = (double *)&a[i+j+k];        /// exclude-line
                 C z(x[0]*y[0] - x[1]*y[1], x[0]*y[1] + x[1]*y[0]);           /// exclude-line
                 a[i + j + k] = a[i + j] - z;
                 a[i + j] += z;
             }
     }
-        
+    
     vd conv(const vd& a, const vd& b) {
         if (a.empty() || b.empty()) return {};
         vd res(a.size() + b.size() - 1);
@@ -1038,7 +1037,7 @@ struct FFT{
         for(int i = 0; i < res.size(); i++) res[i] = imag(out[i]) / (4 * n);
         return res;
     }
-    
+
     vl conv(const vl& a, const vl& b) {
         if (a.empty() || b.empty()) return {};
         vd res(a.size() + b.size() - 1);
@@ -1055,8 +1054,8 @@ struct FFT{
         for(int i = 0; i < res.size(); i++) r[i] = (ll)(res[i]+.5);
         return r;
     }
-     
-        /*
+ 
+    /*
         * Author: chilli
         * Date: 2019-04-25
         * License: CC0
@@ -1069,7 +1068,7 @@ struct FFT{
         * Details: An in-depth examination of precision for both FFT and FFTMod can be found
         * here (https://github.com/simonlindholm/fft-precision/blob/master/fft-precision.md)
     */
-        // multiplica dois polinomios modulo algum inteiro
+    // multiplica dois polinomios modulo algum inteiro
     template<int M> vl convMod(const vl &a, const vl &b) {
         if (a.empty() || b.empty()) return {};
         vl res(a.size() + b.size() - 1);
@@ -1091,8 +1090,8 @@ struct FFT{
         }
         return res;
     }
-     
-    
+ 
+
 };
 \end{minted}
 
@@ -1105,7 +1104,7 @@ pair<int, vector<T>> gauss(vector<vector<T>> a, vector<T> b) {
 	const double eps = 1e-6;
 	int n = a.size(), m = a[0].size();
 	for (int i = 0; i < n; i++) a[i].push_back(b[i]);
-    
+
 	vector<int> where(m, -1);
 	for (int col = 0, row = 0; col < m and row < n; col++) {
 		int sel = row;
@@ -1115,7 +1114,7 @@ pair<int, vector<T>> gauss(vector<vector<T>> a, vector<T> b) {
 		for (int i = col; i <= m; i++)
 			swap(a[sel][i], a[row][i]);
 		where[col] = row;
-    
+
 		for (int i = 0; i < n; i++) if (i != row) {
 			T c = a[i][col] / a[row][col];
 			for (int j = col; j <= m; j++)
@@ -1123,7 +1122,7 @@ pair<int, vector<T>> gauss(vector<vector<T>> a, vector<T> b) {
 		}
 		row++;
 	}
-    
+
 	vector<T> ans(m, 0);
 	for (int i = 0; i < m; i++) if (where[i] != -1)
 		ans[i] = a[where[i]][m] / a[where[i]][i];
@@ -1134,10 +1133,46 @@ pair<int, vector<T>> gauss(vector<vector<T>> a, vector<T> b) {
 		if (abs(sum - a[i][m]) > eps)
 			return pair(0, vector<T>());
 	}
-    
+
 	for (int i = 0; i < m; i++) if (where[i] == -1)
 		return pair(INF, ans);
 	return pair(1, ans);
+}
+\end{minted}
+
+\subsection{GCD convolution}
+\begin{minted}{cpp}
+vector<int> PrimeEnumerate(int n) {
+	vector<int> P; vector<bool> B(n + 1, 1);
+	for (int i = 2; i <= n; i++) {
+		if (B[i]) P.push_back(i);
+		for (int j : P) { if (i * j > n) break; B[i * j] = 0; if (i % j == 0) break; }
+	}
+	return P;
+}
+template<typename T>
+void MultipleZetaTransform(vector<T>& v) {
+	const int n = (int)v.size() - 1;
+	for (int p : PrimeEnumerate(n)) {
+		for (int i = n / p; i; i--)
+			v[i] += v[i * p];
+	}
+}
+template<typename T>
+void MultipleMobiusTransform(vector<T>& v) {
+	const int n = (int)v.size() - 1;
+	for (int p : PrimeEnumerate(n)) {
+		for (int i = 1; i * p <= n; i++)
+			v[i] -= v[i * p];
+	}
+}
+template<typename T>
+vector<T> GCDConvolution(vector<T> A, vector<T> B) {
+    MultipleZetaTransform(A);
+    MultipleZetaTransform(B);
+    for (int i = 0; i < A.size(); i++) A[i] *= B[i];
+    MultipleMobiusTransform(A);
+    return A;
 }
 \end{minted}
 
@@ -1178,10 +1213,10 @@ vd interpolate(vd x, vd y, int n) {
 
 struct Interpolation
 {
-        
-        //naive implementation O(n^2)
-    void interpolate(vector<pair<ll,ll>> &P, int x){
     
+    //naive implementation O(n^2)
+    void interpolate(vector<pair<ll,ll>> &P, int x){
+
         ll ans = 0;
         for(int i = 0; i < P.size(); i++){
             ll li = 1;
@@ -1194,9 +1229,9 @@ struct Interpolation
             ans += li;
         }
         return ans;
-    
+
     }
-    
+
 };
 \end{minted}
 
@@ -1209,13 +1244,13 @@ template<typename T> struct Matriz
     int n, m;
     vector<vector<T>> mat;
     const int MOD = 1e9+7;
-        
-    Matriz(int n, int m) : n(n), m(m), mat(n, vector<T> (m)) {}
     
+    Matriz(int n, int m) : n(n), m(m), mat(n, vector<T> (m)) {}
+
     T* operator[](int i){
         return mat[i].data();
     }
-    
+
     Matriz<T> operator*(Matriz<T> &oth){
         assert(m == oth.n);
         Matriz<T> res(n, oth.m);
@@ -1229,7 +1264,7 @@ template<typename T> struct Matriz
         }
         return res;
     }
-    
+
 	Matriz<T> operator^(long long e){
         assert(n == m);
 		Matriz<T> R(n, n), b = *this;
@@ -1251,8 +1286,8 @@ using M = Matriz<int>;
 {
     typedef vector<long long int> vl;
     typedef vector<int> vi;
-    
-        /*
+
+    /*
     * Author: chilli
     * Date: 2019-04-16
     * License: CC0
@@ -1269,8 +1304,8 @@ using M = Matriz<int>;
     * Status: stress-tested
     */
     const ll mod = (119 << 23) + 1, root = 62; // = 998244353
-        // For p < 2^30 there is also e.g. 5 << 25, 7 << 26, 479 << 21
-        // and 483 << 21 (same root). The last two are > 10^9.
+    // For p < 2^30 there is also e.g. 5 << 25, 7 << 26, 479 << 21
+    // and 483 << 21 (same root). The last two are > 10^9.
     void ntt(vl &a) {
         int n = a.size(), L = 31 - __builtin_clz(n);
         static vl rt(2, 1);
@@ -1330,12 +1365,12 @@ bool prime(ll n) {
 	if (n < 2) return 0;
 	if (n <= 3) return 1;
 	if (n % 2 == 0) return 0;
-    
+
 	ll r = __builtin_ctzll(n - 1), d = n >> r;
 	for (int a : {2, 325, 9375, 28178, 450775, 9780504, 1795265022}) {
 		ll x = pow(a, d, n);
 		if (x == 1 or x == n - 1 or a % n == 0) continue;
-    		
+		
 		for (int j = 0; j < r - 1; j++) {
 			x = mul(x, x, n);
 			if (x == n - 1) break;
@@ -1348,7 +1383,7 @@ bool prime(ll n) {
 ll rho(ll n) {
 	if (n == 1 or prime(n)) return n;
 	auto f = [n](ll x) {return mul(x, x, n) + 1;};
-    
+
 	ll x = 0, y = 0, t = 30, prd = 2, x0 = 1, q;
 	while (t % 40 != 0 or gcd(prd, n) == 1) {
 		if (x==y) x = ++x0, y = f(x);
@@ -1366,6 +1401,47 @@ vector<ll> fact(ll n) {
 	vector<ll> l = fact(d), r = fact(n / d);
 	l.insert(l.end(), r.begin(), r.end());
 	return l;
+}
+\end{minted}
+
+\subsection{segmented sieve}
+\begin{minted}{cpp}
+/**
+ * Author: Jakob Kogler, chilli, pajenegod
+ * Date: 2020-04-12
+ * License: CC0
+ * Description: Prime sieve for generating all primes smaller than S.
+ * Status: Stress-tested
+ * Time: S=1e9 $\approx$ 1.5s
+ * Details: Despite its n log log n complexity, segmented sieve is still faster
+ * than other options, including bitset sieves and linear sieves. This is
+ * primarily due to its low memory usage, which reduces cache misses. This
+ * implementation skips even numbers.
+ *
+ * Benchmark can be found here: https://ideone.com/e7TbX4
+ *
+ * The line `for (int i=idx; i<S+L; idx = (i += p))` is done on purpose for performance reasons.
+ * Se https://github.com/kth-competitive-programming/kactl/pull/166#discussion_r408354338
+ */
+const int LIM = 1e6;
+bitset<LIM> isPrime;
+vector<int> eratosthenes() {
+	const int S = round(sqrt(LIM)), R = LIM/2;
+	vector<int> pr = {2}, sieve(S+1); pr.reserve(int(LIM/log(LIM)*1.1));
+	vector<pair<int,int>> cp;
+	for (int i = 3; i <= S; i += 2) if (!sieve[i]) {
+		cp.push_back({i, i*i/2});
+		for (int j = i*i; j <= S; j += 2*i) sieve[j] = 1;
+	}
+	for (int L = 1; L <= R; L += S) {
+		array<bool, S> block{};
+		for (auto &[p, idx] : cp)
+			for (int i=idx; i < S+L; idx = (i+=p)) block[i-L] = 1;
+		for (int i = 0; i < min(S, R - L); ++i)
+			if (!block[i]) pr.push_back((L + i)*2 + 1);
+	}
+	for (int i : pr) isPrime[i] = 1;
+	return pr;
 }
 \end{minted}
 
@@ -1389,24 +1465,24 @@ vector<ll> fact(ll n) {
 //Status: tested - https://cses.fi/problemset/result/8784228/
 
 struct SAT2{
-    
+
     int n, cont;
     vector<char> resp;
     vector<int> marc, ord, comp;
     vector<vector<int>> grafo, rgrafo,scc;
-    
+
     SAT2(int n) :  n(n), marc(2*n+2), grafo(2*n+2), rgrafo(2*n+2), comp(2*n+2), resp(2*n + 2){}
-    
+
     void add_edge(int sx, int x, int sy, int y){ // '+' = 1, '-' = 0
-            
+        
         grafo[y+n*(!sy)].push_back(x+n*sx); //~y -> x
         grafo[x+n*(!sx)].push_back(y+n*sy); //~x -> y
-    
+
         rgrafo[x+n*sx].push_back(y+n*(!sy)); 
         rgrafo[y+n*sy].push_back(x+n*(!sx));
-            
+        
     }
-    
+
     void dfs1(int v){   
         marc[v] = 1;
         for(auto viz : grafo[v]){
@@ -1414,38 +1490,38 @@ struct SAT2{
         }
         ord.push_back(v);
     }
-    
+
     void dfs2(int v, int c){
         comp[v] = c;
         for(auto viz : rgrafo[v]){
             if(!comp[viz]) dfs2(viz, c);
         } 
     }
-    
+
     void build(){
-    
+
         cont = 0;
-    
+
         for(int i = 1; i <=2*n ;i++){
             if(!marc[i]) dfs1(i);
         }
-    
+
         reverse(ord.begin(), ord.end());
-    
+
         for(int v : ord){
             if(!comp[v]){
                 dfs2(v, ++cont);
             }
         }
-    
+
         bool can = true;
         for(int i= 1; i <=n; i++){
             if(comp[i] == comp[i+n]) can = false;
             resp[i]=comp[i]<comp[i+n]?'+':'-'; 
-                //positiva é comp[i+n], está escolhendo a variavel que não
-                //tem um caminho de implicação que resulta em impossivel
+            //positiva é comp[i+n], está escolhendo a variavel que não
+            //tem um caminho de implicação que resulta em impossivel
         }
-    
+
         if(can){
             for(int i = 1; i <=n; i++){
                 cout << resp[i] << " ";
@@ -1454,7 +1530,7 @@ struct SAT2{
             cout << "IMPOSSIBLE" << endl;
         }
     }
-    
+
 };
 \end{minted}
 
@@ -1473,17 +1549,17 @@ struct Ford
     int n, m;
     vector<Edge> edges;
     vector<ll> dist;
-    
+
     Ford(int n, int m) : n(n), m(m), dist(n+1, INFL) {}
-    
+
     void add_edge(int v, int u, int cost){
         edges.emplace_back(v,u,cost);
     }
-    
+
     ll bellman(int s, int t){
         dist[s] = 0;
-    
-            //Encontrar distancias
+
+        //Encontrar distancias
         for(int k=1; k < n; k++){
             for(Edge e : edges){
                 int a = e.v, b = e.u, c = e.cost;
@@ -1492,39 +1568,20 @@ struct Ford
                 }
             }
         }
-    
-            //Se conseguirmos melhorar após n-1, significa que existe ciclo negativo
+
+        //Se conseguirmos melhorar após n-1, significa que existe ciclo negativo
         for(Edge e : edges){
             int a = e.v, b =e.u, c=e.cost;
             if(dist[a] != MINFL && dist[b] > dist[a]+c){
                 return -1;
             }
         }
-    
+
         return dist[t];
-            
+        
     }
-    
+
 };
-\end{minted}
-
-\subsection{BFS}
-\begin{minted}{cpp}
-queue<int> q;
-vector<bool> used(n);
-
-q.push(s);
-used[s] = true;
-while (!q.empty()) {
-    int v = q.front();
-    q.pop();
-    for (int u : adj[v]) {
-        if (!used[u]) {
-            used[u] = true;
-            q.push(u);
-        }
-    }
-}
 \end{minted}
 
 \subsection{Bridge Tree}
@@ -1534,25 +1591,25 @@ while (!q.empty()) {
 //onde cada aresta é formada por uma ponte do grafo original.
 
 struct BridgeTree{
-    
+
     int n;
     int count = 0;
     vector<int> marc, tin, low, is_bridge;
     vector<vector<pair<int,int>>> grafo;
     vector<vector<int>> BT;
     vector<pair<int,int>> edge;
-    
+
     vector<int> BTcomponent;
-    
+
     BridgeTree(int n) : n(n), grafo(n+1), marc(n+1), tin(n+1), low(n+1), BTcomponent(n+1){}
-    
+
     void add_edge(int a, int b){
         grafo[a].push_back({b, edge.size()});
         grafo[b].push_back({a, edge.size()});
         edge.push_back({a,b});
         is_bridge.push_back(0);
     }
-    
+
     void dfs(int x, int p){
         marc[x] = 1;
         tin[x] = low[x] = ++count;
@@ -1571,13 +1628,13 @@ struct BridgeTree{
             }
         }
     }
-    
+
     void find_bridges(){
         for(ll i=1; i<=n; i++){
             if(!marc[i]) dfs(i,0);
         }   
     }
-    
+
     void BTdfs(int v, int comp){
         BTcomponent[v] = comp;
         for(auto [viz, e] : grafo[v]){
@@ -1585,15 +1642,15 @@ struct BridgeTree{
             BTdfs(viz, comp);
         }
     }
-    
+
     void BrigeTree(){
         int comp = 0;
         for(int i = 1; i <= n; i++){
             if(!BTcomponent[i]) BTdfs(i, ++comp);
         }
-    
+
         BT.resize(comp+1);
-    
+
         for(int i = 1; i <= n; i++){
             for(auto [j,e] : grafo[i]){
                 if(is_bridge[e]){
@@ -1650,56 +1707,6 @@ struct Graph{
 };
 \end{minted}
 
-\subsection{Dijkstra - O(nlog)}
-\begin{minted}{cpp}
-//Algoritmo de Caminho mínimo para grafos compesos não negativos. Um para todos
-//Complexidade: O(n log n) onde n é o número de vértices do grafo.
-
-struct Dykstra
-{
-    ll INF = 1e18;
-    
-    int n;
-    vector<ll> dist;
-    vector<vector<pair<int,int>>> g;
-    
-    Dykstra(int n) : n(n), dist(n+1,INF), g(n+1) {}
-    
-    void addEdge(ll v, ll u, ll p){
-        g[v].push_back({u,p});
-        g[u].push_back({v,p});
-    }
-    
-    void run(ll v){
-    
-        priority_queue<pair<ll,ll>, vector<pair<ll,ll>>, 
-        greater<pair<ll,ll>>> fila;
-    
-        fila.push({0,v});
-            
-        while (!fila.empty())
-        {      
-            ll vert = fila.top().second;
-            ll price = fila.top().first;
-            fila.pop();
-    
-            if(dist[vert] != INF) continue;
-    
-            dist[vert] = price;
-    
-            for(auto viz : g[vert]){
-                ll nxt = viz.first;
-                ll cost = viz.second;
-                fila.push({price + cost, nxt});
-            }
-        }
-    
-    }
-    
-};
-
-\end{minted}
-
 \subsection{Dinic}
 \begin{minted}{cpp}
 // Grafo com capacidades 1: O(min(M*sqrt(M), M*N^(2/3)))
@@ -1712,11 +1719,11 @@ struct Dinic{
     vector<vector<int> > vec;
     vector<int> lv, pos;
     queue<int> fila;
-    
+
     Dinic() {}
-     
+ 
     Dinic(int n) : vec(n), lv(n), pos(n) {}
-     
+ 
     void add_edge(int v, int u, T cap) {
         edges.push_back({v, u, cap, 0});
         edges.push_back({u, v, 0, 0});
@@ -1724,7 +1731,7 @@ struct Dinic{
         vec[u].push_back(m+1);
         m+=2;
     }
-     
+ 
     int bfs(int t){
         while(!fila.empty()){
             int v=fila.front();
@@ -1732,47 +1739,47 @@ struct Dinic{
             for(int i:vec[v]){
                 if(edges[i].cap-edges[i].flow<1) continue;
                 if(lv[edges[i].u]!=-1) continue;
-     
+ 
                 lv[edges[i].u]=lv[v]+1;
                 fila.push(edges[i].u);
             }
         }
         return lv[t]!=-1;
     }
-     
+ 
     T dfs(int v, int t, T menor) {
         if(!menor) return 0;
         if(v==t) return menor;
-     
+ 
         for(int& j=pos[v]; j<(int)vec[v].size(); j++){
             int i=vec[v][j];
             int u=edges[i].u;
-     
+ 
             if(lv[v]+1!=lv[u] || edges[i].cap-edges[i].flow<1) continue;
-     
+ 
             T agr=dfs(u, t, min(menor, edges[i].cap-edges[i].flow));
             if(!agr) continue;
-     
+ 
             edges[i].flow+=agr;
             edges[i^1].flow-=agr;
-     
+ 
             return agr;
         }
         return 0;
     }
-     
+ 
     T max_flow(int s, int t){
         T flow=0;
         while(1){
             fill(lv.begin(), lv.end(), -1);
-     
+ 
             lv[s]=0;
             fila.push(s);
-     
+ 
             if(!bfs(t)) break;
-     
+ 
             fill(pos.begin(), pos.end(), 0);
-     
+ 
             while(T atual=dfs(s, t, INF)) flow+=atual; //remember to change INF
         }
         return flow;
@@ -1785,6 +1792,113 @@ struct Dinic{
         return resp;
     }
 };
+\end{minted}
+
+\subsection{Directed MST}
+\begin{minted}{cpp}
+const int N = 3e5 + 9;
+
+const long long inf = 1e18;
+
+template<typename T> struct PQ {
+  long long sum = 0;
+  priority_queue<T, vector<T>, greater<T>> Q;
+  void push(T x) { x.w -= sum; Q.push(x); }
+  T pop() { auto ans = Q.top(); Q.pop(); ans.w += sum; return ans; }
+  int size() { return Q.size(); }
+  void add(long long x) { sum += x; }
+  void merge(PQ &&x) {
+    if (size() < x.size()) swap(sum, x.sum), swap(Q, x.Q);
+    while (x.size()) {
+      auto tmp = x.pop();
+      tmp.w -= sum;
+      Q.push(tmp);
+    }
+  }
+};
+struct edge {
+  int u, v; long long w;
+  bool operator > (const edge &rhs) const { return w > rhs.w; }
+};
+struct DSU {
+  vector<int> par;
+  DSU (int n) : par(n, -1) {}
+  int root(int i) { return par[i] < 0 ? i : par[i] = root(par[i]); }
+  void set_par(int c, int p) { par[c] = p; }
+};
+// returns parents of each vertex
+// each edge should be distinct
+// it assumes that a solution exists (all vertices are reachable from root)
+// 0 indexed
+// Takes ~300ms for n = 2e5
+vector<int> DMST(int n, int root, const vector<edge> &edges) {
+  vector<int> u(2 * n - 1, -1), par(2 * n - 1, -1);
+  edge par_edge[2 * n - 1];
+  vector<int> child[2 * n - 1];
+
+  PQ<edge> Q[2 * n - 1];
+  for (auto e : edges) Q[e.v].push(e);
+  for (int i = 0; i < n; i++) Q[(i + 1) % n].push({i, (i + 1) % n, inf});
+
+  int super = n;
+  DSU dsu(2 * n - 1);
+  int head = 0;
+  while (Q[head].size()) {
+    auto x = Q[head].pop();
+    int nxt_root = dsu.root(x.u);
+    if (nxt_root == head) continue;
+    u[head] = nxt_root;
+    par_edge[head] = x;
+    if (u[nxt_root] == -1) head = nxt_root;
+    else {
+      int j = nxt_root;
+      do {
+        Q[j].add(-par_edge[j].w);
+        Q[super].merge(move(Q[j]));
+        assert(u[j] != -1);
+        child[super].push_back(j);
+        j = dsu.root(u[j]);
+      } while (j != nxt_root);
+      for (auto u : child[super]) par[u] = super, dsu.set_par(u, super);
+      head = super++;
+    }
+  }
+  vector<int> res(2 * n - 1, -1);
+  queue<int> q; q.push(root);
+  while (q.size()) {
+    int u = q.front();
+    q.pop();
+    while (par[u] != -1) {
+      for (auto v : child[par[u]]) {
+        if (v != u) {
+          res[par_edge[v].v] = par_edge[v].u;
+          q.push(par_edge[v].v);
+          par[v] = -1;
+        }
+      }
+      u = par[u];
+    }
+  }
+  res[root] = root; res.resize(n);
+  return res;
+}
+int32_t main() {
+  ios_base::sync_with_stdio(0);
+  cin.tie(0);
+  int n, m, root; cin >> n >> m >> root;
+  vector<edge> edges(m);
+  for (auto &e : edges) cin >> e.u >> e.v >> e.w;
+  auto res = DMST(n, root, edges);
+
+  unordered_map<int, int> W[n];
+  for (auto u : edges) W[u.v][u.u] = u.w;
+
+  long long ans = 0;
+  for (int i = 0; i < n; i++) if (i != root) ans += W[i][res[i]];
+  cout << ans << '\n';
+  for (auto x : res) cout << x << ' '; cout << '\n';
+  return 0;
+}
 \end{minted}
 
 \subsection{Euler Path}
@@ -1840,26 +1954,56 @@ vector<int> eulerWalk(vector<vector<pii>>& gr, int nedges, int src=0) {
 
 struct FloydWarshall
 {   
-    
+
     const int MAXN = 500;
     cont ll INF = 1e18;
     vector dist(maxn, vector<ll>(maxn, INF));
-    
+
     void floydWarshall( ){
-    
+
         for(int i = 0; i < MAXN; i++)dist[i][i] = 0;
-    
+
         for(int k = 1; k < MAXN; k++)
             for(int i = 1; i < MAXN; i++)
                 for(int j = 1; j < MAXN; j++){
                     if(dist[i][k] < INF && dist[k][j] < INF)
                         dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
                 }
-                
+            
     }
-    
-    
+
+
 };
+\end{minted}
+
+\subsection{Games on arbitrary graphs}
+\begin{minted}{cpp}
+vector<vector<int>> adj_rev;
+
+vector<bool> winning;
+vector<bool> losing;
+vector<bool> visited;
+vector<int> degree;
+
+void dfs(int v) {
+    visited[v] = true;
+    for (int u : adj_rev[v]) {
+        if (!visited[u]) {
+            if (losing[v])
+                winning[u] = true;
+            else if (--degree[u] == 0)
+                losing[u] = true;
+            else
+                continue;
+            dfs(u);
+        }
+    }
+}
+
+for (int i = 0; i < n; i++) {
+    if ((winning[i] || losing[i]) && !visited[i])
+        dfs(i);
+}
 \end{minted}
 
 \subsection{Hopcroft Karp}
@@ -1878,19 +2022,19 @@ struct FloydWarshall
  * Time: O(\sqrt{V}E)
  */
 struct Hop{
-    
+
     using vi = vector<int>;
-    
+
     int n, m;
     vector<vi> g;
     vi btoa;
-    
+
     Hop(int n, int m) : n(n), m(m), g(n+1), btoa(m+1, -1) {}
-    
+
     void add_edge(int a, int b){
         g[a].push_back(b);
     }
-    
+
     bool dfs(int a, int L, vi &A, vi &B) { ///start-hash
         if (A[a] != L) return 0;
         A[a] = -1;
@@ -1901,7 +2045,7 @@ struct Hop{
         }
         return 0;
     } ///end-hash
-    
+
     int solve() { ///start-hash
         int res = 0;
         vector<int> A(g.size()), B(int(btoa.size())), cur, next;
@@ -1945,9 +2089,9 @@ struct Hop{
 
 template<class cost_t> pair<cost_t, vector<int>> hungarian(const vector<vector<cost_t>> &a){
     int n = a.size() + 1, m = a[0].size() + 1;
-        
-    cost_t INF = 1e9; //Change here
     
+    cost_t INF = 1e9; //Change here
+
     vector<int> p(m), ans(n - 1);
     vector<cost_t> u(n), v(m); 
 	for(int i = 1; i < n; ++i) { 
@@ -1984,18 +2128,18 @@ template<class cost_t> pair<cost_t, vector<int>> hungarian(const vector<vector<c
 //Complexidade: O(n+m)
 
 struct Kosa{
-    
+
     int n, cont;
     vector<int> marc, ord, comp;
     vector<vector<int>> grafo, rgrafo,scc;
-    
+
     Kosa(int n) : n(n), marc(n+1), grafo(n+1), rgrafo(n+1), comp(n+1), scc(n+1) {} 
-    
+
     void add_edge(int a, int b){
         grafo[a].push_back(b);
         rgrafo[b].push_back(a);
     }
-    
+
     void dfs1(int v){   
         marc[v] = 1;
         for(auto viz : grafo[v]){
@@ -2003,39 +2147,39 @@ struct Kosa{
         }
         ord.push_back(v);
     }
-    
+
     void dfs2(int v, int c){
         comp[v] = c;
         for(auto viz : rgrafo[v]){
             if(!comp[viz]) dfs2(viz, c);
         } 
     }
-    
+
     void build(){
-    
+
         cont = 0;
-    
+
         for(int i = 1; i <=n ;i++){
             if(!marc[i]) dfs1(i);
         }
-    
+
         reverse(ord.begin(), ord.end());
-    
+
         for(int v : ord){
             if(!comp[v]){
                 dfs2(v, ++cont);
             }
         }
-    
+
         for(int i = 1; i <=n; i++){
             for(int j : grafo[i]){
                 if(comp[i] == comp[j]) continue;
                 scc[comp[i]].push_back(comp[j]);
             }
         }
-    
+
     }
-    
+
 };
 \end{minted}
 
@@ -2048,11 +2192,11 @@ struct bm_t
     vector<vector<int>> grafo;
     vector<int> match, seen;
     bm_t(int a, int b) : N(a), M(a+b), T(0), grafo(M),match(M, -1), seen(M, -1) {}
-        
+    
     void add_edge(int a, int b){
         grafo[a].push_back(b + N);
     }
-    
+
     bool dfs(int cur){
         if(seen[cur] == T) return false;
         seen[cur] = T;
@@ -2068,7 +2212,7 @@ struct bm_t
         }
         return false;
     }
-    
+
     int solve(){
         int res = 0;
         for(int cur = 1; cur;){
@@ -2079,7 +2223,7 @@ struct bm_t
         }
         return res;
     }
-    
+
 };
 \end{minted}
 
@@ -2096,19 +2240,19 @@ template<class flow_t, class cost_t> struct min_cost {
         max();
     int n, m{}; vector<int> ptr, nxt, zu;
     vector<flow_t> capa; vector<cost_t> cost;
-    
+
     min_cost(int N) : n(N),ptr(n,-1),dist(n),vis(n),pari(n) {}
-    
+
     void add_edge(int u, int v, flow_t w, cost_t c) {
         nxt.push_back(ptr[u]); zu.push_back(v); capa.push_back(w);
         cost.push_back(c); ptr[u] = m++;
         nxt.push_back(ptr[v]); zu.push_back(u); capa.push_back(0);
         cost.push_back(-c); ptr[v] = m++;
     }
-    
+
     vector<cost_t> pot, dist; vector<bool> vis; vector<int> pari;
     vector<flow_t> flows; vector<cost_t> slopes;
-        // You can pass t = =1 to find a shortest
+    // You can pass t = =1 to find a shortest
     void shortest(int s, int t) {//path to each vertex . // hash=1
         using E = pair<cost_t, int>;
         priority_queue<E, vector<E>, greater<E>> que;
@@ -2125,7 +2269,7 @@ template<class flow_t, class cost_t> struct min_cost {
             }
         }
     }
-         // hash=1 = 89f16a
+     // hash=1 = 89f16a
     auto run(int s, int t, flow_t limFlow = FLOW_INF) { // hash=2
         pot.assign(n, 0); flows = {0}; slopes.clear();
         while (true) {
@@ -2158,20 +2302,20 @@ template<class flow_t, class cost_t> struct min_cost {
 \begin{minted}{cpp}
 //Complexidade: O(V + E), onde V é o número de vértices e E é o número de arestas.
 struct ArticPont{
-    
+
     int n;
     int count = 0;
     vector<int> marc, tin, low, artic;
     vector<vector<int>> grafo;
     vector<pair<int,int>> bridges;
-    
+
     ArticPont(int n) : n(n), grafo(n+1), marc(n+1), tin(n+1), low(n+1), artic(n+1) {}
-    
+
     void add_edge(int a, int b){
         grafo[a].push_back(b);
         grafo[b].push_back(a);
     }
-    
+
     void dfs(ll x, ll p){
         marc[x] = 1;
         tin[x] = low[x] = ++count;
@@ -2192,55 +2336,13 @@ struct ArticPont{
         }
         if(!p && children>1) artic[x] = 1;
     }
-    
+
     void find_brig_and_artc(){
         for(ll i=1; i<=n; i++){
             if(!marc[i]) dfs(i,0);
         }   
     }
-    
-};
-\end{minted}
 
-\subsection{Topo Sort}
-\begin{minted}{cpp}
-//It returns a vector with the vertices in topological order.
-//Complexity: O(n + m), where n is the number of vertices and m is the number of edges.
-struct TopoSort
-{
-    int n;
-    vector<int> grau;
-    vector<vector<int>> grafo;
-    
-    TopoSort(int n): n(n), grau(n+1), grafo(n+1){}
-        
-    void add_edge(int a, int b){
-        grau[b]++;
-        grafo[a].push_back(b);
-    }
-        
-    vector<int> top_sort(){
-        vector<int> resp;
-        queue<int> fila;
-        for(int i=1; i<=n;i++){
-            if(!grau[i])fila.push(i);
-        }
-        while (!fila.empty())
-        {
-            int u = fila.front();
-            resp.push_back(u);
-            fila.pop();
-            for(int viz : grafo[u]){
-                grau[viz]--;
-                if(!grau[viz])fila.push(viz);
-            }   
-        }
-        if(resp.size() < n){
-            return {};
-        }else{
-            return resp;
-        }
-    }
 };
 \end{minted}
 
@@ -2259,17 +2361,17 @@ struct TopoSort
 
 ll solve(string &s, int i, int tight, int last, int started){ 
     if(i==(int)s.size()) return 1;
-    
+
     if(!tight && dp[i][last][started]!=-1) return dp[i][last][started];
-    
+
     int lim=(tight?s[i]-'0':9);
-    
+
     ll resp=0;
     for(int j=0; j<=lim; j++){
         if(started && j==last) continue;
         resp+=solve(s, i+1, tight&(j==lim), j, (started|j)>0);
     }
-    
+
     if(!tight) return dp[i][last][started]=resp;
     return resp;
 }
@@ -2278,11 +2380,11 @@ ll func(ll a, ll b){
     string agr1=to_string(a-1);
     memset(dp, -1, sizeof(dp));
     ll ans1 = solve(agr1, 0, 1, 10, 0);
-    
+
     string agr2=to_string(b);
     memset(dp, -1, sizeof(dp));
     ll ans2 = solve(agr2, 0, 1, 10, 0);
-        
+    
     return ans2-ans1;
 }
 \end{minted}
@@ -2341,7 +2443,7 @@ Complexity: O(3^n)
 for (int mask = 0; mask < (1 << n); mask++) {
     for (int submask = mask; submask != 0; submask = (submask - 1) & mask) {
         int subset = mask ^ submask;
-            // do whatever you need to do here
+        // do whatever you need to do here
     }
 }
 
@@ -2351,6 +2453,7 @@ for (int mask = 0; mask < (1 << n); mask++) {
 \begin{minted}{cpp}
 //Subset sum - Implementation O(n) memory and O(S * sqrt(N)) runtime
 //Uses sliding window technique to optimize the subset sum problem.
+//ITEMS NÃO PODEM TER VALOR 0
 
 vector<pair<int,int>> sack; // {item, frequency}
 vector<int> dp(S+1, 0);
@@ -2388,14 +2491,14 @@ struct Centroid{
     int n;
     vector<int> used, pai, sub;
     vector<vector<int >> vec;
-    
+
     Centroid(int n) : n(n), used(n+1), pai(n+1), sub(n+1), vec(n+1) {}
-    
+
     void add_edge(int v, int u){
         vec[v].push_back(u);
         vec[u].push_back(v);
     }
-    
+
     int dfs_sz(int x, int p=0){
         sub[x]=1;
         for(int i:vec[x]){
@@ -2404,7 +2507,7 @@ struct Centroid{
         }
         return sub[x];
     }
-    
+
     int find_c(int x, int total, int p=0){
         for(int i:vec[x]){
             if(i==p || used[i]) continue;
@@ -2412,12 +2515,12 @@ struct Centroid{
         }
         return x;
     }
-        
+    
     void build(int x=1, int p=0){
         int c=find_c(x, dfs_sz(x));
-    
-            //do something
-            
+
+        //do something
+        
         used[c]=1;
         pai[c]=p;
         for(int i:vec[c]){
@@ -2425,6 +2528,100 @@ struct Centroid{
         }
     }
 };
+\end{minted}
+
+\subsection{Dominator Tree}
+\begin{minted}{cpp}
+const int N = 2e5 + 9;
+
+vector<int> g[N];
+vector<int> t[N], rg[N], bucket[N]; //t = dominator tree of the nodes reachable from root
+int sdom[N], par[N], idom[N], dsu[N], label[N];
+int id[N], rev[N], T;
+int find_(int u, int x = 0) {
+  if(u == dsu[u]) return x ? -1 : u;
+  int v = find_(dsu[u], x+1);
+  if(v < 0)return u;
+  if(sdom[label[dsu[u]]] < sdom[label[u]]) label[u] = label[dsu[u]];
+  dsu[u] = v;
+  return x ? v : label[u];
+}
+
+void dfs(int u) {
+  T++; id[u] = T;
+  rev[T] = u; label[T] = T;
+  sdom[T] = T; dsu[T] = T;
+  for(int i = 0; i < g[u].size(); i++) {
+    int w = g[u][i];
+    if(!id[w]) dfs(w), par[id[w]] = id[u];
+    rg[id[w]].push_back(id[u]);
+  }
+}
+
+void build(int r, int n) {
+  dfs(r);
+  n = T;
+  for(int i = n; i >= 1; i--) {
+    for(int j = 0; j < rg[i].size(); j++) sdom[i] = min(sdom[i], sdom[find_(rg[i][j])]);
+    if(i > 1) bucket[sdom[i]].push_back(i);
+    for(int j = 0; j < bucket[i].size(); j++) {
+      int w = bucket[i][j];
+      int v = find_(w);
+      if(sdom[v] == sdom[w]) idom[w] = sdom[w];
+      else idom[w] = v;
+    }
+    if(i > 1) dsu[i] = par[i];
+  }
+  for(int i = 2; i <= n; i++) {
+    if(idom[i] != sdom[i]) idom[i]=idom[idom[i]];
+    t[rev[i]].push_back(rev[idom[i]]);
+    t[rev[idom[i]]].push_back(rev[i]);
+  }
+}
+
+int st[N], en[N];
+void yo(int u, int pre = 0) {
+  st[u] = ++T;
+  for(auto v: t[u]) {
+    if(v == pre) continue;
+    yo(v, u);
+  }
+  en[u] = T;
+}
+
+int main() {
+  ios_base::sync_with_stdio(0);
+  cin.tie(0);
+
+  int n, m;
+  while(cin >> n >> m) {
+    vector<pair<int, int>> ed;
+    for(int i = 0; i < m; i++) {
+      int u, v;
+      cin >> u >> v;
+      g[u].push_back(v);
+      ed.push_back({u, v});
+    }
+    build(1, n);
+    T = 0;
+    yo(1);
+    vector<int> ans;
+    for(int i = 0; i < m; i++) {
+      int u = ed[i].first, v = ed[i].second;
+      if(st[u] && !(st[v] <= st[u] && en[u] <= en[v])) ans.push_back(i);
+    }
+    yo(1);
+    cout << ans.size() << '\n';
+    for(auto x: ans) cout << x + 1 << ' ';
+    cout << '\n';
+    T = 0;
+    for(int i = 0; i <= n; i++) {
+      t[i].clear(), g[i].clear(), rg[i].clear(), bucket[i].clear();
+      sdom[i] = par[i] = idom[i] = dsu[i] = label[i] = id[i] = rev[i] = st[i] = en[i] = 0;
+    }
+  }
+  return 0;
+}
 \end{minted}
 
 \subsection{Heavy Light Decomposition}
@@ -2468,8 +2665,8 @@ template<int SZ, bool VALS_IN_EDGES> struct HLD {
 			if (depth[root[x]] > depth[root[y]]) swap(x,y);
 		return depth[x] < depth[y] ? x : y;
 	}
-    	/// int dist(int x, int y) { // # edges on path
-    	/// 	return depth[x]+depth[y]-2*depth[lca(x,y)]; }
+	/// int dist(int x, int y) { // # edges on path
+	/// 	return depth[x]+depth[y]-2*depth[lca(x,y)]; }
 	LazySeg<ll,SZ> tree; // segtree for sum
 	template <class BinaryOp>
 	void processPath(int x, int y, BinaryOp op) {
@@ -2504,9 +2701,9 @@ struct tree {
 	int n;
 	vector<vector<int>> g;
 	vector<int> sz, cs;
-    
+
 	tree(int n_) : n(n_), g(n_), sz(n_) {}
-    
+
 	void dfs_centroid(int v, int p) {
 		sz[v] = 1;
 		bool cent = true;
@@ -2533,36 +2730,43 @@ struct tree {
 };
 \end{minted}
 
-\subsection{LCA Path query}
+\subsection{LCA Path SUM}
 \begin{minted}{cpp}
+/*
+    LCA com query de soma em paths
+    Para raiz diferente te '1', trocar no construtor e build()
+    Mudar valor neutro da operação e junção dos nós em tb
+    Valor armazenados nos  vertices
+*/
+
 struct LCAQ{
-        
+    
     const int neutral = 0;
     int n;
     const int sz = 32;
     vector<int> marc, height, val;
     vector<vector<int>> g, bl, tb;
-    
-        //Trocar se a raiz nao for 1
+
+    //Trocar se a raiz nao for 1
     LCAQ(int n) : n(n), g(n+1), bl(sz, vector<int> (n+1, 1)), tb(sz, vector<int> (n+1, 1)), marc(n+1), height(n+1){}
-    
+
     void add_edge(int a, int b){
         g[a].push_back(b);
         g[b].push_back(a);
     }
-    
+
     void set_val(int i, int x){
         val[i] = x;
     }
-    
-        //Trocar se a raiz nao for 1
+
+    //Trocar se a raiz nao for 1
     void build(int x = 1){ 
         marc[x] = 1;
         for(int i = 1; i < sz; i++){
             bl[i][x] = bl[i-1][bl[i-1][x]];
             tb[i][x] = tb[i-1][x] + tb[i-1][bl[i-1][x]];
         }
-    
+
         for(auto viz : g[x]){
             if(marc[viz]) continue;
             bl[0][viz] = x;
@@ -2571,36 +2775,36 @@ struct LCAQ{
             build(viz);
         }
     }
-    
+
     int find_lca(int a, int b){
         if(height[a] < height[b]) swap(a,b);
-    
+
         int dif = height[a] - height[b];
         for(int i = 0; i < sz; i++){
             if((1<<i) & dif){
                 a = bl[i][a];
             }
         }
-    
+
         assert(height[a] == height[b]);
         if(a == b) return a;
-    
+
         for(int i = sz-1; i >=0; i--){
             if(bl[i][a] == bl[i][b]) continue;
             a = bl[i][a];
             b = bl[i][b];
         }
-            
+        
         assert(a != b);
         assert(bl[0][a] == bl[0][b]);
         return bl[0][a];
     }
-    
+
     int dist(int a, int b){
         int l = find_lca(a,b);  
         return height[a] + height[b] - 2*height[l];
     }
-    
+
     int query_lca(int a, int lca){
         int ans = neutral;
         int dif = height[lca] - height[a];
@@ -2610,79 +2814,15 @@ struct LCAQ{
                 a = bl[i][a];
             }
         }
-    
+
         assert(a == lca);
         return ans;
     };
-    
+
     int query(int a, int b){
         int lca = find_lca(a,b);
         return val[a] + val[b] + query(a,lca) + query(b,lca) - val[lca];
     }
-};
-\end{minted}
-
-\subsection{Lowest Common Ancestor}
-\begin{minted}{cpp}
-struct LCA{
-        
-    int n;
-    const int sz = 32;
-    vector<int> marc, height;
-    vector<vector<int>> g, bl;
-    
-        //Trocar se a raiz nao for 1
-    LCA(int n) : n(n), g(n+1), bl(sz, vector<int> (n+1, 1)), marc(n+1), height(n+1){}
-    
-    void add_edge(int a, int b){
-        g[a].push_back(b);
-        g[b].push_back(a);
-    }
-    
-        //Trocar se a raiz nao for 1
-    void build(int x = 1){ 
-        marc[x] = 1;
-        for(int i = 1; i < sz; i++){
-            bl[i][x] = bl[i-1][bl[i-1][x]];
-        }
-    
-        for(auto viz : g[x]){
-            if(marc[viz]) continue;
-            bl[0][viz] = x;
-            height[viz] = height[x]+1;
-            build(viz);
-        }
-    }
-    
-    int find_lca(int a, int b){
-        if(height[a] < height[b]) swap(a,b);
-    
-        int dif = height[a] - height[b];
-        for(int i = 0; i < sz; i++){
-            if((1<<i) & dif){
-                a = bl[i][a];
-            }
-        }
-    
-        assert(height[a] == height[b]);
-        if(a == b) return a;
-    
-        for(int i = sz-1; i >=0; i--){
-            if(bl[i][a] == bl[i][b]) continue;
-            a = bl[i][a];
-            b = bl[i][b];
-        }
-            
-        assert(a != b);
-        assert(bl[0][a] == bl[0][b]);
-        return bl[0][a];
-    }
-    
-    int dist(int a, int b){
-        int l = find_lca(a,b);  
-        return height[a] + height[b] - 2*height[l];
-    }
-    
 };
 \end{minted}
 
@@ -2739,36 +2879,36 @@ int build(vector<int> v){
 template<int MOD> struct Hashing{
     ll base, n;
     vector<ll> pow, ha; 
-    
-        /*
+
+    /*
     for random base:
     mt19937 rng((uint32_t)chrono::steady_clock::now().time_since_epoch().count());
     const ll B = uniform_int_distribution<ll>(0, M - 1)(rng);
     */
-    
+
     Hashing(string & s, int a) : n(s.size()), base(a) ,pow(n+1), ha(n+1){
-    
+
         pow[0] = 1;
         for(int i = 0; i < n; i++){
             ha[i+1] = (ha[i] * base + s[i])%MOD;
             pow[i+1] = (pow[i] * base)%MOD;
         }
     }
-        
-        //Retorna o Hashing da substring [a, b), indexado em 0
+    
+    //Retorna o Hashing da substring [a, b), indexado em 0
     int getRange(int a, int b){
         assert(a <= b);
         ll hash =  (ha[b] - (ha[a] * pow[b-a])%MOD)%MOD;
         return hash < 0 ? hash + MOD : hash;
     }
-        
+    
 };
 \end{minted}
 
 \subsection{KMP}
 \begin{minted}{cpp}
 vector<int> find_pi(string s){
-    
+
     vector<int> pi(s.size());
     for(int i = 1, j = 0; i < s.size(); i++){
         while(j > 0 && s[j] != s[i]) j = pi[j-1];
@@ -2779,7 +2919,7 @@ vector<int> find_pi(string s){
 };
 
 vector<int> kmp(string s, string t){
-        
+    
     vector<int> pi= find_pi(s), match;
     for(int i = 0, j = 0; i < t.size(); i++){
         while(j > 0 && t[i] != s[j]) j = pi[j-1];
@@ -2791,7 +2931,7 @@ vector<int> kmp(string s, string t){
 
 struct autKMP {
     vector<vector<int>> nxt;
-    
+
     autKMP(string& s) : nxt(26, vector<int>(s.size()+1)) {
         vector<int> p = pi(s);
         nxt[s[0]-'a'][0] = 1;
@@ -2834,7 +2974,7 @@ pair<vector<int>, vector<int>> manacher(string s) {
         dodd[i] = res[2*i + 1]/2;
         deven[i] = (res[2*i]-1)/2;
     }
-    
+
     return {dodd, deven};
 }
 \end{minted}
@@ -2855,14 +2995,14 @@ vector<int> suffix_array(string s) {
 	int n = s.size(), N = max(n, 260);
 	vector<int> sa(n), ra(n);
 	for(int i = 0; i < n; i++) sa[i] = i, ra[i] = s[i];
-    
+
 	for(int k = 0; k < n; k ? k *= 2 : k++) {
 		vector<int> nsa(sa), nra(n), cnt(N);
-    
+
 		for(int i = 0; i < n; i++) nsa[i] = (nsa[i]-k+n)%n, cnt[ra[i]]++;
 		for(int i = 1; i < N; i++) cnt[i] += cnt[i-1];
 		for(int i = n-1; i+1; i--) sa[--cnt[ra[nsa[i]]]] = nsa[i];
-    
+
 		for(int i = 1, r = 0; i < n; i++) nra[sa[i]] = r += ra[sa[i]] !=
 			ra[sa[i-1]] or ra[(sa[i]+k)%n] != ra[(sa[i-1]+k)%n];
 		ra = nra;
@@ -2875,7 +3015,7 @@ vector<int> kasai(string s, vector<int> sa) {
 	int n = s.size(), k = 0;
 	vector<int> ra(n), lcp(n);
 	for (int i = 0; i < n; i++) ra[sa[i]] = i;
-    
+
 	for (int i = 0; i < n; i++, k -= !!k) {
 		if (ra[i] == n-1) { k = 0; continue; }
 		int j = sa[ra[i]+1];
@@ -2902,7 +3042,7 @@ template<typename T> struct rmq {
 	vector<T> v;
 	int n; static const int b = 30;
 	vector<int> mask, t;
-    
+
 	int op(int x, int y) { return v[x] <= v[y] ? x : y; }
 	int msb(int x) { return __builtin_clz(1)-__builtin_clz(x); }
 	int small(int r, int sz = b) { return r-msb(mask[r]&((1<<sz)-1)); }
@@ -2932,7 +3072,7 @@ struct suffix_array {
 	int n;
 	vector<int> sa, cnt, rnk, lcp;
 	rmq<int> RMQ;
-    
+
 	bool cmp(int a1, int b1, int a2, int b2, int a3=0, int b3=0) {
 		return a1 != b1 ? a1 < b1 : (a2 != b2 ? a2 < b2 : a3 < b3);
 	}
@@ -2947,11 +3087,11 @@ struct suffix_array {
 		int N = v.size()-3, sz = (N+2)/3, sz2 = sz+N/3;
 		vector<int> R(sz2+3);
 		for (int i = 1, j = 0; j < sz2; i += i%3) R[j++] = i;
-    
+
 		radix(&R[0], &tmp[0], &v[0]+2, sz2, k);
 		radix(&tmp[0], &R[0], &v[0]+1, sz2, k);
 		radix(&R[0], &tmp[0], &v[0]+0, sz2, k);
-    
+
 		int dif = 0;
 		int l0 = -1, l1 = -1, l2 = -1;
 		for (int i = 0; i < sz2; i++) {
@@ -2960,17 +3100,17 @@ struct suffix_array {
 			if (tmp[i]%3 == 1) R[tmp[i]/3] = dif;
 			else R[tmp[i]/3+sz] = dif;
 		}
-    
+
 		if (dif < sz2) {
 			rec(R, dif);
 			for (int i = 0; i < sz2; i++) R[sa[i]] = i+1;
 		} else for (int i = 0; i < sz2; i++) sa[R[i]-1] = i;
-    
+
 		for (int i = 0, j = 0; j < sz2; i++) if (sa[i] < sz) tmp[j++] = 3*sa[i];
 		radix(&tmp[0], &m0[0], &v[0], sz, k);
 		for (int i = 0; i < sz2; i++)
 			sa[i] = sa[i] < sz ? 3*sa[i]+1 : 3*(sa[i]-sz)+2;
-    
+
 		int at = sz2+sz-1, p = sz-1, p2 = sz2-1;
 		while (p >= 0 and p2 >= 0) {
 			if ((sa[p2]%3==1 and cmp(v[m0[p]], v[sa[p2]], R[m0[p]/3],
@@ -2982,7 +3122,7 @@ struct suffix_array {
 		while (p >= 0) sa[at--] = m0[p--];
 		if (N%3==1) for (int i = 0; i < N; i++) sa[i] = sa[i+1];
 	}
-    
+
 	suffix_array(const string& s_) : s(s_), n(s.size()), sa(n+3),
 			cnt(n+1), rnk(n), lcp(n-1) {
 		vector<int> v(n+3);
@@ -2993,7 +3133,7 @@ struct suffix_array {
 			v[rnk[i]] = dif += (i and s[rnk[i]] != s[rnk[i-1]]);
 		if (n >= 2) rec(v, dif);
 		sa.resize(n);
-    
+
 		for (int i = 0; i < n; i++) rnk[sa[i]] = i;
 		for (int i = 0, k = 0; i < n; i++, k -= !!k) {
 			if (rnk[i] == n-1) {
@@ -3006,7 +3146,7 @@ struct suffix_array {
 		}
 		RMQ = rmq<int>(lcp);
 	}
-    
+
 	int query(int i, int j) {
 		if (i == j) return n-i;
 		i = rnk[i], j = rnk[j];
@@ -3021,7 +3161,7 @@ struct suffix_array {
 		}
 		if (l == R+1 or s[i+sa[l]] > c) return {-1, -1};
 		L = l;
-    
+
 		l = L, r = R+1;
 		while (l < r) {
 			int m = (l+r)/2;
@@ -3031,7 +3171,7 @@ struct suffix_array {
 		R = l-1;
 		return {L, R};
 	}
-    	// quantas vezes 't' ocorre em 's' - O(|t| log n)
+	// quantas vezes 't' ocorre em 's' - O(|t| log n)
 	int count_substr(string& t) {
 		int L = 0, R = n-1;
 		for (int i = 0; i < t.size(); i++) {
@@ -3040,78 +3180,44 @@ struct suffix_array {
 		}
 		return R-L+1;
 	}
-    
-    	// exemplo de f que resolve o problema
-    	// https://codeforces.com/edu/course/2/lesson/2/5/practice/contest/269656/problem/D
+
+	// exemplo de f que resolve o problema
+	// https://codeforces.com/edu/course/2/lesson/2/5/practice/contest/269656/problem/D
 	ll f(ll k) { return k*(k+1)/2; }
-    
+
 	ll dfs(int L, int R, int p) { // dfs na suffix tree chamado em pre ordem
 		int ext = L != R ? RMQ.query(L, R-1) : n - sa[L];
-    
-    		// Tem 'ext - p' substrings diferentes que ocorrem 'R-L+1' vezes
-    		// O LCP de todas elas eh 'ext'
+
+		// Tem 'ext - p' substrings diferentes que ocorrem 'R-L+1' vezes
+		// O LCP de todas elas eh 'ext'
 		ll ans = (ext-p)*f(R-L+1);
-    
-    		// L eh terminal, e folha sse L == R
+
+		// L eh terminal, e folha sse L == R
 		if (sa[L]+ext == n) L++;
-    
-    		// se for um SA de varias strings separadas como s#t$u&, usar no lugar do if de cima
-    		//	(separadores < 'a', diferentes e inclusive no final)
-    		// while (L <= R && (sa[L]+ext == n || s[sa[L]+ext] < 'a')) {
-    		//   L++;
-    		// }
-    
+
+		// se for um SA de varias strings separadas como s#t$u&, usar no lugar do if de cima
+		//	(separadores < 'a', diferentes e inclusive no final)
+		// while (L <= R && (sa[L]+ext == n || s[sa[L]+ext] < 'a')) {
+		//   L++;
+		// }
+
 		while (L <= R) {
 			int idx = L != R ? RMQ.index_query(L, R-1) : -1;
 			if (idx == -1 or lcp[idx] != ext) idx = R;
-    
+
 			ans += dfs(L, idx, ext);
 			L = idx+1;
 		}
 		return ans;
 	}
-    
-    	// sum over substrings: computa, para toda substring t distinta de s,
-    	// \sum f(# ocorrencias de t em s) - O (n)
+
+	// sum over substrings: computa, para toda substring t distinta de s,
+	// \sum f(# ocorrencias de t em s) - O (n)
 	ll sos() { return dfs(0, n-1, 0); }
 };
 \end{minted}
 
 \subsection{Trie}
-\begin{minted}{cpp}
-
-struct Vertex {
-    int next[K];
-    ll output = 0;
-    
-    Vertex() {
-        fill(begin(next), end(next), -1);
-    }
-};
-
-struct Trie{
-    
-    int n;
-    const int K = 26;
-    vector<Vertex> t;
-    
-    Trie() : t(1){}
-    
-    void add_string(string s){
-        int p = 0;
-        for(int i = 0; i < s.size(); i++){
-            if(t[p].next[s[i] - 'a'] == -1){
-                t[p].next[s[i] - 'a'] = t.size();
-                t.push_back(Vertex());
-            }
-            p = t[p].next[s[i] - 'a'];
-        }
-        t[p].output++;
-    }
-};
-\end{minted}
-
-\subsection{Trie pro caio não chorar}
 \begin{minted}{cpp}
 // trie T() constroi uma trie para o alfabeto das letras minusculas
 // trie T(tamanho do alfabeto, menor caracter) tambem pode ser usado
@@ -3209,12 +3315,12 @@ vector<int> zfunc(string s){
 struct FenwickTree {
     vector<int> bit; 
     int n;
-    
+
     FenwickTree(int n) {
         this->n = n;
         bit.assign(n, 0);
     }
-    
+
     FenwickTree(vector<int> const &a) : FenwickTree(a.size()){
         for (int i = 0; i < n; i++) {
             bit[i] += a[i];
@@ -3222,60 +3328,24 @@ struct FenwickTree {
             if (r < n) bit[r] += bit[i];
         }
     }
-    
-    
+
+
     int sum(int r) {
         int ret = 0;
         for (; r >= 0; r = (r & (r + 1)) - 1)
             ret += bit[r];
         return ret;
     }
-    
+
     int sum(int l, int r) {
         return sum(r) - sum(l - 1);
     }
-    
+
     void add(int idx, int delta) {
         for (; idx < n; idx = idx | (idx + 1))
             bit[idx] += delta;
     }
 };
-\end{minted}
-
-\subsection{BIT - Range Update}
-\begin{minted}{cpp}
-vector<int> bit1, bit2;
-void init(int n){
-	bit1.assign(n+1, 0);
-	bit2.assign(n+1, 0);
-}
-
-int rsq(vector<int> &bit, int i){
-	int ans = 0;
-	for(; i; i-=i&-i)
-		ans += bit[i];
-	return ans;
-}
-
-void update(vector<int> &bit, int i, int v){
-	for(; i < bit.size(); i+=i&-i)
-		bit[i] += v;
-}
-
-void update(int i, int j, int v){
-	update(bit1, i, v);
-	update(bit1, j+1, -v);
-	update(bit2, i, v*(i-1));
-	update(bit2, j+1, -v*j);	
-}
-
-int rsq(int i){
-	return rsq(bit1, i)*i - rsq(bit2, i);
-}
-
-int rsq(int i, int j){
-	return rsq(j) - rsq(i-1);
-}
 \end{minted}
 
 \subsection{BIT 2D}
@@ -3293,7 +3363,7 @@ int rsq(int i, int j){
 template<class T = int> struct bit2d {
 	vector<T> X;
 	vector<vector<T>> Y, t;
-    
+
 	int ub(vector<T>& v, T x) {
 		return upper_bound(v.begin(), v.end(), x) - v.begin();
 	}
@@ -3301,23 +3371,23 @@ template<class T = int> struct bit2d {
 		for (auto [x, y] : v) X.push_back(x);
 		sort(X.begin(), X.end());
 		X.erase(unique(X.begin(), X.end()), X.end());
-    
+
 		t.resize(X.size() + 1);
 		Y.resize(t.size());
 		sort(v.begin(), v.end(), [](auto a, auto b) {
 			return a.second < b.second; });
 		for (auto [x, y] : v) for (int i = ub(X, x); i < t.size(); i += i&-i)
 			if (!Y[i].size() or Y[i].back() != y) Y[i].push_back(y);
-    
+
 		for (int i = 0; i < t.size(); i++) t[i].resize(Y[i].size() + 1);
 	}
-    
-        //Adds v to [x,y]
+
+    //Adds v to [x,y]
 	void update(T x, T y, T v) {
 		for (int i = ub(X, x); i < t.size(); i += i&-i)
 			for (int j = ub(Y[i], y); j < t[i].size(); j += j&-j) t[i][j] += v;
 	}
-    
+
 	T query(T x, T y) {
 		T ans = 0;
 		for (int i = ub(X, x); i; i -= i&-i)
@@ -3327,6 +3397,99 @@ template<class T = int> struct bit2d {
 	T query(T x1, T y1, T x2, T y2) {
 		return query(x2, y2)-query(x2, y1-1)-query(x1-1, y2)+query(x1-1, y1-1);
 	}
+};
+\end{minted}
+
+\subsection{Lazy SegTree}
+\begin{minted}{cpp}
+struct SegTree{ 
+    int n;
+    struct Node{
+        int val;
+        Node operator+(Node other) const{
+        return {this->val + other.val};
+        }
+        Node operator=(int x){
+        return {this->val = x};
+        }
+    };
+    Node neutral = {0};
+    vector <Node> t;
+    vector<int> lazy; //Change variable
+
+    SegTree(vector <int> a){
+        n = a.size();
+        t.resize(4*n);
+        lazy.resize(4*n); //Neutal element
+        build(a, 1, 0, n-1);
+    }
+
+    void build(vector <int>& a, int v, int tl, int tr) {
+        if (tl == tr) {
+            t[v] = a[tl];
+        } else {
+            int tm = (tl + tr) / 2;
+            build(a, v*2, tl, tm);
+            build(a, v*2+1, tm+1, tr);
+            t[v] = t[v*2] + t[v*2+1];
+        }
+    }
+
+    void unlazy(int v, int tl, int tr){
+        // if(lazy[v] == 0) return; //Neutral element
+
+        //Update current range
+        t[v].val += (tr-tl+1) * lazy[v]; 
+
+        if(tl != tr){
+            lazy[2*v] += lazy[v];   
+            lazy[2*v+1] += lazy[v]; 
+        }
+        
+        lazy[v] = 0; 
+    }
+
+    Node query(int l, int r){
+        return query(1, 0, n-1, l, r);
+    }
+
+    Node query(int v, int tl, int tr, int l, int r){
+        unlazy(v, tl, tr);
+        if (l > r){
+            return neutral;
+        }
+        if (l == tl && r == tr) {
+            return t[v];
+        }
+        int tm = (tl + tr) / 2;
+        return query(v*2, tl, tm, l, min(r, tm))
+             + query(v*2+1, tm+1, tr, max(l, tm+1), r);
+    }
+
+    void update(int pos, int val){
+        update(1, 0, n-1, pos, pos, val);
+    }
+
+    void update(int l, int r, int val){
+        update(1, 0, n-1, l, r, val);
+    }
+
+    void update(int v, int tl, int tr, int l, int r, int val){
+        unlazy(v, tl, tr);
+        if (l > r){
+            return;
+        }
+        if (l == tl && r == tr) {
+            lazy[v] += val; //Change here
+            unlazy(v, tl, tr);
+            return;
+        }
+        int tm = (tl + tr) / 2;
+        update(v*2, tl, tm, l, min(r, tm), val);
+        update(v*2+1, tm+1, tr, max(l, tm+1), r, val);
+        t[v] = t[2*v] + t[2*v+1];
+    }
+
 };
 \end{minted}
 
@@ -3349,20 +3512,20 @@ struct Line {
 }; 
 
 struct LineContainer : multiset<Line, less<>> {
-    
+
 	static const ll inf = LLONG_MAX; //for doubles 1/.0
-    	
+	
     ll div(ll a, ll b) { //for doubles return a/b
 		return a / b - ((a ^ b) < 0 && a % b); }
-    
+
 	bool isect(iterator x, iterator y) {
 		if (y == end()) { x->p = inf; return false; }
 		if (x->k == y->k) x->p = x->m > y->m ? inf : -inf;
 		else x->p = div(y->m - x->m, x->k - y->k);
 		return x->p >= y->p;
 	} 
-    	
-        //para achar o mínimo, é preciso fazer insert({-k, -m, 0}), além disso multiplicar por -1 o resultado da query
+	
+    //para achar o mínimo, é preciso fazer insert({-k, -m, 0}), além disso multiplicar por -1 o resultado da query
     void add(ll k, ll m) {
 		auto z = insert({k, m, 0}), y = z++, x = y;
 		while (isect(y, z)) z = erase(z);
@@ -3370,7 +3533,7 @@ struct LineContainer : multiset<Line, less<>> {
 		while ((y = x) != begin() && (--x)->p >= y->p) 
 			isect(x, erase(y));
 	}
-    
+
 	ll query(ll x) {
 		assert(!empty());
         auto l = *lower_bound(x);
@@ -3402,36 +3565,36 @@ const int blockSize = 500;
 struct Query
 {
     int l, r, idx;
-    
+
     bool operator<(Query other) const{
         return make_pair(l/blockSize, r) < make_pair(other.l/blockSize, other.r);
     };
 };
 
 struct Mo{
-        //TODO: declare the data structures
+    //TODO: declare the data structures
     Mo(){
-    
+
     }
-    
+
     void add(int idx){
-            //TODO: add an element to the data structure
+        //TODO: add an element to the data structure
     }  
-    
+
     void remove(int idx){
-            //TODO: remove an element from the data structure
+        //TODO: remove an element from the data structure
     }     
-    
+
     int get_answer(){
-            //TODO: get answer from the data structure
+        //TODO: get answer from the data structure
     }  
-    
+
     vector<int> solve(vector<Query> queries) {
         vector <int> answers(queries.size());
         sort(queries.begin(), queries.end());
-    
-            //TODO: initialize data structue
-            
+
+        //TODO: initialize data structue
+        
         int cur_l = 0;
         int cur_r = -1;
         for (Query q : queries) {
@@ -3463,21 +3626,21 @@ struct Mo{
 struct pref2D{
     int n, m;
     vector <vector<int>> mat, pref;
-    
+
     pref2D(int n, int m, vector<vector<int>> tmp){
         this-> n = n; this->m = m;
         mat = tmp;
-            
+        
         pref.resize(n+1);
         for(auto& v : pref) v.resize(m+1, 0);
-    
+
         for(int i = 1; i <= n; i++){
             for(int j = 1; j <= m; j++){
                 pref[i][j] = pref[i-1][j] + pref[i][j-1] - pref[i-1][j-1] + mat[i-1][j-1];
             }
         }
     }
-    
+
     int query(int rowl, int rowr, int coll, int colr){
         rowl++, rowr++, coll++, colr++;
         if(rowl > rowr) swap(rowl, rowr);
@@ -3502,13 +3665,13 @@ struct SegTree{
   };
   Node neutral = {0};
   vector <Node> t;
-    
+
   SegTree(vector <int> a){
     n = a.size();
     t.resize(4*n);
     build(a, 1, 0, n-1);
   }
-    
+
   void build(vector <int>& a, int v, int tl, int tr) {
     if (tl == tr) {
       t[v] = a[tl];
@@ -3519,11 +3682,11 @@ struct SegTree{
       t[v] = t[v*2] + t[v*2+1];
     }
   }
-    
+
   Node query(int l, int r){
     return query(1, 0, n-1, l, r);
   }
-    
+
   Node query(int v, int tl, int tr, int l, int r){
     if (l > r) 
       return neutral;
@@ -3534,11 +3697,11 @@ struct SegTree{
     return query(v*2, tl, tm, l, min(r, tm))
       + query(v*2+1, tm+1, tr, max(l, tm+1), r);
   }
-    
+
   void update(int pos, int val){
     update(1, 0, n-1, pos, val);
   }
-    
+
   void update(int v, int tl, int tr, int pos, int new_val){
     if (tl == tr) {
       t[v] = new_val;
@@ -3554,124 +3717,18 @@ struct SegTree{
 };
 \end{minted}
 
-\subsection{SegTree c/ Lazy}
-\begin{minted}{cpp}
-struct SegTree{ 
-  int n;
-  struct Node{
-    int val;
-    Node operator+(Node other) const{
-      return {this->val + other.val};
-    }
-    Node operator=(int x){
-      return {this->val = x};
-    }
-  };
-  Node neutral = {0};
-  vector <Node> t;
-  vector<int> lazy;
-    
-  SegTree(vector <int> a){
-    n = a.size();
-    t.resize(4*n);
-    lazy.resize(4*n);
-    build(a, 1, 0, n-1);
-  }
-    
-  void build(vector <int>& a, int v, int tl, int tr) {
-    if (tl == tr) {
-      t[v] = a[tl];
-    } else {
-      int tm = (tl + tr) / 2;
-      build(a, v*2, tl, tm);
-      build(a, v*2+1, tm+1, tr);
-      t[v] = t[v*2] + t[v*2+1];
-    }
-  }
-    
-  void unlazy(int v, int tl, int tr){
-    if(lazy[v] == 0) return;
-    
-        //Update current range
-    t[v].val += (tr-tl+1) * lazy[v]; 
-    
-        //Pass lazy to child if any
-    if(tl != tr){
-        lazy[2*v] += lazy[v];   
-        lazy[2*v+1] += lazy[v]; 
-    }
-        
-        //Reset lazy
-    lazy[v] = 0; 
-  }
-    
-  Node query(int l, int r){
-    return query(1, 0, n-1, l, r);
-  }
-    
-  Node query(int v, int tl, int tr, int l, int r){
-    unlazy(v, tl, tr);
-    if (l > r) 
-      return neutral;
-    if (l == tl && r == tr) {
-      return t[v];
-    }
-    int tm = (tl + tr) / 2;
-    return query(v*2, tl, tm, l, min(r, tm))
-      + query(v*2+1, tm+1, tr, max(l, tm+1), r);
-  }
-    
-  void RangeUpdate(int l, int r, int new_val){
-    RangeUpdate(1,0,n-1,l,r,new_val);
-  }
-    
-  void RangeUpdate(int v, int tl, int tr, int l, int r, int new_val){
-    unlazy(v, tl, tr);
-    if (l > r) 
-      return;
-    if (l == tl && r == tr) {
-        lazy[v] += new_val; //Change here
-        unlazy(v, tl, tr);
-        return;
-    }
-    int tm = (tl + tr) / 2;
-    RangeUpdate(v*2, tl, tm, l, min(r, tm), new_val);
-    RangeUpdate(v*2+1, tm+1, tr, max(l, tm+1), r, new_val);
-    t[v] = t[2*v] + t[2*v+1];
-  }
-    
-  void PointUpdate(int pos, int val){
-    PointUpdate(1, 0, n-1, pos, val);
-  }
-    
-  void PointUpdate(int v, int tl, int tr, int pos, int new_val){
-    unlazy(v, tl, tr);
-    if (tl == tr) {
-      t[v] = new_val;
-    } else {
-      int tm = (tl + tr) / 2;
-      if (pos <= tm)
-        PointUpdate(v*2, tl, tm, pos, new_val);
-      else
-        PointUpdate(v*2+1, tm+1, tr, pos, new_val);
-      t[v] = t[v*2] + t[v*2+1];
-    }
-  }
-};
-\end{minted}
-
 \subsection{SegTree Sparse}
 \begin{minted}{cpp}
 struct Node {
     int left, right;
     int sum = 0;
     Node *left_child = nullptr, *right_child = nullptr;
-    
+
     Node(int lb, int rb) {
         left = lb;
         right = rb;
     }
-    
+
     void extend() {
         if (!left_child && left + 1 < right) {
             int t = (left + right) / 2;
@@ -3679,7 +3736,7 @@ struct Node {
             right_child = new Node(t, right);
         }
     }
-    
+
     void add(int k, int x) {
         extend();
         sum += x;
@@ -3690,7 +3747,7 @@ struct Node {
                 right_child->add(k, x);
         }
     }
-    
+
     int get_sum(int lq, int rq) {
         if (lq <= left && right <= rq)
             return sum;
@@ -3708,77 +3765,183 @@ struct SparseTable{
     int K = 25, n;
     vector <vector<int>> st; //st[i][j] = min on range [j, j + 2^i-1]
     vector <int> lg2; //lg2[i] = floor(log2(i))
-    
+
     SparseTable(vector <int> arr){
         n = arr.size();
         st.resize(K+1);
         for(auto& v : st) v.resize(n);
-    
+
         st[0] = arr;
         for(int i = 1; i <= K; i++){
             for(int j = 0; j + (1 << i) - 1 < n; j++){
                 st[i][j] = min(st[i-1][j], st[i-1][j + (1 << (i - 1))]);
             }
         }
-    
+
         lg2.resize(n+1);
         lg2[1] = 0;
         for(int i = 2; i <= n; i++){
             lg2[i] = lg2[i/2] + 1;
         }
     }
-    
+
     int query(int l, int r){
         int i = lg2[r-l+1];
         return min(st[i][l], st[i][r-(1<<i)+1]);
     }
-    
-        //Query [l,r]
+
+    //Query [l,r]
     int querylog(int l , int r){
-    
+
         int neutral = 1e9; //elemento neutro
         int dif = r-l+1;
-    
+
         for(int i = 0; i <= K; i++){
             if((1<<i) & dif){
                 neutral = min(neutral,st[i][l]);
                 l = l + (1<<i);
             }
         }
-    
+
         return neutral;
     }
-    
+
 };
 \end{minted}
 
-\subsection{Union Find}
+\subsection{SparseSegTree with Lazy}
 \begin{minted}{cpp}
-//Complexidade: O($\alpha$(n)), onde $\alpha$ é a função de Ackermann inversa
-struct DSU
-{
-    int n;
-    vector<int> pai, rank;
-    
-    DSU(int n) : n(n), pai(n+1), rank(n+1,1){
-        for(int i = 1; i <=n; i++){
-            pai[i] = i;
+struct SparseSegTree {
+    struct Node {
+        ll mn, mx, lazy;
+        int l, r;
+        Node() : mn(0), mx(0), lazy(0), l(-1), r(-1) {}
+    };
+ 
+    vector<Node> tree;
+    ll L_BOUND, R_BOUND;
+ 
+    SparseSegTree(ll L, ll R) {
+        L_BOUND = L;
+        R_BOUND = R;
+        tree.reserve(15000000); 
+        tree.emplace_back(); 
+    }
+ 
+    void push(int node) {
+        if (tree[node].lazy != 0) {
+            ll lz = tree[node].lazy;
+            
+            if (tree[node].l == -1) {
+                tree[node].l = tree.size();
+                tree.emplace_back();
+            }
+            if (tree[node].r == -1) {
+                tree[node].r = tree.size();
+                tree.emplace_back();
+            }
+            
+            int l = tree[node].l;
+            int r = tree[node].r;
+            
+            tree[l].mn += lz;
+            tree[l].mx += lz;
+            tree[l].lazy += lz;
+            
+            tree[r].mn += lz;
+            tree[r].mx += lz;
+            tree[r].lazy += lz;
+            
+            tree[node].lazy = 0;
         }
     }
-    
-    int find(int a){
-        if(pai[a] == a) return a;
-        return pai[a] = find(pai[a]);
+ 
+    void update(int node, ll tl, ll tr, ll ql, ll qr, ll v) {
+        if (ql <= tl && tr <= qr) {
+            tree[node].mn += v;
+            tree[node].mx += v;
+            tree[node].lazy += v;
+            return;
+        }
+        push(node);
+        ll mid = tl + (tr - tl) / 2;
+        
+        if (ql <= mid) {
+            if (tree[node].l == -1) {
+                tree[node].l = tree.size();
+                tree.emplace_back();
+            }
+            update(tree[node].l, tl, mid, ql, qr, v);
+        }
+        if (qr > mid) {
+            if (tree[node].r == -1) {
+                tree[node].r = tree.size();
+                tree.emplace_back();
+            }
+            update(tree[node].r, mid + 1, tr, ql, qr, v);
+        }
+        
+        ll min_val = 2e18, max_val = -2e18;
+        int left_child = tree[node].l;
+        int right_child = tree[node].r;
+        
+        if (left_child != -1) {
+            min_val = min(min_val, tree[left_child].mn);
+            max_val = max(max_val, tree[left_child].mx);
+        } else {
+            min_val = min(min_val, 0LL);
+            max_val = max(max_val, 0LL);
+        }
+        
+        if (right_child != -1) {
+            min_val = min(min_val, tree[right_child].mn);
+            max_val = max(max_val, tree[right_child].mx);
+        } else {
+            min_val = min(min_val, 0LL);
+            max_val = max(max_val, 0LL);
+        }
+        
+        tree[node].mn = min_val;
+        tree[node].mx = max_val;
     }
-    
-    void uu(int a, int b){
-        a = find(a), b = find(b);
-        if(a == b) return;
-        if(rank[a] > rank[b]) swap(a,b);
-        rank[b] += rank[a];
-        pai[a] = b;
+ 
+    pair<ll, ll> query(int node, ll tl, ll tr, ll ql, ll qr) {
+        if (ql <= tl && tr <= qr) {
+            return {tree[node].mn, tree[node].mx};
+        }
+        push(node);
+        ll mid = tl + (tr - tl) / 2;
+        pair<ll, ll> res = {2e18, -2e18};
+        
+        if (ql <= mid) {
+            if (tree[node].l != -1) {
+                auto p = query(tree[node].l, tl, mid, ql, qr);
+                res.first = min(res.first, p.first);
+                res.second = max(res.second, p.second);
+            } else {
+                res.first = min(res.first, 0LL);
+                res.second = max(res.second, 0LL);
+            }
+        }
+        if (qr > mid) {
+            if (tree[node].r != -1) {
+                auto p = query(tree[node].r, mid + 1, tr, ql, qr);
+                res.first = min(res.first, p.first);
+                res.second = max(res.second, p.second);
+            } else {
+                res.first = min(res.first, 0LL);
+                res.second = max(res.second, 0LL);
+            }
+        }
+        return res;
     }
-    
+    void add(ll ql, ll qr, ll v) {
+        update(0, L_BOUND, R_BOUND, ql, qr, v);
+    }
+ 
+    pair<ll, ll> get_minmax(ll ql, ll qr) {
+        return query(0, L_BOUND, R_BOUND, ql, qr);
+    }
 };
 \end{minted}
 
@@ -3860,6 +4023,15 @@ struct Basis{
     return x ^ neutral;      
   }
 };
+\end{minted}
+
+\subsection{orderedSet.h}
+\begin{minted}{cpp}
+#include <ext/pb_ds/tree_policy.hpp>
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+using ordered_set = tree<ll, null_type, less<ll>, rb_tree_tag, tree_order_statistics_node_update>;
+using ordered_multiset = tree<ll, null_type, less_equal<ll>, rb_tree_tag, tree_order_statistics_node_update>;
 \end{minted}
 
 \subsection{TernarySearch.h}
@@ -3965,17 +4137,6 @@ int main(){
 }
 \end{minted}
 
-\subsection{compression.h}
-\begin{minted}{cpp}
-//To recover: d[arr[i]]
-vector<int> d = arr;
-sort(d.begin(), d.end());
-d.resize(unique(d.begin(), d.end()) - d.begin());
-for (int i = 0; i < n; ++i) {
-    arr[i] = lower_bound(d.begin(), d.end(), arr[i]) - d.begin();
-}
-\end{minted}
-
 \subsection{2pointer.h}
 \begin{minted}{cpp}
 x = 0, L = 0 
@@ -4013,8 +4174,80 @@ for R = 0..n-1
         L++
 \end{minted}
 
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.3\textwidth]{Imagens/HEDSIGMA.jpg}
-\end{figure}
+% \documentclass[10pt, twocolumn]{article}
+% \usepackage[utf8]{inputenc}
+% \usepackage[english]{babel}
+% \usepackage[utf8]{inputenc}
+% \usepackage{lscape}
+% \usepackage[T1]{fontenc}
+% \usepackage{fancyhdr}
+% \usepackage{rotating}
+% \usepackage{ragged2e}
+% \usepackage[a4paper, landscape, margin=0.8in]{geometry}
+% \usepackage{blindtext}
+% \usepackage{amsmath}
+% \usepackage{relsize}
+% \usepackage{graphicx}
+% \usepackage{float}
+% \usepackage{placeins}
+% \usepackage{enumitem}
+% \usepackage{booktabs}
+% \usepackage{array}
+% \usepackage{mathpazo}
+% \usepackage{xcolor,colortbl}
+% \usepackage{tabu}
+% \usepackage{url}
+% \usepackage{textcomp}
+% \usepackage{diagbox}
+% \usepackage{caption}
+% \usepackage{amsfonts}
+% \usepackage{amsmath}
+
+% \usepackage{hyperref}
+% \hypersetup{
+%     colorlinks=true,
+%     linkcolor=blue,
+%     filecolor=magenta,      
+%     urlcolor=blue,
+% }
+
+% %color celula da tabela
+% \usepackage{xcolor,colortbl}
+
+% \setlength{\columnseprule}{0.4pt}
+% \setlength{\columnsep}{3em}
+% \graphicspath{ {img/} }
+% \restylefloat{table}
+
+% \newcommand{\mc}[2]{\multicolumn{#1}{c}{#2}}
+% \definecolor{Gray}{gray}{0.85}
+% \newcolumntype{a}{>{\columncolor{Gray}}c}
+
+% \newcommand{\stirlingfirst}[2]{\genfrac{[}{]}{0pt}{}{#1}{#2}}
+% \newcommand{\stirlingsecond}[2]{\genfrac{\{}{\}}{0pt}{}{#1}{#2}}
+
+% \pagestyle{fancy}
+
+% \begin{document}
+
+% \rhead{UFRJ}
+% \lhead{É o shadow cara}
+% \begin{flushleft}
+
+% \chapter*{Matematica}
+\input{Teoria/Capitulos/Identidades}
+\input{Teoria/Capitulos/TeoriaDosNumeros}
+\input{Teoria/Capitulos/Combinatoria}
+\input{Teoria/Capitulos/Geometria}
+\input{Teoria/Capitulos/Grafos}
+\input{Teoria/Capitulos/Strings}
+\input{Teoria/Capitulos/Game}
+\input{Teoria/Capitulos/Other}
+
+% \end{flushleft}
+
+% \input{Capitulos/Shadow}
+
+% \end{document}              
+\end{multicols}
 \end{document}

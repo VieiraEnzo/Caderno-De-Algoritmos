@@ -1,0 +1,48 @@
+\section{Identidades}
+
+\subsection{Series}
+
+$$\sum_{i=1}^{n} i^{2} = \frac{n(n+1)(2n+1)}{6}  \qquad  \sum_{i=1}^{n} i^{3} = \frac{n^{2}(n+1)^{2}}{4} = \left(\sum_{i=1}^n i\right)^2$$
+
+$$ g_k(n) = \sum_{i=1}^n i^k = \frac{1}{k+1} \left( n^{k+1} + \sum_{j=1}^k \binom{k+1}{j+1} (-1)^{j+1} g_{k-j}(n) \right) $$
+
+$$\sum_{i=0}^{n} ic^{i} = \frac{nc^{n+2} - (n+1)c^{n+1} + c}{(c-1)^{2}}, \quad c \neq 1$$
+
+$$\sum_{i=0}^{\infty} ic^{i} = \frac{c}{(1-c)^{2}}, \quad |c| < 1$$
+
+\subsection{Binomial Identities}
+
+\begin{itemize}[leftmargin=*, nosep]
+    \item $\binom{n}{k} = \frac{n}{k}\binom{n-1}{k-1} = \binom{n-1}{k-1} + \binom{n-1}{k}$
+    \item $\binom{n}{h}\binom{n-h}{k} = \binom{n}{k}\binom{n-k}{h}$ \hfill $\binom{n}{k} = \frac{n+1-k}{k} \binom{n}{k-1}$
+    \item $\sum k \binom{n}{k} = n 2^{n-1}$ \hfill $\sum k^2 \binom{n}{k} = (n+n^2)2^{n-2}$
+    \item $\sum_{j=0}^k \binom{m}{j}\binom{n-m}{k-j} = \binom{n}{k}$ \hfill $\sum \binom{m}{j}^2 = \binom{2m}{m}$
+    \item $\sum_{m=k}^n \binom{m}{k} = \binom{n+1}{k+1}$ \hfill $\sum_{k=0}^{\lfloor n/2 \rfloor} \binom{n-k}{k} = F_{n+1}$
+    \item $(x+y)^n = \sum \binom{n}{k}x^{n-k}y^k$ \hfill $(1+x)^n = \sum \binom{n}{k}x^k$
+\end{itemize}
+
+
+\subsection{Progressão Aritmética (PA)}
+
+\textbf{Termo Geral:} \quad $ a_n = a_1 + (n-1)r $
+
+\textbf{Soma dos Termos:} \quad $ S_n = \frac{(a_1 + a_n)n}{2} $
+
+\textbf{PA de 2ª Ordem:} \quad $ a_n = An^2 + Bn + C $
+
+\subsection{Progressão Geométrica (PG)}
+
+\textbf{Termo Geral:} \quad $ a_n = a_1 \cdot q^{n-1} $
+
+\textbf{Soma Finita:} \quad $ S_n = a_1 \frac{q^n - 1}{q - 1} $
+
+\textbf{Soma Infinita ($|q|<1$):} \quad $ S_{\infty} = \frac{a_1}{1 - q} $
+
+
+\subsection{Funções Geradoras}
+
+\begin{align*}
+    (1+x)^n &= \sum_{k\ge 0} \binom{n}{k} x^k \\[6pt]
+    \frac{1}{(1-x)^{m+1}} &= \sum_{k\ge 0} \binom{k+m}{m} x^k \\[6pt]
+    \frac{x^m}{(1-x)^{m+1}} &= \sum_{k\ge 0} \binom{k}{m} x^k
+\end{align*}

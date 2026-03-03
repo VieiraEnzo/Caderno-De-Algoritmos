@@ -1,0 +1,161 @@
+\section{Number Theory}
+
+\subsection{Identities}
+
+$$ \sum_{d|n} \varphi(d) = n$$
+
+$$ \sum_{\substack{i < n \\ \text{gcd}(i, n) = 1}} i = n \cdot \frac{\varphi(n)}{2} $$
+
+$$ |\{(x, y) : \, 1 \leq x, y \leq n, \, \text{gcd}(x, y) = 1\}| = \sum_{d = 1}^n \mu(d) \left \lfloor \frac{n}{d} \right \rfloor^2$$
+
+$$\sum_{x = 1}^n \sum_{y = 1}^n \text{gcd}(x, y)
+= \sum_{k = 1}^n k \sum_{k|l}^{n} \left \lfloor \frac{n}{l} \right \rfloor^2 \mu\left(\frac{l}{k}\right)$$
+    
+$$\sum_{x = 1}^n \sum_{y = x}^n \text{gcd}(x, y) = \sum_{g = 1}^n \sum_{g|d}^n g \cdot \varphi\left(\frac{d}{g}\right)$$
+
+$$\sum_{x = 1}^n \sum_{y = 1}^n \text{lcm}(x, y)
+= \sum_{d = 1}^n d \, \mu(d) \sum_{d|l}^{n} l \binom{\lfloor \frac{n}{l} \rfloor + 1}{2}^2$$
+
+$$\sum_{x = 1}^n \sum_{y = x+1}^n \text{lcm}(x, y) = \sum_{g = 1}^n \sum_{g|d}^n d \cdot \varphi\left(\frac{d}{g}\right) \cdot \frac{d}{g} \cdot \frac 1 2$$
+
+$$\sum_{x \in A} \sum_{y \in A} \text{gcd}(x, y)
+= \sum_{t = 1}^n \left(\sum_{l | t} \frac{t}{l} \mu(l)\right) \left(\sum_{t|a} \text{freq}[a]\right)^2$$
+
+$$\sum_{x \in A} \sum_{y \in A} \text{lcm}(x, y)
+= \sum_{t = 1}^n \left(\sum_{l | t} \frac{l}{t} \mu(l)\right) \left(\sum_{a \in A, \, t|a} a\right)^2$$
+
+\subsection{Large Prime Gaps}
+For numbers until $10^9$ the largest gap is 400.\\
+For numbers until $10^{18}$ the largest gap is 1500.\\[0.5cm]
+
+\subsection{Prime counting function - \texorpdfstring{$\pi(x)$}{}} The prime counting function is asymptotic to $\frac{x}{\log x}$, by the prime number theorem.
+
+\ 
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+\hline
+  \cellcolor{gray!40} x&10&$10^2$&$10^3$&$10^4$&$10^5$&$10^6$&$10^7$\\ \hline
+  \cellcolor{gray!40} $\pi(x)$& 4 & 25 & 168 & 1\,229 & 9\,592 & 78\,498 & 664\,579\\ \hline
+\end{tabular}
+
+\ 
+
+\subsection{Some Primes}
+
+999999937 $\quad$ 1000000007 $\quad$ 1000000009 $\quad$ 1000000021 $\quad$ 1000000033
+$10^{18} - 11 \quad\quad 10^{18} + 3 \quad\quad\quad 2305843009213693951 = 2^{61} - 1$
+
+\subsection{Number of Divisors}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        \cellcolor{gray!40} $n$ & 6 & 60 & 360 & 5040 & 55440 & 720720 & 4324320 \\
+        \hline
+        \cellcolor{gray!40} $d(n)$ & 4 & 12 & 24 & 60 & 120 & 240 & 384\\
+        \hline
+    \end{tabular}
+\end{table}
+
+\vspace{-30pt}
+
+%  367567200 d(n) = 1152
+%  6983776800 d(n) = 2304
+%  13967553600 d(n) = 2688
+%  321253732800 d(n) = 5376
+%  18401055938125660800 d(n) = 184320
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \cellcolor{gray!40} $n$ & 367567200 & 6983776800 & 13967553600 & 321253732800
+        \\
+        \hline
+        \cellcolor{gray!40} $d(n)$ & 1152 & 2304 &  2688 &
+        5376 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+18401055938125660800 $\approx 2\text{e}18$ is   highly composite with 184320 divisors.
+
+For numbers up to $10^{88}$, $d(n) < 3.6 \sqrt[3]{n}$.
+
+\subsection{Lucas's Theorem}
+
+$$ \binom{n}{m} \equiv \prod_{i=0}^k \binom{n_i}{m_i} \quad (\text{mod } p) $$ 
+
+For $p$ prime. $n_i$ and $m_i$ are the coefficients of the representations of $n$    and $m$ in base $p$. In particular, $\binom{n}{m}$ is odd if and only if $n$ is a submask of $m$.
+
+\subsection{Fermat's Theorems}
+Let $p$ be a prime number and $a$ an integer, then:
+$$a^p \equiv a \quad (\text{mod } p)$$
+$$a^{p-1} \equiv 1 \quad (\text{mod } p)$$
+
+\textbf{Lemma:} Let $p$ be a prime number and $a$ and $b$ integers, then: 
+$$(a+b)^{p} \equiv a^{p} + b^{p} \quad (\text{mod } p)$$
+
+\textbf{Lemma:} Let $p$ be a prime number and $a$ an integer. The inverse of $a$ modulo $p$ is $a^{p-2}$:
+
+$$a^{-1} \equiv a^{p-2} \quad (\text{mod } p)$$
+
+\subsection{Taking modulo at the exponent}
+
+If $a$ and $m$ are coprime, then
+
+$$ a^n \equiv a^{n \text{ mod } \varphi(m)} \quad (\text{mod } m) $$
+
+Generally, if $n \geq \log_2 m$, then
+
+$$ a^n \equiv a^{\varphi(m) + [n \text{ mod } \varphi(m)]} \quad (\text{mod } m) $$
+
+\subsection{Mobius invertion}
+
+If $g(n) = \sum_{d|n} f(d)$, then $f(n) = \sum_{d|n} g(d) \mu(\frac{n}{d})$.
+
+A more useful definition is: $\sum_{d|n} \mu(d) = [n = 1]$
+
+Example, sum of LCM:
+
+\begin{align*}
+    \sum_{i = 1}^n \sum_{j = 1}^n \text{lcm}(i, j) &=
+    \sum_{k = 1}^n\sum_{i=1}^n\sum_{j=1}^n [\text{gcd}(i, j) = k] \frac{ij}{k} \\
+    &= \sum_{k = 1}^n\sum_{a=1}^{\lfloor \frac{n}{k} \rfloor}\sum_{b=1}^{\lfloor \frac{n}{k} \rfloor} [\text{gcd}(a, b) = 1] abk \\
+    &= \sum_{k = 1}^n k \sum_{a=1}^{\lfloor \frac{n}{k} \rfloor} a \sum_{b=1}^{\lfloor \frac{n}{k} \rfloor} b \sum_{d=1}^{\lfloor \frac{n}{k} \rfloor}[d|a]\,[d|b] \, \mu(d) \\
+    &= \sum_{k = 1}^n k \sum_{d=1}^{\lfloor \frac{n}{k} \rfloor}  \mu(d) \left(\sum_{a=1}^{\lfloor \frac{n}{k} \rfloor} [d|a] \, a\right) \left(\sum_{b=1}^{\lfloor \frac{n}{k} \rfloor} [d|b] \, b\right) \\
+    &= \sum_{k = 1}^n k \sum_{d=1}^{\lfloor \frac{n}{k} \rfloor}  \mu(d) \left(\sum_{p=1}^{\lfloor \frac{n}{kd} \rfloor} p\right) \left(\sum_{q=1}^{\lfloor \frac{n}{kd} \rfloor} q\right) \\
+\end{align*}
+
+\subsection{Chicken McNugget Theorem}
+
+Given two \textbf{coprime} numbers $n, m$, the largest number that cannot be written as a linear combination of them is $nm - n - m$.
+
+\begin{itemize}
+    \item There are $\frac{(n-1)(m-1)}{2}$ non-negative integers that cannot be written as a linear combination of $n$ and $m$;
+    \item For each pair $(k, nm - n - m - k)$, for $k \geq 0$, exactly one can be written.
+\end{itemize}
+
+
+\subsection{Harmonic Lemma}
+
+This technique computes sums of the form $\sum_{i=1}^{n} f\left(\left\lfloor \frac{n}{i} \right\rfloor\right)$ in $O(\sqrt{n})$.
+
+The value of $\lfloor \frac{n}{i} \rfloor$ is constant over blocks. If we are at index $l$, the value $v = \lfloor \frac{n}{l} \rfloor$ remains constant up to index $r = \lfloor \frac{n}{v} \rfloor$. We can iterate through these blocks instead of individual indices.
+
+\begin{verbatim}
+long long sum = 0;
+for (int l = 1, r; l <= n; l = r + 1) {
+    int val = n / l;
+    r = n / val;
+    sum += (long long)(r - l + 1) * f(val);
+}
+\end{verbatim}
+
+\textbf{Generalization:} For sums like $\sum_{i=1}^{n} g(i) \cdot f(\lfloor \frac{n}{i} \rfloor)$, the contribution of a block $[l, r]$ is:
+$$ (G(r) - G(l-1)) \cdot f\left(\left\lfloor \frac{n}{l} \right\rfloor\right) $$
+where $G(k)$ is the prefix sum $\sum_{i=1}^k g(i)$, which must be efficiently computable.
+
+\subsection{Goldbach's Conjecture}
+Every even integer greater than 2 is the sum of two prime numbers. Verified for all even numbers up to $4 \times 10^{18}$

@@ -1,0 +1,76 @@
+\section{Combinatória}
+
+\subsection{Stars and Bars Bounded}
+
+De quantas formas podemos definir uma sequencia $x$ tal que:
+
+$$ \sum^{n}_{i=0} x_i = M $$
+$$ l_i \leq x_i \leq r_i $$
+
+\subsubsection{Existência de solução}
+
+A existência  de solução é garantida se e somente se:
+
+$$ \sum^{n}_{i=0} l_i \leq M \leq \sum^{n}_{i=0} r_i $$
+
+\subsubsection{Solução com DP em $ O(NM^2) $}
+
+$$ DP(N, M) = \sum^{r_n}_{i=l_n} DP(N-1, M-i) $$
+
+$$
+DP(0, M) =
+    \begin{cases}
+        0, M \neq 0 \\
+        1, M = 0
+    \end{cases}
+$$
+
+\subsubsection{Caso Particular $ l_i = 0 , r_i = M$}
+
+Stars and Bars com N-1 Barras
+
+$$ Resposta = \binom{M+N-1}{M} $$
+
+\subsubsection{Redução do problema para $l_i = 0$}
+
+$$ M \xleftarrow{} M - \sum^{n}_{i=0} l_i $$
+$$ x_i \xleftarrow{} x_i - l_i $$
+$$ r_i \xleftarrow{} r_i - l_i $$
+$$ l_i \xleftarrow{} 0 $$
+
+\subsubsection{Caso Especial $ r_i = R $}
+
+$$ Resposta = \sum^{N}_{k=0} (-1)^k \binom{N}{k} \binom{M - (R + 1) k + N - 1}{N-1} $$
+
+\subsection{Formulas Básicas}
+
+\subsection*{Permutação Circular}
+O número de maneiras de ordenar $n$ objetos distintos em um círculo.
+$$ PC_n = (n-1)! $$
+
+\subsection*{Permutação com Repetição}
+O número de maneiras de ordenar $n$ objetos, onde existem $n_1$ objetos idênticos de um tipo, $n_2$ de outro, e assim por diante.
+$$ P_n^{n_1, n_2, \dots, n_k} = \frac{n!}{n_1! n_2! \dots n_k!} $$
+
+\subsection*{Combinação Caótica (Desarranjo)}
+O número de permutações de $n$ objetos onde nenhum objeto permanece em sua posição original.
+$$ D_n = n! \sum_{k=0}^{n} \frac{(-1)^k}{k!} $$
+Aproximação para $n$ grande:
+$$ D_n \approx \frac{n!}{e} $$
+
+\section*{Generalization for calculating number of elements in exactly \( r \) sets}
+A princípio da inclusão-exclusão pode ser reescrito para calcular o número de elementos que estão presentes em zero conjuntos:
+\[
+\left| \bigcap_{i=1}^{n} A_i \right| = \sum_{m=0}^{n} (-1)^m \sum_{\substack{|X|=m}} \left| \bigcap_{i \in X} A_i \right|
+\]
+Considere sua generalização para calcular o número de elementos que estão presentes em exatamente \( r \) conjuntos:
+\[
+\left| \bigcup_{|B|=r} \left[ \bigcap_{i \in B} A_i \cap \bigcap_{j \notin B} A_j \right] \right| = \sum_{m=r}^{n} (-1)^{m-r} \binom{m}{r} \sum_{\substack{|X|=m}} \left| \bigcap_{i \in X} A_i \right|
+\]
+
+\begin{itemize}[leftmargin=*, nosep]
+    \item \textbf{Catalan:} $C_n = \frac{1}{n+1}\binom{2n}{n}$. $1, 1, 2, 5, 14, 42$.
+    \item \textbf{Stirling 2:} $S(n,k) = k S(n-1, k) + S(n-1, k-1)$.
+    \item \textbf{Vandermonde:} $\sum_{k=0}^r \binom{n}{k}\binom{m}{r-k} = \binom{n+m}{r}$.
+    \item \textbf{Hockey-Stick:} $\sum_{i=r}^n \binom{i}{r} = \binom{n+1}{r+1}$.
+\end{itemize}

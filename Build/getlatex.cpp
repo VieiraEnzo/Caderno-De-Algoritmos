@@ -120,32 +120,8 @@ void printa_arquivo_codigo(string file, bool extra = false) {
 	ifstream fin(file.c_str());
 	string line;
 	int count = 0;
-	bool started_code = false;
-	int depth = 0;
-	stack<int> st;
-	for (int line_idx = 0; getline(fin, line); line_idx++) {
-		int start_line = line_idx;
-		if (count++ < 2 and !extra) continue;
-
-		for (char c : line) {
-			if (c == '{') depth++, st.push(line_idx);
-			if (c == '}') depth--, start_line = st.top(), st.pop();
-		}
-		
-		bool comment = is_comment(line);
-		if (!comment) started_code = true;
-
-		if (!extra and started_code) {
-			string hash = get_hash_arquivo(file, HASH_LEN, start_line, line_idx);
-
-			if (comment) {
-				if (depth != 0) {
-					for (int i = 0; i < HASH_LEN + 1; i++)
-						cout << " ";
-				}
-			}
-            // else cout << hash << " ";
-		}
+	while (getline(fin, line)) {
+		if (count++ < 2 && !extra) continue;
 		cout << line << endl;
 	}
 	fin.close();
@@ -207,6 +183,7 @@ void dfs(vector<pair<string, string>>& files, string s, bool extra = false) {
 	dp = opendir(s.c_str());
 	if (dp != nullptr) while ((entry = readdir(dp))) {
 		if (entry->d_name[0] == '.') continue;	
+		if (string(entry->d_name) == "rem") continue;
 
 		if (entry->d_type == DT_DIR) dfs(files, s + "/" + string(entry->d_name), extra);
 		else {
@@ -252,7 +229,7 @@ int main(int argc, char** argv) {
 		}
 	}
 
-	printa_arquivo("capa.tex", true);
+	printa_arquivo("capa_compact.tex", true);
 	struct dirent* entry = nullptr;
 	DIR* dp = nullptr;
 	dp = opendir(path.c_str());
@@ -284,8 +261,10 @@ int main(int argc, char** argv) {
 	vector<pair<string, string>> files;
 	dfs(files, path + "Extra", true);
 
-    add_figure("Imagens/HEDSIGMA.jpg", "0.3");
 
+	printa_arquivo("./Teoria/teoria.tex", true);
+
+	cout << "\\end{multicols}\n";
 	cout << "\\end{document}\n";
 	return 0;
 }
