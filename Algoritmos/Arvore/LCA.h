@@ -59,4 +59,10 @@ struct LCA{
         return height[a] + height[b] - 2*height[l];
     }
 
+    // Returns true if x is on the simple path between a and b
+    bool entre(int x, int a, int b){
+        return dist(a, b) == dist(a, x) + dist(x, b);
+    }
+
+
 };

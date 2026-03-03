@@ -1,4 +1,11 @@
-//LCA Path query
+//LCA Path SUM
+
+/*
+    LCA com query de soma em paths
+    Para raiz diferente te '1', trocar no construtor e build()
+    Mudar valor neutro da operação e junção dos nós em tb
+    Valor armazenados nos  vertices
+*/
 
 struct LCAQ{
     

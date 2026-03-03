@@ -30,3 +30,10 @@ Combining these ideas provides a universal winning condition for any impartial g
     \item \textbf{Subtraction Games:} A game with a single pile where a player can remove any number of stones $s \in \{s_1, s_2, \dots, s_k\}$. The g-number for a pile of size $n$ is:
     $$ g(n) = \text{mex} \{ g(n-s_i) \mid s_i \in S, n \ge s_i \} $$
 \end{itemize}
+
+\subsection*{Grundy's Game}
+Sometimes a move in a game divides the game into subgames that are indepen-dent of each other.
+In this case, the Grundy number of the game is mex({g1, g2, . . . , gn}), where n is the number of
+possible moves and gk = ak,1 ⊕ ak,2 ⊕ . . . ⊕ ak,m,
+where move k generates subgames with Grundy numbers ak,1, ak,2, . . . , ak,m.
+(Recursão)

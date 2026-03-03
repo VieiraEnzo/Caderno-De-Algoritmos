@@ -2,6 +2,7 @@
 //Desired Sum - S | Numbers - n
 //Subset sum - Implementation O(n) memory and O(S * sqrt(N)) runtime
 //Uses sliding window technique to optimize the subset sum problem.
+//ITEMS NÃO PODEM TER VALOR 0
 
 vector<pair<int,int>> sack; // {item, frequency}
 vector<int> dp(S+1, 0);
