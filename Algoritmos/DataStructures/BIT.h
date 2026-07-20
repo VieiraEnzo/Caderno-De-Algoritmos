@@ -4,6 +4,7 @@
 //conjunto com elemento neutro e inversos
 //Querry - O(log(n))++suporta apenas querry de update singular
 //Update - O(log(n))
+//Colocar como devemos trocar para virar de maximo (You can only increase values)
 
 struct FenwickTree {
     vector<int> bit; 

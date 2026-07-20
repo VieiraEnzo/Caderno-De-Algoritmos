@@ -1,0 +1,6 @@
+Time Complexity of Merging Subtrees
+The complexity can be demonstrated with the following problem:
+    You have an list of NN ones and a counter initially set to 00. While the list has greater than one element, remove any two elements aa and bb from the list, add a⋅ba⋅b to the counter, and add a+ba+b to the list. In terms of NN, what is the maximum possible value of the counter at the end of this process?
+
+Solution
+The counter will always be equal to (N2)(2N​) at the end of this process; every pair of ones contributes one to the answer. Adding a⋅ba⋅b to the counter corresponds to merging two subtrees of sizes aa and bb into one subtree of size a+ba+b in O(ab)O(ab) time, which in total will result in a complexity of O(N2)O(N2).
