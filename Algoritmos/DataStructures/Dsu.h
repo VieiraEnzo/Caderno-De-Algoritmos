@@ -1,6 +1,13 @@
-//Union Find
-//Algoritmo para encontrar a estrutura de uniao (DSU) ou Union-Find
-//Complexidade: O($\alpha$(n)), onde $\alpha$ é a função de Ackermann inversa
+/**
+ * Author: 
+ * Source: 
+ * Description:  
+ * Usage: 
+ * Skip: true
+ * Time: $O(\alpha(n))$.
+ * Status:
+*/
+
 struct DSU
 {
     int n;

@@ -1,7 +1,12 @@
-//Dijkstra - O(nlog)
-//
-//Algoritmo de Caminho mínimo para grafos compesos não negativos. Um para todos
-//Complexidade: O(n log n) onde n é o número de vértices do grafo.
+/**
+ * Author:
+ * Source: 
+ * Description: Algoritmo de Caminho mínimo para grafos compesos não negativos. Um para todos 
+ * Usage: 
+ * Skip: true
+ * Time: $O(M + N\log N)$.
+ * Status: 
+ */
 
 struct Dykstra
 {

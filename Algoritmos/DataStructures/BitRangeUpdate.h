@@ -1,4 +1,12 @@
-//BIT - Range Update
+/**
+ * Author: 
+ * Source: 
+ * Description:  
+ * Usage: 
+ * Skip: true
+ * Time: $O(N \log N)$.
+ * Status:
+*/
 
 vector<int> bit1, bit2;
 void init(int n){

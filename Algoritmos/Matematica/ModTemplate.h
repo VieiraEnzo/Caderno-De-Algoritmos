@@ -1,4 +1,13 @@
-//Combinatorics
+/**
+ * Author: Enzo Fernandes Vieira
+ * Source: 
+ * Description: 
+ * Usage: 
+ * Skip: true
+ * Time: 
+ * Status: Bem-testado (CF)
+ */
+
 const int mod = 1e9+7;
 
 const int maxn = 1e6;

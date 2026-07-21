@@ -1,5 +1,13 @@
-//BFS
-//kkkkkkkkkkkkkkkkkkkkkk
+/**
+ * Author: Enzo Fernandes Vieira
+ * Source: 
+ * Description: BFS porque o caio não sabe codar 
+ * Usage: 
+ * Skip: true
+ * Time: $O(N)$.
+ * Status: Não
+ */
+
 queue<int> q;
 vector<bool> used(n);
 

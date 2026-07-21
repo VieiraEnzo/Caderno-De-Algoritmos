@@ -1,7 +1,13 @@
-//Topo Sort
-//Algorithm to find the topological sort of a directed acyclic graph (DAG).
-//It returns a vector with the vertices in topological order.
-//Complexity: O(n + m), where n is the number of vertices and m is the number of edges.
+/**
+ * Author:
+ * Source: 
+ * Description: Algorithm to find the topological sort of a directed acyclic graph (DAG). 
+ * Usage: It returns a vector with the vertices in topological order. 
+ * Skip: true
+ * Time: $O(M + N)$.
+ * Status: 
+ */
+
 struct TopoSort
 {
     int n;
