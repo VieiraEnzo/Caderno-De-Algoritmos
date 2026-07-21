@@ -1,6 +1,57 @@
-\section{Number Theory}
+\section{Matematica}
 
-\subsection{Identities}
+\subsection{Identidades}
+
+\subsubsection{Series}
+
+$$\sum_{i=1}^{n} i^{2} = \frac{n(n+1)(2n+1)}{6}  \qquad  \sum_{i=1}^{n} i^{3} = \frac{n^{2}(n+1)^{2}}{4} = \left(\sum_{i=1}^n i\right)^2$$
+
+$$ g_k(n) = \sum_{i=1}^n i^k = \frac{1}{k+1} \left( n^{k+1} + \sum_{j=1}^k \binom{k+1}{j+1} (-1)^{j+1} g_{k-j}(n) \right) $$
+
+$$\sum_{i=0}^{n} ic^{i} = \frac{nc^{n+2} - (n+1)c^{n+1} + c}{(c-1)^{2}}, \quad c \neq 1$$
+
+$$\sum_{i=0}^{\infty} ic^{i} = \frac{c}{(1-c)^{2}}, \quad |c| < 1$$
+
+\subsubsection{Binomial Identities}
+
+\begin{itemize}[leftmargin=*, nosep]
+    \item $\binom{n}{k} = \frac{n}{k}\binom{n-1}{k-1} = \binom{n-1}{k-1} + \binom{n-1}{k}$
+    \item $\binom{n}{h}\binom{n-h}{k} = \binom{n}{k}\binom{n-k}{h}$ \hfill $\binom{n}{k} = \frac{n+1-k}{k} \binom{n}{k-1}$
+    \item $\sum k \binom{n}{k} = n 2^{n-1}$ \hfill $\sum k^2 \binom{n}{k} = (n+n^2)2^{n-2}$
+    \item $\sum_{j=0}^k \binom{m}{j}\binom{n-m}{k-j} = \binom{n}{k}$ \hfill $\sum \binom{m}{j}^2 = \binom{2m}{m}$
+    \item $\sum_{m=k}^n \binom{m}{k} = \binom{n+1}{k+1}$ \hfill $\sum_{k=0}^{\lfloor n/2 \rfloor} \binom{n-k}{k} = F_{n+1}$
+    \item $(x+y)^n = \sum \binom{n}{k}x^{n-k}y^k$ \hfill $(1+x)^n = \sum \binom{n}{k}x^k$
+\end{itemize}
+
+
+\subsubsection{Progressão Aritmética (PA)}
+
+\textbf{Termo Geral:} \quad $ a_n = a_1 + (n-1)r $
+
+\textbf{Soma dos Termos:} \quad $ S_n = \frac{(a_1 + a_n)n}{2} $
+
+\textbf{PA de 2ª Ordem:} \quad $ a_n = An^2 + Bn + C $
+
+\subsubsection{Progressão Geométrica (PG)}
+
+\textbf{Termo Geral:} \quad $ a_n = a_1 \cdot q^{n-1} $
+
+\textbf{Soma Finita:} \quad $ S_n = a_1 \frac{q^n - 1}{q - 1} $
+
+\textbf{Soma Infinita ($|q|<1$):} \quad $ S_{\infty} = \frac{a_1}{1 - q} $
+
+
+\subsubsection{Funções Geradoras}
+
+\begin{align*}
+    (1+x)^n &= \sum_{k\ge 0} \binom{n}{k} x^k \\[6pt]
+    \frac{1}{(1-x)^{m+1}} &= \sum_{k\ge 0} \binom{k+m}{m} x^k \\[6pt]
+    \frac{x^m}{(1-x)^{m+1}} &= \sum_{k\ge 0} \binom{k}{m} x^k
+\end{align*}
+
+\subsection{Number Theory}
+
+\subsubsection{Identities}
 
 $$ \sum_{d|n} \varphi(d) = n$$
 
@@ -10,7 +61,7 @@ $$ |\{(x, y) : \, 1 \leq x, y \leq n, \, \text{gcd}(x, y) = 1\}| = \sum_{d = 1}^
 
 $$\sum_{x = 1}^n \sum_{y = 1}^n \text{gcd}(x, y)
 = \sum_{k = 1}^n k \sum_{k|l}^{n} \left \lfloor \frac{n}{l} \right \rfloor^2 \mu\left(\frac{l}{k}\right)$$
-    
+
 $$\sum_{x = 1}^n \sum_{y = x}^n \text{gcd}(x, y) = \sum_{g = 1}^n \sum_{g|d}^n g \cdot \varphi\left(\frac{d}{g}\right)$$
 
 $$\sum_{x = 1}^n \sum_{y = 1}^n \text{lcm}(x, y)
@@ -24,13 +75,13 @@ $$\sum_{x \in A} \sum_{y \in A} \text{gcd}(x, y)
 $$\sum_{x \in A} \sum_{y \in A} \text{lcm}(x, y)
 = \sum_{t = 1}^n \left(\sum_{l | t} \frac{l}{t} \mu(l)\right) \left(\sum_{a \in A, \, t|a} a\right)^2$$
 
-\subsection{Large Prime Gaps}
+\subsubsection{Large Prime Gaps}
 For numbers until $10^9$ the largest gap is 400.\\
 For numbers until $10^{18}$ the largest gap is 1500.\\[0.5cm]
 
-\subsection{Prime counting function - \texorpdfstring{$\pi(x)$}{}} The prime counting function is asymptotic to $\frac{x}{\log x}$, by the prime number theorem.
+\subsubsection{Prime counting function - \texorpdfstring{$\pi(x)$}{}} The prime counting function is asymptotic to $\frac{x}{\log x}$, by the prime number theorem.
 
-\ 
+\
 
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
 \hline
@@ -38,14 +89,14 @@ For numbers until $10^{18}$ the largest gap is 1500.\\[0.5cm]
   \cellcolor{gray!40} $\pi(x)$& 4 & 25 & 168 & 1\,229 & 9\,592 & 78\,498 & 664\,579\\ \hline
 \end{tabular}
 
-\ 
+\
 
-\subsection{Some Primes}
+\subsubsection{Some Primes}
 
 999999937 $\quad$ 1000000007 $\quad$ 1000000009 $\quad$ 1000000021 $\quad$ 1000000033
 $10^{18} - 11 \quad\quad 10^{18} + 3 \quad\quad\quad 2305843009213693951 = 2^{61} - 1$
 
-\subsection{Number of Divisors}
+\subsubsection{Number of Divisors}
 
 \begin{table}[H]
     \centering
@@ -83,25 +134,25 @@ $10^{18} - 11 \quad\quad 10^{18} + 3 \quad\quad\quad 2305843009213693951 = 2^{61
 
 For numbers up to $10^{88}$, $d(n) < 3.6 \sqrt[3]{n}$.
 
-\subsection{Lucas's Theorem}
+\subsubsection{Lucas's Theorem}
 
-$$ \binom{n}{m} \equiv \prod_{i=0}^k \binom{n_i}{m_i} \quad (\text{mod } p) $$ 
+$$ \binom{n}{m} \equiv \prod_{i=0}^k \binom{n_i}{m_i} \quad (\text{mod } p) $$
 
 For $p$ prime. $n_i$ and $m_i$ are the coefficients of the representations of $n$    and $m$ in base $p$. In particular, $\binom{n}{m}$ is odd if and only if $n$ is a submask of $m$.
 
-\subsection{Fermat's Theorems}
+\subsubsection{Fermat's Theorems}
 Let $p$ be a prime number and $a$ an integer, then:
 $$a^p \equiv a \quad (\text{mod } p)$$
 $$a^{p-1} \equiv 1 \quad (\text{mod } p)$$
 
-\textbf{Lemma:} Let $p$ be a prime number and $a$ and $b$ integers, then: 
+\textbf{Lemma:} Let $p$ be a prime number and $a$ and $b$ integers, then:
 $$(a+b)^{p} \equiv a^{p} + b^{p} \quad (\text{mod } p)$$
 
 \textbf{Lemma:} Let $p$ be a prime number and $a$ an integer. The inverse of $a$ modulo $p$ is $a^{p-2}$:
 
 $$a^{-1} \equiv a^{p-2} \quad (\text{mod } p)$$
 
-\subsection{Taking modulo at the exponent}
+\subsubsection{Taking modulo at the exponent}
 
 If $a$ and $m$ are coprime, then
 
@@ -111,7 +162,7 @@ Generally, if $n \geq \log_2 m$, then
 
 $$ a^n \equiv a^{\varphi(m) + [n \text{ mod } \varphi(m)]} \quad (\text{mod } m) $$
 
-\subsection{Mobius invertion}
+\subsubsection{Mobius invertion}
 
 If $g(n) = \sum_{d|n} f(d)$, then $f(n) = \sum_{d|n} g(d) \mu(\frac{n}{d})$.
 
@@ -128,7 +179,7 @@ Example, sum of LCM:
     &= \sum_{k = 1}^n k \sum_{d=1}^{\lfloor \frac{n}{k} \rfloor}  \mu(d) \left(\sum_{p=1}^{\lfloor \frac{n}{kd} \rfloor} p\right) \left(\sum_{q=1}^{\lfloor \frac{n}{kd} \rfloor} q\right) \\
 \end{align*}
 
-\subsection{Chicken McNugget Theorem}
+\subsubsection{Chicken McNugget Theorem}
 
 Given two \textbf{coprime} numbers $n, m$, the largest number that cannot be written as a linear combination of them is $nm - n - m$.
 
@@ -138,7 +189,7 @@ Given two \textbf{coprime} numbers $n, m$, the largest number that cannot be wri
 \end{itemize}
 
 
-\subsection{Harmonic Lemma}
+\subsubsection{Harmonic Lemma}
 
 This technique computes sums of the form $\sum_{i=1}^{n} f\left(\left\lfloor \frac{n}{i} \right\rfloor\right)$ in $O(\sqrt{n})$.
 
@@ -157,5 +208,82 @@ for (int l = 1, r; l <= n; l = r + 1) {
 $$ (G(r) - G(l-1)) \cdot f\left(\left\lfloor \frac{n}{l} \right\rfloor\right) $$
 where $G(k)$ is the prefix sum $\sum_{i=1}^k g(i)$, which must be efficiently computable.
 
-\subsection{Goldbach's Conjecture}
+\subsubsection{Goldbach's Conjecture}
 Every even integer greater than 2 is the sum of two prime numbers. Verified for all even numbers up to $4 \times 10^{18}$
+
+\subsection{Combinatória}
+
+\subsubsection{Stars and Bars Bounded}
+
+De quantas formas podemos definir uma sequencia $x$ tal que:
+
+$$ \sum^{n}_{i=0} x_i = M $$
+$$ l_i \leq x_i \leq r_i $$
+
+\paragraph{Existência de solução}
+
+A existência  de solução é garantida se e somente se:
+
+$$ \sum^{n}_{i=0} l_i \leq M \leq \sum^{n}_{i=0} r_i $$
+
+\paragraph{Solução com DP em $ O(NM^2) $}
+
+$$ DP(N, M) = \sum^{r_n}_{i=l_n} DP(N-1, M-i) $$
+
+$$
+DP(0, M) =
+    \begin{cases}
+        0, M \neq 0 \\
+        1, M = 0
+    \end{cases}
+$$
+
+\paragraph{Caso Particular $ l_i = 0 , r_i = M$}
+
+Stars and Bars com N-1 Barras
+
+$$ Resposta = \binom{M+N-1}{M} $$
+
+\paragraph{Redução do problema para $l_i = 0$}
+
+$$ M \xleftarrow{} M - \sum^{n}_{i=0} l_i $$
+$$ x_i \xleftarrow{} x_i - l_i $$
+$$ r_i \xleftarrow{} r_i - l_i $$
+$$ l_i \xleftarrow{} 0 $$
+
+\paragraph{Caso Especial $ r_i = R $}
+
+$$ Resposta = \sum^{N}_{k=0} (-1)^k \binom{N}{k} \binom{M - (R + 1) k + N - 1}{N-1} $$
+
+\subsubsection{Formulas Básicas}
+
+\subsubsection*{Permutação Circular}
+O número de maneiras de ordenar $n$ objetos distintos em um círculo.
+$$ PC_n = (n-1)! $$
+
+\subsubsection*{Permutação com Repetição}
+O número de maneiras de ordenar $n$ objetos, onde existem $n_1$ objetos idênticos de um tipo, $n_2$ de outro, e assim por diante.
+$$ P_n^{n_1, n_2, \dots, n_k} = \frac{n!}{n_1! n_2! \dots n_k!} $$
+
+\subsubsection*{Combinação Caótica (Desarranjo)}
+O número de permutações de $n$ objetos onde nenhum objeto permanece em sua posição original.
+$$ D_n = n! \sum_{k=0}^{n} \frac{(-1)^k}{k!} $$
+Aproximação para $n$ grande:
+$$ D_n \approx \frac{n!}{e} $$
+
+\subsubsection*{Generalization for calculating number of elements in exactly \( r \) sets}
+A princípio da inclusão-exclusão pode ser reescrita para calcular o número de elementos que estão presentes em zero conjuntos:
+\[
+\left| \bigcap_{i=1}^{n} A_i \right| = \sum_{m=0}^{n} (-1)^m \sum_{\substack{|X|=m}} \left| \bigcap_{i \in X} A_i \right|
+\]
+Considere sua generalização para calcular o número de elementos que estão presentes em exatamente \( r \) conjuntos:
+\[
+\left| \bigcup_{|B|=r} \left[ \bigcap_{i \in B} A_i \cap \bigcap_{j \notin B} A_j \right] \right| = \sum_{m=r}^{n} (-1)^{m-r} \binom{m}{r} \sum_{\substack{|X|=m}} \left| \bigcap_{i \in X} A_i \right|
+\]
+
+\begin{itemize}[leftmargin=*, nosep]
+    \item \textbf{Catalan:} $C_n = \frac{1}{n+1}\binom{2n}{n}$. $1, 1, 2, 5, 14, 42$.
+    \item \textbf{Stirling 2:} $S(n,k) = k S(n-1, k) + S(n-1, k-1)$.
+    \item \textbf{Vandermonde:} $\sum_{k=0}^r \binom{n}{k}\binom{m}{r-k} = \binom{n+m}{r}$.
+    \item \textbf{Hockey-Stick:} $\sum_{i=r}^n \binom{i}{r} = \binom{n+1}{r+1}$.
+\end{itemize}

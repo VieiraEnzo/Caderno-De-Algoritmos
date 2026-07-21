@@ -2,10 +2,11 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb,amsmath}
-\usepackage[brazil]{babel}
+\usepackage{babel}
+\babelprovide[import]{portuguese}
 \usepackage{comment}
 \usepackage{datetime}
-\usepackage[colorlinks=true]{hyperref}
+\usepackage[hidelinks]{hyperref}
 \usepackage{graphicx}
 \usepackage{multicol}
 \usepackage{fancyhdr}
@@ -47,29 +48,39 @@
 \renewcommand{\headrulewidth}{0.4pt}
 \setlength{\headheight}{12pt}
 
-% Compactar seções
+% --- Numeração dos capítulos (seções) começando em 1, sem prefixo de capítulo ---
+\renewcommand{\thesection}{\arabic{section}}
+
+% --- Seções (capítulos) com título grande estilo KACTL (Huge + sublinhado) ---
 \usepackage{titlesec}
-\titlespacing*{\section}{0pt}{4pt plus 2pt minus 2pt}{2pt plus 1pt minus 1pt}
+\titlespacing*{\section}{0pt}{8pt plus 2pt minus 2pt}{4pt plus 1pt minus 1pt}
 \titlespacing*{\subsection}{0pt}{3pt plus 1pt minus 1pt}{1pt plus 1pt minus 1pt}
-\titleformat{\section}{\normalfont\large\bfseries}{\thesection}{1em}{}
+\titleformat{\section}{\normalfont\Huge\bfseries}{\thesection}{0.5em}{}[{\titlerule[0.8pt]}]
 \titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{0.8em}{}
 
-% Compactar TOC
+% --- Título de algoritmo: nome do arquivo, grande, sem número (estilo KACTL) ---
+\newcommand{\algotitle}[1]{\par\medskip\noindent{\large\textbf{#1}}\par\smallskip}
+
+% --- Metadados do cabeçalho: rótulo em negrito + valor, fonte pequena (estilo KACTL) ---
+\newcommand{\codeheader}[2]{{\par\noindent\footnotesize{\textbf{#1:} #2\par}}}
+
+% --- TOC: apenas capítulos (seções), sem subseções ---
 \usepackage{tocloft}
+\usepackage{titletoc}
+\setcounter{tocdepth}{1}
 \setlength{\cftbeforesecskip}{1pt}
-\setlength{\cftbeforesubsecskip}{0pt}
-\renewcommand{\cftsecfont}{\small}
-\renewcommand{\cftsubsecfont}{\footnotesize}
+\renewcommand{\cftsecfont}{\small\bfseries}
 \renewcommand{\cftsecpagefont}{\small}
-\renewcommand{\cftsubsecpagefont}{\footnotesize}
+\renewcommand{\cftdotsep}{4.5}
 
 \begin{document}
 
 % Include cover page
 \input{titlepage}
 
+% Índice simples: somente os capítulos principais
 \begin{multicols}{2}
-% \tableofcontents
+\makeatletter\@starttoc{toc}\makeatother
 \end{multicols}
 
 \vspace{2mm}

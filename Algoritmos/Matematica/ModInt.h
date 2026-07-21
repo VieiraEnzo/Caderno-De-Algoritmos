@@ -1,3 +1,13 @@
+/**
+ * Author: Bruno Meleca
+ * Source: Caderno do Bruno
+ * Description: Da um mortal e te come por trás.
+ * Usage: O mod tem q ser primo
+ * Skip: false
+ * Time: $O(\log N)$.
+ * Status: Stress-tested
+ */
+
 // Aritmetica Modular
 //
 // O mod tem q ser primo
