@@ -1,4 +1,9 @@
-//Crivo + Fatoração
+/**
+ * Description: Crivo (Sieve) + Fatoração. Precomputa primos e menor divisor primo.
+ *     $factorize(n)$ retorna os fatores primos de $n$ com suas frequências.
+ * Time: $O(n \log \log n)$ para o crivo, $O(\log n)$ por fatoração
+ * Status: tested
+ */
 
 struct Sieve{
     int maxn;

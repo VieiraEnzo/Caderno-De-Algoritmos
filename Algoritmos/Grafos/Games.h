@@ -1,4 +1,9 @@
-//Games on arbitrary graphs
+/**
+ * Description: Jogos em grafos arbitrários. Determina estados winning/losing
+ *     em jogos em grafos arbitrários usando backward induction.
+ * Time: $O(V + E)$
+ * Status: tested
+ */
 
 vector<vector<int>> adj_rev;
 

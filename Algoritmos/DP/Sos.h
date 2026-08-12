@@ -1,10 +1,9 @@
-//Sos DP
-//
-//I will be addressing the following problem: Given a fixed array A of 2N integers,
-//we need to calculate forAll x function F(x) = Sum of all A[i] such that x&i = i, i.e., i is a subset of x.
-//$$F[\text{mask}] = \sum_{i \subseteq \text{mask}} A[i]$$
-//F[mask]=i(\subseteq)mask\sumA[i]
-
+/**
+ * Description: Sum over Subsets (SOS) DP.
+ *     Dado um array $A$ de $2^N$ inteiros, calcula $F[\text{mask}] = \sum_{i \subseteq \text{mask}} A[i]$.
+ * Time: $O(N \cdot 2^N)$
+ * Status: tested
+ */
 
 for(int i = 0; i<(1<<N); ++i)
 	F[i] = A[i];

@@ -1,13 +1,12 @@
-//Virtual Tree
-// Créditos: Caderno do Tiago que pegou do Caderno da UFMG
-// O(NlogN), sendo N o tamanho do conjunto de vértices passados
-/*
-Dado o conjunto de vértices do vector v, uma árvore minimal com esse conjunto
-é construida, a virtual tree possui no máximo 2*n-1 vértices
-
-virt[i] guarda os vizinhos do vértice i, 
-com um pair que guarda o vértice e a distância até ele
-*/
+/**
+ * Description: Virtual Tree. Dado um conjunto de vértices, constrói uma árvore
+ *     minimal contendo esse conjunto. A virtual tree possui no máximo $2|V|-1$ vértices.
+ * Usage: \texttt{virt[i]} guarda os vizinhos do vértice \texttt{i} (pares: vértice, distância).
+ *     \texttt{build(v)} retorna a raiz da virtual tree.
+ * Time: $O(N \log N)$, sendo $N$ o tamanho do conjunto de vértices passados.
+ * Source: Caderno do Tiago que pegou do Caderno da UFMG
+ * Status: tested
+ */
 
 vector<pair<int, int> > virt[mxn];
 

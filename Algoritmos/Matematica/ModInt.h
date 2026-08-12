@@ -1,17 +1,11 @@
 /**
  * Author: Bruno Meleca
- * Source: Caderno do Bruno
- * Description: Da um mortal e te come por trás.
- * Usage: O mod tem q ser primo
- * Skip: false
- * Time: $O(\log N)$.
+ * Description: Inteiro modular genérico com módulo primo $p$ fixo em tempo de compilação.
+ *     Suporta operações $+, -, *, /, \wedge$ e exponenciação rápida.
+ * Usage: $typedef\ mod\_int<(int)1e9+7>\ mint;$
+ * Time: $O(\log N)$ por exponenciação/inversão
  * Status: Stress-tested
  */
-
-// Aritmetica Modular
-//
-// O mod tem q ser primo
-// Creditos: bruno meleca
 
 template<int p> struct mod_int {
 	ll expo(ll b, ll e) {

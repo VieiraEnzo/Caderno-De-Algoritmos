@@ -1,12 +1,12 @@
-//Heavy Light Decomposition
-
 /**
- * Description: Heavy-Light Decomposition, add val to verts 
- 	* and query sum in path/subtree.
- * Time: any tree path is split into $O(\log N)$ parts
+ * Description: Heavy-Light Decomposition. Decompõe a árvore em caminhos pesados,
+ *     permitindo queries e updates em caminhos e subárvores com uma SegTree.
+ *     Suporta valores nas arestas (\texttt{VALS\_IN\_EDGES = true}) ou nos vértices.
+ * Time: qualquer caminho da árvore é particionado em $O(\log N)$ segmentos;
+ *     operações em caminho em $O(\log^2 N)$.
  * Source: http://codeforces.com/blog/entry/22072, https://codeforces.com/blog/entry/53170
- * Verification: *
  */
+
 
 #include "../../data-structures/1D Range Queries (9.2)/LazySeg (15.2).h"
 

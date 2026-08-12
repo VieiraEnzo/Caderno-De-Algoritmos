@@ -1,11 +1,11 @@
 /**
  * Author: Enzo Fernandes Vieira
- * Source: 
- * Description: 
- * Usage: 
- * Skip: true
- * Time: 
+* Description: Template modular com pré-cálculo de fatoriais e inversos.
+ *     $build()$ pré-computa $fact[n]$ e $ifact[n]$ até $maxn$.
+ *     $choose(a, b)$ retorna $\binom{a}{b} \bmod mod$.
+ * Time: $O(maxn)$ para $build()$, $O(1)$ para $choose()$
  * Status: Bem-testado (CF)
+ * Skip: true
  */
 
 const int mod = 1e9+7;

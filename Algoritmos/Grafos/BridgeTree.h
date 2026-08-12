@@ -1,8 +1,9 @@
-//Bridge Tree
-//Algoritmos para encontrar a árvore de pontes de um grafo
-//Complexidade: O(V + E), onde V é o número de vértices e E é o número de arestas.
-//A árvore de pontes é um grafo que representa as componentes conexas de um grafo original,
-//onde cada aresta é formada por uma ponte do grafo original.
+/**
+ * Description: Bridge Tree. Encontra a árvore de pontes de um grafo,
+ *     onde cada aresta da árvore representa uma ponte do grafo original.
+ * Time: $O(V + E)$
+ * Status: tested
+ */
 
 struct BridgeTree{
 

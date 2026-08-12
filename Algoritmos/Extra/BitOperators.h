@@ -1,3 +1,12 @@
+/**
+ * Description: Operações bit a bit built-in, Gray Code e identidades bitwise.
+ *     \texttt{\_\_builtin\_clz}, \texttt{\_\_builtin\_ctz}, \texttt{\_\_builtin\_popcount}, \texttt{\_\_builtin\_parity}.
+ *     Gray code: $g(n) = n \oplus (n \gg 1)$ e sua inversa.
+ *     Propriedades: $a \mid b = a \oplus b + a \mathbin{\&} b$, $a + b = a \mid b + a \mathbin{\&} b$, etc.
+ * Time: $O(1)$ por operação
+ * Status: tested
+ */
+
 Pra fazer funcionar com long long é só colocar ll no final da função, por exemplo "_builtin_clz(x)" vira "_builtin_clzll(x)"
 __builtin_clz(x): Count leading zeros. Retorna o número de zeros no início da representação binária de x (incio == bits mais significativos)
 __builtin_ctz(x): Count trailing zeros. Retorna o número de zeros no final da representação binária de x

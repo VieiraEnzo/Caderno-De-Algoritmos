@@ -1,4 +1,9 @@
-//Mo
+/**
+ * Description: Template do Algoritmo de Mo. Ordena queries em blocos de tamanho $\sqrt{N}$
+ *     para responder range queries offline.
+ * Time: $O((N+Q)\sqrt{N})$
+ * Status: tested
+ */
 
 const int blockSize = 500;
 

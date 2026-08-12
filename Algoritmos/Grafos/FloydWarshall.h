@@ -1,8 +1,9 @@
-//Floyd Warshall
-//
-//Algoritmo todos para todos de distancia mínima
-//Se houver ciclos negativos, para algum vertice a  -> dist[a][a] < 0
-//Complexidade: O(n^3)
+/**
+ * Description: Floyd-Warshall para caminhos mínimos entre todos os pares.
+ *     Se houver ciclos negativos, para algum vértice $a \to dist[a][a] < 0$.
+ * Time: $O(n^3)$
+ * Status: tested
+ */
 
 struct FloydWarshall
 {   

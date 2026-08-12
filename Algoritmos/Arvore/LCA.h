@@ -1,13 +1,11 @@
 /**
- * Author: 
- * Source: 
- * Description:  
- * Usage: 
+ * Description: LCA com binary lifting. Encontra o menor ancestral comum,
+ *     distância entre vértices e verifica se um vértice está no caminho entre dois outros.
+ * Usage: \texttt{build(x)} constrói a estrutura a partir da raiz (padrão: 1).
+ *     Trocar se a raiz não for 1 no construtor e em \texttt{build()}.
+ * Time: $O(n \log n)$ de build, $O(\log n)$ por query
  * Skip: true
- * Time: 
- * Status:
-*/
-
+ */
 
 struct LCA{
     

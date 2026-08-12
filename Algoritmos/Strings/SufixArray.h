@@ -1,13 +1,12 @@
-// Suffix Array - O(n log n)
-//
-// kasai recebe o suffix array e calcula lcp[i],
-// o lcp entre s[sa[i],...,n-1] e s[sa[i+1],..,n-1]
-// obs: lcp entre sufixo i e sufixo j é o minimo do lcp no intervalo apropriado
-//
-// Complexidades:
-// suffix_array - O(n log(n))
-// kasai - O(n)
-// Creditos: Caderno do breno Maletas
+/**
+ * Source: Caderno do Breno Maletas
+ * Description: Suffix Array $O(n \log n)$. suffix_array(s) retorna o SA.
+ *     kasai(s, sa) calcula lcp[i] = LCP entre $s[sa[i]..]$ e $s[sa[i+1]..]$.
+ *     LCP entre sufixos i e j: min do lcp no intervalo apropriado.
+ * Usage: suffix_array(s) constrói o SA. kasai(s, sa) constrói o array LCP.
+ * Time: $O(n \log n)$ suffix_array, $O(n)$ kasai
+ * Status: tested
+ */
 
 vector<int> suffix_array(string s) {
 	s += "$";

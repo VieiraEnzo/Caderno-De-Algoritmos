@@ -1,4 +1,8 @@
-//GCD convolution
+/**
+ * Description: Convolução de GCD. Computa $C[k] = \sum_{\gcd(i,j)=k} A[i] \cdot B[j]$.
+ *     Usa transformadas Multiple Zeta/Möbius sobre primos.
+ * Time: $O(n \log \log n)$
+ */
 
 vector<int> PrimeEnumerate(int n) {
 	vector<int> P; vector<bool> B(n + 1, 1);

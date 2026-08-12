@@ -1,7 +1,9 @@
-//Kosaraju
-//Algoritmo de para encontrar componentes fortemente conexas
-//Retorna também em scc as componentes em ordem topologica 
-//Complexidade: O(n+m)
+/**
+ * Description: Kosaraju para encontrar componentes fortemente conexas (SCC).
+ *     Retorna em \texttt{scc} as componentes em ordem topológica.
+ * Time: $O(n + m)$
+ * Status: tested
+ */
 
 struct Kosa{
 

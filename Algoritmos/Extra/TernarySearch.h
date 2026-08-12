@@ -1,4 +1,14 @@
-//Ternary Search
+/**
+ * Source: Simon Lindholm
+ * Description: Busca ternária para funções discretas e contínuas.
+ *     Encontra o menor $i \in [a, b]$ que maximiza $f(i)$, assumindo
+ *     $f(a) < \dots < f(i) \ge \dots \ge f(b)$. Para minimizar,
+ *     inverter as desigualdades. Para reais, usar $\approx 200$--$300$ iterações.
+ * Usage:
+ *     \texttt{int ind = ternSearch(0, n-1, [\&](int i)\{ return a[i]; \});}
+ * Time: $O(\log(b - a))$
+ * Status: tested
+ */
 
 double ternary(double l, double r){
     // < for maximum and > for minimum value

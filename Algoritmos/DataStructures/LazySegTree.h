@@ -1,4 +1,9 @@
-//Lazy SegTree
+/**
+ * Description: Segment Tree com Lazy Propagation para range add e range sum.
+ * Usage: \texttt{update(l, r, val)} adiciona \texttt{val} ao range $[l, r]$.
+ * Time: $O(\log n)$ por query/update
+ * Status: tested
+ */
 
 struct SegTree{ 
     int n;

@@ -1,5 +1,7 @@
-//Kuhn
-//Finds maximal matching in O(V * E) time 
+/**
+ * Description: Algoritmo de Kuhn para matching bipartido máximo.
+ * Time: $O(V E)$
+ */
 
 struct bm_t
 {

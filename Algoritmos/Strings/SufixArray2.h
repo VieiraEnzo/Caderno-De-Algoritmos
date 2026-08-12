@@ -1,14 +1,13 @@
-// Suffix Array - O(n)
-//
-// Rapidao
-// Computa o suffix array em 'sa', o rank em 'rnk'
-// e o lcp em 'lcp'
-// query(i, j) retorna o LCP entre s[i..n-1] e s[j..n-1]
-//
-// Complexidades
-// O(n) para construir
-// query - O(1)
-// Creditos: Caderno do Brawn Malous
+/**
+ * Source: Caderno do Braun Malous
+ * Description: Suffix Array $O(n)$ (DC3 / SA-IS). Computa sa, rnk, lcp.
+ * Usage: query(i, j) retorna o LCP entre $s[i..n-1]$ e $s[j..n-1]$ em
+ *     $O(1)$. count_substr(t) retorna quantas vezes t ocorre em s.
+ *     sos() computa $\sum_{t} f(\text{ocorrências de } t)$ para toda
+ *     substring distinta $t$.
+ * Time: $O(n)$ build, $O(1)$ query
+ * Status: tested
+ */
 
 template<typename T> struct rmq {
 	vector<T> v;

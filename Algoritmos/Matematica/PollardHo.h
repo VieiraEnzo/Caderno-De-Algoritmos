@@ -1,6 +1,10 @@
-//Pollard Ho
-//Algoritmo de Pollard's Rho para fatoração de números inteiros
-//Complexidade: O(n^(1/4)) em média, O(n^(1/2)) no pior caso
+/**
+ * Description: Pollard's Rho para fatoração de inteiros grandes.
+ *     $prime(n)$ testa primalidade com Miller-Rabin determinístico.
+ *     $fact(n)$ retorna a lista de fatores primos (não necessariamente únicos).
+ * Time: $O(n^{1/4})$ em média, $O(n^{1/2})$ no pior caso
+ * Status: tested
+ */
 
 ll mul(ll a, ll b, ll m) {
 	ll ret = a*b - ll((long double)1/m*a*b+0.5)*m;

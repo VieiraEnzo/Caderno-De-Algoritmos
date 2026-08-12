@@ -1,9 +1,12 @@
-// Divide and Conquer DP
-//
-// Particiona o array em k subarrays
-// minimizando o somatorio das queries
-//
-// O(k n log n), assumindo quer query(l, r) eh O(1)
+/**
+ * Description: Divide and Conquer DP. Particiona um array em $k$ subarrays
+ *     minimizando a soma das queries. Assume que $\text{query}(l, r)$ é $O(1)$.
+ * Usage:
+ *     $\text{DC}(n, k)$ retorna o custo mínimo de particionar $n$ elementos em $k$ subarrays.
+ *     O usuário deve implementar $\text{query}(l, r)$ que retorna o custo do subarray $[l, r]$.
+ * Time: $O(k n \log n)$
+ * Status: tested
+ */
 
 ll dp[MAX][2];
 

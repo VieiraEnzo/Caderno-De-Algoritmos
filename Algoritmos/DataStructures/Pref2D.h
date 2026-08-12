@@ -1,4 +1,9 @@
-//Prefix Sum 2D
+/**
+ * Description: Prefix Sum 2D. Precomputa soma de prefixos para responder range sum queries em $O(1)$.
+ * Usage: \texttt{query(rowl, rowr, coll, colr)} retorna a soma no retângulo.
+ * Time: $O(1)$ por query, $O(n m)$ build
+ * Status: tested
+ */
 
 struct pref2D{
     int n, m;

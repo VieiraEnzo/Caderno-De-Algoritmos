@@ -1,9 +1,3 @@
-//NTT
-struct NTT
-{
-    typedef vector<long long int> vl;
-    typedef vector<int> vi;
-
     /*
     * Author: chilli
     * Date: 2019-04-16
@@ -20,6 +14,13 @@ struct NTT
     * Time: O(N \log N)
     * Status: stress-tested
     */
+
+
+struct NTT
+{
+    typedef vector<long long int> vl;
+    typedef vector<int> vi;
+
     const ll mod = (119 << 23) + 1, root = 62; // = 998244353
     // For p < 2^30 there is also e.g. 5 << 25, 7 << 26, 479 << 21
     // and 483 << 21 (same root). The last two are > 10^9.

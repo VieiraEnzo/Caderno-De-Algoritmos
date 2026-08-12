@@ -1,12 +1,8 @@
 /**
- * Author: 
- * Source: 
- * Description:  
- * Usage: 
+ * Description: Disjoint Set Union (DSU) com path compression e union by rank.
+ * Time: $O(\alpha(n))$ amortizado por operação
  * Skip: true
- * Time: $O(\alpha(n))$.
- * Status:
-*/
+ */
 
 struct DSU
 {

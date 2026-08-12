@@ -1,11 +1,11 @@
-// Minkowski Sum
-//
-// Computa A+B = {a+b : a \in A, b \in B}, em que
-// A e B sao poligonos convexos
-// A+B eh um poligono convexo com no max |A|+|B| pontos
-//
-// O(|A|+|B|)
-// Do cadeno do Brunas Maletas UFMG
+/**
+ * Source: Caderno do Bruno Maletas UFMG
+ * Description: Soma de Minkowski. Computa $A+B = \{a+b : a \in A, b \in B\}$, onde
+ *     $A$ e $B$ são polígonos convexos. $A+B$ tem no máximo $|A|+|B|$ pontos.
+ *     dist\_convex(p, q) computa a distância mínima entre dois polígonos convexos.
+ * Time: $O(|A|+|B|)$
+ * Status: tested
+ */
 
 vector<pt> minkowski(vector<pt> p, vector<pt> q) {
 	auto fix = [](vector<pt>& P) {

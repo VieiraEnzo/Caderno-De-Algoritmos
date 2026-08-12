@@ -1,4 +1,8 @@
-//Merge Sort Tree
+/**
+ * Description: Nó de SegTree para Merge Sort Tree. Cada nó armazena um vetor ordenado.
+ *     O operador \texttt{+} faz merge de dois vetores ordenados.
+ * Time: $O(n \log n)$ build, $O(\log^2 n)$ por query
+ */
 
 //Segtree node for Merge-Sort
 struct Node{

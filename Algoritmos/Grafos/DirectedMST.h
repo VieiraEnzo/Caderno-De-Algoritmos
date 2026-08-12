@@ -1,4 +1,11 @@
-//Directed MST
+/**
+ * Description: Directed MST (Minimum Spanning Arborescence).
+ *     Retorna o pai de cada vértice na arborescência mínima enraizada em \texttt{root}.
+ *     Assume que existe solução (todos vértices alcançáveis de \texttt{root}).
+ *     Cada aresta deve ser distinta. 0-indexed. $\sim$300ms para $n = 2\cdot 10^5$.
+ * Time: $O(E \log V)$
+ * Status: tested
+ */
 
 const int N = 3e5 + 9;
 

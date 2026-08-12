@@ -1,3 +1,10 @@
+/**
+ * Description: Template de gerador de testes aleatórios usando \texttt{mt19937}.
+ *     Gera valores inteiros uniformemente distribuídos em um intervalo.
+ * Time: N/A
+ * Status: tested
+ */
+
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;

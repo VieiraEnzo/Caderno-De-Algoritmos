@@ -1,9 +1,10 @@
-// Isomorfismo de arvores
-// 
-// thash() retorna o hash da arvore (usando centroids como vertices especiais).
-// Duas arvores sao isomorfas sse seu hash eh o mesmo
-//
-// O(|V|.log(|V|))
+/**
+ * Description: Isomorfismo de árvores. \texttt{thash()} retorna o hash da árvore
+ *     usando centróides como vértices especiais. Duas árvores são isomorfas
+ *     se e somente se tem hashes iguais.
+ * Time: $O(|V| \log |V|)$
+ * Status: tested
+ */
 
 map<vector<int>, int> mphash;
 

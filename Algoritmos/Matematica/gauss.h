@@ -1,6 +1,8 @@
-//Gauss
-//Algoritmo de Gauss para resolver sistemas lineares
-//Complexidade: O(n^3), onde n é o número de variáveis
+/**
+ * Description: Eliminação de Gauss para resolver sistemas lineares.
+ *     Retorna $(num\_solucoes, solucao)$. $0$ = sem solução, $1$ = única, $INF$ = infinitas.
+ * Time: $O(n^3)$, onde $n$ é o número de variáveis
+ */
 
 template<typename T>
 pair<int, vector<T>> gauss(vector<vector<T>> a, vector<T> b) {

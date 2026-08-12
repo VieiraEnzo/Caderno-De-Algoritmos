@@ -1,5 +1,9 @@
-//Primitiva Double
-//Direto do Caderno do Bruno das Malas UFMG
+/**
+ * Source: Caderno do Bruno das Malas UFMG
+ * Description: Geometria com double. Primitivas: ponto, reta, polígono, circunferência.
+ * Time: $O(n \log n)$ convex hull, $O(n)$ demais
+ * Status: tested
+ */
 
 typedef double ld;
 const ld DINF = 1e18;

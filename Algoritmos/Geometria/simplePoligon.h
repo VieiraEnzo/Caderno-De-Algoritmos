@@ -1,9 +1,9 @@
-// Simple Polygon
-//
-// Verifica se um poligono com n pontos eh simples
-//
-// O(n log n)
-// Direto do Caderno do Brullas Mano
+/**
+ * Source: Caderno do Brullas Mano
+ * Description: Verifica se um polígono com $n$ pontos é simples (sem auto-interseções).
+ * Time: $O(n \log n)$
+ * Status: tested
+ */
 
 bool operator < (const line& a, const line& b) { // comparador pro sweepline
 	if (a.p == b.p) return ccw(a.p, a.q, b.q);

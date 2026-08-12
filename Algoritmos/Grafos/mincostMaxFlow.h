@@ -1,6 +1,9 @@
-//Min-cist max-flow
-//Min-cost max-flow. Assumes there is no negative cycle.
-//Time: O (F (V + E)logV ), being F the amount of flow.
+/**
+ * Description: Min-cost max-flow. Assume que não há ciclos negativos.
+ * Usage: \texttt{run(s, t, limFlow)} retorna \texttt{(flow, cost)}.
+ * Time: $O(F (V + E) \log V)$, sendo $F$ a quantidade de fluxo
+ * Status: tested
+ */
 
 template<class flow_t, class cost_t> struct min_cost {
     static constexpr flow_t FLOW_EPS = flow_t(1e-10);

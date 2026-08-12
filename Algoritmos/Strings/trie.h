@@ -1,13 +1,12 @@
-// Trie
-//
-// trie T() constroi uma trie para o alfabeto das letras minusculas
-// trie T(tamanho do alfabeto, menor caracter) tambem pode ser usado
-// 
-// T.insert(s) - O(|s|*sigma)
-// T.erase(s) - O(|s|)
-// T.find(s) retorna a posicao, -1 se nao achar - O(|s|)
-// T.count_pref(s) numero de strings que possuem s como prefixo - O(|s|)
-// Creditos: Bruno meleitas dnv, o caderno inteiro é dele já a esse ponto
+/**
+ * Source: Bruno Meleitas
+ * Description: Trie para strings. Suporta alfabeto customizável via
+ *     parâmetros sigma e norm.
+ * Usage: insert(s) adiciona string, erase(s) remove, find(s) retorna
+ *     posição ($-1$ se não achar), count_pref(s) conta quantas strings
+ *     têm s como prefixo.
+ * Time: $O(|s| \cdot \sigma)$ por operação
+ */
 
 struct trie {
 	vector<vector<int>> to;

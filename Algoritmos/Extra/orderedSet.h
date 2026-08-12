@@ -1,3 +1,10 @@
+/**
+ * Description: Ordered set e multiset usando GNU PBDS.
+ *     Suporta \texttt{order\_of\_key} (rank) e \texttt{find\_by\_order} ($k$-ésimo elemento).
+ * Time: $O(\log n)$ por operação
+ * Status: tested
+ */
+
 #include <ext/pb_ds/tree_policy.hpp>
 #include <ext/pb_ds/assoc_container.hpp>
 using namespace __gnu_pbds;

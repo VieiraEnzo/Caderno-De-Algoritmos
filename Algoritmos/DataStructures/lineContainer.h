@@ -1,12 +1,8 @@
-//Line Container
 /**
- * Author: Simon Lindholm
- * Date: 2017-04-20
- * License: CC0
- * Source: own work
- * Description: Container where you can add lines of the form kx+m, and query maximum values at points x.
- *  Useful for dynamic programming (``convex hull trick'').
- * Time: O(\log N)
+ * Source: Simon Lindholm
+ * Description: Container onde é possível adicionar retas da forma $kx+m$ e
+ *     consultar o valor máximo em pontos $x$. Útil para DP (convex hull trick).
+ * Time: $O(\log n)$ por operação
  * Status: stress-tested
  */
 

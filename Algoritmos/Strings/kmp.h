@@ -1,4 +1,10 @@
-//KMP
+/**
+ * Description: KMP (Knuth-Morris-Pratt). Encontra padrões em strings.
+ * Usage: find_pi(s) retorna a função prefixo. kmp(s, t) retorna as
+ *     posições de ocorrência de s em t. autKMP constrói o autômato do KMP.
+ * Time: $O(n)$ find_pi, $O(n + m)$ kmp
+ * Status: tested
+ */
 
 vector<int> find_pi(string s){
 

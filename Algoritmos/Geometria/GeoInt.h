@@ -1,5 +1,9 @@
-//Primitiva Inteiro
-//Creditos pro breno muleta
+/**
+ * Source: Breno muleta
+ * Description: Geometria com inteiros. Primitivas: ponto, reta, polígono.
+ * Time: $O(n \log n)$ convex hull, $O(\log n)$ inside query, $O(n)$ demais
+ * Status: tested
+ */
 
 #define sq(x) ((x)*(ll)(x))
 

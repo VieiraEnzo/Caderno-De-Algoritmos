@@ -1,11 +1,9 @@
 /**
- * Author: Enzo Fernandes Vieira
- * Source: 
- * Description: BFS porque o caio não sabe codar 
- * Usage: 
+ * Description: Busca em largura (BFS) em grafos.
+  * Description: BFS porque o caio não sabe codar 
+
  * Skip: true
- * Time: $O(N)$.
- * Status: Não
+ * Time: $O(N)$
  */
 
 queue<int> q;

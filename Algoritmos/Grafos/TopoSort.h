@@ -1,11 +1,8 @@
 /**
- * Author:
- * Source: 
- * Description: Algorithm to find the topological sort of a directed acyclic graph (DAG). 
- * Usage: It returns a vector with the vertices in topological order. 
+ * Description: Algoritmo para encontrar a ordenação topológica de um DAG.
+ * Usage: Retorna um vetor com os vértices em ordem topológica.
  * Skip: true
- * Time: $O(M + N)$.
- * Status: 
+ * Time: $O(N + M)$
  */
 
 struct TopoSort

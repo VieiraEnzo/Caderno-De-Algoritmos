@@ -1,11 +1,13 @@
-//LCA Path SUM
+/**
+ * Description: LCA com binary lifting e query de soma em caminhos.
+ *     Armazena valores nos vértices e responde queries de soma no caminho entre dois nós.
+ * Usage: \texttt{set\_val(i, x)} define o valor do vértice \texttt{i}.
+ *     \texttt{build(x)} constrói a estrutura a partir da raiz (padrão: 1).
+ *     Trocar se a raiz não for 1 no construtor e em \texttt{build()}.
+ *     Mudar o valor neutro (\texttt{neutral}) e a operação de junção em \texttt{tb}.
+ * Time: $O(n \log n)$ de build, $O(\log n)$ por query
+ */
 
-/*
-    LCA com query de soma em paths
-    Para raiz diferente te '1', trocar no construtor e build()
-    Mudar valor neutro da operação e junção dos nós em tb
-    Valor armazenados nos  vertices
-*/
 
 struct LCAQ{
     

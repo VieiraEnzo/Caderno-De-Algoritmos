@@ -1,9 +1,9 @@
-//Chinise Reamainder Theorem for General equations
-//
-// Combina equacoes modulares lineares: x = a (mod m)
-// O m final eh o lcm dos m's, e a resposta eh unica mod o lcm
-// Os m nao precisam ser coprimos
-// Se nao tiver solucao, o 'a' vai ser -1
+/**
+ * Description: Teorema Chinês do Resto (Generalizado). Combina equações $x \equiv a \pmod{m}$.
+ *     Os módulos $m$ não precisam ser coprimos. Se não houver solução, retorna $a = -1$.
+ * Time: $O(\log m)$ por equação
+ * Status: tested
+ */
 
 template<typename T> tuple<T, T, T> ext_gcd(T a, T b) {
     if (!a) return {b, 0, 1};

@@ -1,4 +1,11 @@
-//Brute
+/**
+ * Description: Script bash para stress testing. Compila code, brute e gen,
+ *     gera testes com seeds crescentes e compara as saídas com \texttt{diff}.
+ *     Para no primeiro WA e imprime o caso falho.
+ * Time: N/A
+ * Status: tested
+ */
+
 set -e
 g++ code.cpp -o code
 g++ brute.cpp -o brute

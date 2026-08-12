@@ -1,4 +1,10 @@
-//Sparse Table
+/**
+ * Description: Sparse Table para range minimum queries (RMQ).
+ *     \texttt{query(l, r)} retorna o mínimo no range $[l, r]$ em $O(1)$.
+ *     \texttt{querylog(l, r)} decompõe por potências de 2.
+ * Time: $O(n \log n)$ build, $O(1)$ query
+ * Status: tested
+ */
 
 struct SparseTable{
     int K = 25, n;
@@ -29,7 +35,6 @@ struct SparseTable{
         return min(st[i][l], st[i][r-(1<<i)+1]);
     }
 
-    //Query [l,r]
     int querylog(int l , int r){
 
         int neutral = 1e9; //elemento neutro

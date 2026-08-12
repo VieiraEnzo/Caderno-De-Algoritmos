@@ -1,4 +1,9 @@
-//SegTree
+/**
+ * Description: Segment Tree genérica com operação associativa.
+ *     Definir struct Node com \texttt{operator+} e \texttt{operator=}.
+ * Time: $O(\log n)$ por query/update
+ * Status: tested
+ */
 
 struct SegTree{
   int n;

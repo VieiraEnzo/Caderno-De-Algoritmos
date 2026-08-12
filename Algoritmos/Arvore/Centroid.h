@@ -1,5 +1,12 @@
-//Centroid Decomposition
-    
+/**
+ * Description: Centroid Decomposition. Decompõe a árvore em centróides recursivamente.
+ *     Constrói a árvore de centróides em $O(n \log n)$.
+ * Usage: \texttt{build(x, p)} constrói a decomposição.
+ *     A árvore de centróides fica armazenada em \texttt{pai}.
+ * Time: $O(n \log n)$
+ * Status: tested
+ */
+
 struct Centroid{
     int n;
     vector<int> used, pai, sub;

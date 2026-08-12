@@ -1,14 +1,10 @@
-// BIT 2D
-//
-// BIT de soma, update incrementa posicao
-// Tem que construir com um vetor com todos os pontos
-// que vc quer um dia atualizar (os pontos q vc vai chamar update)
-// Serve para queries Sparse
-//
-// Complexidades:
-// construir - O(n log(n))
-// update e query - O(log^2(n))
-// Creditos: BM
+/**
+ * Source: BM
+ * Description: BIT 2D de soma para queries offline/sparse. Suporta update pontual e range sum.
+ * Usage: É necessário construir um vetor de pontos que serão atualizados.
+ * Time: $O(n \log n)$ build, $O(\log^2 n)$ update/query
+ * Status: tested
+ */
 
 template<class T = int> struct bit2d {
 	vector<T> X;

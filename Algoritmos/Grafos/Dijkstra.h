@@ -1,11 +1,8 @@
 /**
- * Author:
- * Source: 
- * Description: Algoritmo de Caminho mínimo para grafos compesos não negativos. Um para todos 
- * Usage: 
+ * Description: Algoritmo de caminho mínimo para grafos com pesos não negativos.
+ *     De uma fonte para todos.
  * Skip: true
- * Time: $O(M + N\log N)$.
- * Status: 
+ * Time: $O(M + N \log N)$
  */
 
 struct Dykstra

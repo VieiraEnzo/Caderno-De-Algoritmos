@@ -1,6 +1,10 @@
-//Bellman-Ford
-//Complexidade: O(n * m), onde n é o número de vértices e m é o número de arestas.
-//Podemos encontrar ciclos negativos guardando os pais de cada vértice.
+/**
+ * Description: Bellman-Ford para caminhos mínimos. Para 
+ * encontrar os ciclos negativos basta
+ * guardar os pais de cada vértice.
+ * Time: $O(n m)$, onde $n$ = vértices, $m$ = arestas
+ * Status: tested
+ */
 
 struct Edge{
     int v, u, cost;

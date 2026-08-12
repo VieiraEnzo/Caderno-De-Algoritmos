@@ -1,12 +1,10 @@
 /**
- * Author: 
- * Source: 
- * Description:  
- * Usage: To recover: d[arr[i]]
+ * Description: Compressão de coordenadas. Mapeia valores de um array para
+ *     inteiros consecutivos $[0, k)$, preservando a ordem relativa.
+ * Usage: Para recuperar o valor original: \texttt{d[arr[i]]}.
  * Skip: true
- * Time: $O(N \log N)$.
- * Status:  
-*/
+ * Time: $O(N \log N)$
+ */
 
 vector<int> d = arr;
 sort(d.begin(), d.end());

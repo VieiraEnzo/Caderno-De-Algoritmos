@@ -1,4 +1,9 @@
-//SegTree Sparse
+/**
+ * Description: Sparse Segment Tree com alocação dinâmica de nós.
+ *     \texttt{add(k, x)} adiciona $x$ na posição $k$.
+ *     \texttt{get\_sum(lq, rq)} retorna soma no range $[lq, rq]$.
+ * Time: $O(\log N)$ por query/update
+ */
 
 struct Node {
     int left, right;

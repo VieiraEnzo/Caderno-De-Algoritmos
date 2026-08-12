@@ -1,12 +1,9 @@
 /**
- * Author: 
- * Source: 
- * Description:  
- * Usage: 
+ * Description: BIT com range update e range query de soma.
+ *     Usa duas BITs para implementar range add e range sum.
+ * Time: $O(\log n)$ por query/update
  * Skip: true
- * Time: $O(N \log N)$.
- * Status:
-*/
+ */
 
 vector<int> bit1, bit2;
 void init(int n){

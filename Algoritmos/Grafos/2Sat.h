@@ -1,11 +1,10 @@
-//2 Sat
-//Algoritmo para resolver equações do tipo
-//(a ou b) e (c ou d) e (~a ou c) ...
-//Complexidade: O(n + m), onde n é o número de variáveis e m é o número de implicações
-//
-// (+a  ou -b) -> add_edge(1, a, 0, b)
-//
-//Status: tested - https://cses.fi/problemset/result/8784228/
+/**
+ * Description: 2-SAT solver. Resolve equações do tipo $(a \lor b) \land (c \lor d) \dots$
+ *     Cláusula $(+a \lor -b)$ vira \texttt{add\_edge(1, a, 0, b)}.
+ * Usage: \texttt{add\_edge(1, a, 0, b)} para $(+a \lor -b)$.
+ * Time: $O(n + m)$, onde $n$ = variáveis, $m$ = implicações
+ * Status: tested -- \url{https://cses.fi/problemset/result/8784228/}
+ */
 
 struct SAT2{
 

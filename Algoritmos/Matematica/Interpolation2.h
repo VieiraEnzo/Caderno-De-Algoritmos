@@ -1,9 +1,8 @@
-//Interpolation Pts-> Pol
 /**
- *  Description: Given $n$ points (x[i], y[i]), computes an n-1-degree polynomial $p$ that
- *  passes through them: $p(x) = a[0]*x^0 + ... + a[n-1]*x^{n-1}$.
- *  For numerical precision, pick $x[k] = c*\cos(k/(n-1)*\pi), k=0 \dots n-1$.
- * Time: O(n^2)
+ * Description: Dados $n$ pontos $(x[i], y[i])$, computa um polinômio de grau $n-1$ que
+ *     passa por eles: $p(x) = a[0]x^0 + \dots + a[n-1]x^{n-1}$.
+ *     Para precisão numérica, use $x[k] = c \cdot \cos(k/(n-1) \cdot \pi), k = 0 \dots n-1$.
+ * Time: $O(n^2)$
  */
 typedef vector<double> vd;
 vd interpolate(vd x, vd y, int n) {

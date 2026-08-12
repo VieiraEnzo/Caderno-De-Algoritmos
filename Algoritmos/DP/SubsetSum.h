@@ -1,8 +1,12 @@
-//Subset Sum - Sqrt(n)
-//Desired Sum - S | Numbers - n
-//Subset sum - Implementation O(n) memory and O(S * sqrt(N)) runtime
-//Uses sliding window technique to optimize the subset sum problem.
-//ITEMS NÃO PODEM TER VALOR 0 NEM FREQ 0    
+/**
+ * Description: Subset Sum com bounded knapsack otimizado por sliding window.
+ *     Soma desejada $= S$, números $= n$. Itens não podem ter valor $0$ nem frequência $0$.
+ * Usage:
+ *     $\text{sack}$ é um vetor de pares $\{ \text{item}, \text{frequência} \}$.
+ *     $\text{dp}[x] = 1$ se é possível obter soma $x$, $0$ caso contrário.
+ * Time: $O(S \sqrt{n})$ runtime, $O(n)$ memory
+ * Status: tested
+ */
 
 vector<pair<int,int>> sack; // {item, frequency}
 vector<int> dp(S+1, 0);

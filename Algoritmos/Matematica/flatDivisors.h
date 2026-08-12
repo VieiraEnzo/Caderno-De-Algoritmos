@@ -1,10 +1,8 @@
 /**
- * Author: Gemini
- * Source: 
- * Description: Gera os divisores de todos os números até $n$ armazenados em um vetor simples.
- * Usage: build_flat_divisors(); for(int i = head[Y]; i < head[Y + 1]; ++i) int d = flat_divs[i];
- * Skip: true
- * Time: $O(N \log N)$.
+ * Author: Gemini 
+* Description: Gera os divisores de todos os números até $n$ e armazena em um vetor simples contíguo.
+ * Usage: $build\_flat\_divisors()$; $for(int\ i = head[Y];\ i < head[Y + 1];\ ++i)\ int\ d = flat\_divs[i]$;
+ * Time: $O(N \log N)$
  * Status: Meio-testado (CF)
  */
 

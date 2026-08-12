@@ -1,4 +1,10 @@
-//Dominator Tree
+/**
+ * Description: Dominator Tree. Computa a árvore de dominadores dos vértices alcançáveis
+ *     a partir da raiz.
+ * Usage: \texttt{build(r, n)} constrói a árvore de dominadores a partir da raiz \texttt{r};
+ *     \texttt{t[i]} armazena os vértices da dominator tree.
+ * Time: $O((V+E)\log V)$
+ */
 
 const int N = 2e5 + 9;
 
@@ -55,38 +61,4 @@ void yo(int u, int pre = 0) {
     yo(v, u);
   }
   en[u] = T;
-}
-
-int main() {
-  ios_base::sync_with_stdio(0);
-  cin.tie(0);
-
-  int n, m;
-  while(cin >> n >> m) {
-    vector<pair<int, int>> ed;
-    for(int i = 0; i < m; i++) {
-      int u, v;
-      cin >> u >> v;
-      g[u].push_back(v);
-      ed.push_back({u, v});
-    }
-    build(1, n);
-    T = 0;
-    yo(1);
-    vector<int> ans;
-    for(int i = 0; i < m; i++) {
-      int u = ed[i].first, v = ed[i].second;
-      if(st[u] && !(st[v] <= st[u] && en[u] <= en[v])) ans.push_back(i);
-    }
-    yo(1);
-    cout << ans.size() << '\n';
-    for(auto x: ans) cout << x + 1 << ' ';
-    cout << '\n';
-    T = 0;
-    for(int i = 0; i <= n; i++) {
-      t[i].clear(), g[i].clear(), rg[i].clear(), bucket[i].clear();
-      sdom[i] = par[i] = idom[i] = dsu[i] = label[i] = id[i] = rev[i] = st[i] = en[i] = 0;
-    }
-  }
-  return 0;
 }

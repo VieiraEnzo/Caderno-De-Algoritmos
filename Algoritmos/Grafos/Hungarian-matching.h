@@ -1,16 +1,14 @@
-//Hungarian Matching
-/*
- * Source: https://github.com/bqi343/USACO/blob/master/Implementations/content/graphs%20(12)/Matching/Hungarian.h
+/**
+ * Source: \url{https://github.com/bqi343/USACO/blob/master/Implementations/content/graphs\%20(12)/Matching/Hungarian.h}
  * Description: Given a weighted bipartite graph, matches every node on
  * the left with a node on the right such that no
  * nodes are in two matchings and the sum of the edge weights is minimal. Takes
  * cost[N][M], where cost[i][j] = cost for L[i] to be matched with R[j] and
  * returns (min cost, match), where L[i] is matched with
  * R[match[i]]. Negate costs for max cost.
- * Time: O(N^2M)
+ * Time: $O(N^2 M)$
  * Status: Tested on kattis:cordonbleu, stress-tested
-*/
-// o valor na posição i do vector retornado indica a coluna do elemento da linha i que foi escolhido
+ */
 
 template<class cost_t> pair<cost_t, vector<int>> hungarian(const vector<vector<cost_t>> &a){
     int n = a.size() + 1, m = a[0].size() + 1;

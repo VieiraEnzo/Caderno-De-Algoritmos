@@ -1,4 +1,10 @@
-//Xor Basis
+/**
+ * Description: Xor Basis. Mantém uma base de vetores e permite reduzir um valor
+ *     ao mínimo XOR com elementos da base. \texttt{mx(l)} retorna o máximo valor
+ *     XOR usando elementos cujo segundo campo $\ge l$.
+ * Time: $O(\log \text{MAX})$ por operação
+ * Status: tested
+ */
 
 struct Basis{
   long long neutral = (1ll << 31) - 1;

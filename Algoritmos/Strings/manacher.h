@@ -1,6 +1,11 @@
-//Manacher
-//Algoritmo de Manacher para encontrar o tamanho dos palíndromos em uma string
-//Complexidade: O(n), onde n é o tamanho da string
+/**
+ * Description: Algoritmo de Manacher. Encontra o tamanho dos palíndromos
+ *     em uma string.
+ * Usage: manacher_odd(s) para palíndromos ímpares. manacher(s) retorna
+ *     $\{d_{odd}, d_{even}\}$ para todos os centros.
+ * Time: $O(n)$, onde $n$ é o tamanho da string
+ * Status: tested
+ */
 
 vector<int> manacher_odd(string s) {
     int n = s.size();

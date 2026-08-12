@@ -1,11 +1,9 @@
-//Fast Subset Transform
 /**
- * Author: Lucian Bicsi
- * Description: Transform to a basis with fast convolutions of the form
+ * Author: Lucian Bicsi 
+* Description: Transform to a basis with fast convolutions of the form
  * $\displaystyle c[z] = \sum\nolimits_{z = x \oplus y} a[x] \cdot b[y]$,
  * where $\oplus$ is one of AND, OR, XOR. The size of $a$ must be a power of two.
- * Time: O(N \log N)
- * Também chamada de Transformada Rápida de Walsh-Hadamard
+ * Time: $O(N \log N)$
  */
 
 void FST(vector<int> &a, bool inv) {

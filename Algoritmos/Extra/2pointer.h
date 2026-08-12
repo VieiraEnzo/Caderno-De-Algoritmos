@@ -1,3 +1,12 @@
+/**
+ * Description: Técnica dos dois ponteiros (Two-Pointer). Modelos para:
+ *     (1) Maior segmento bom (segmentos bons são fechados sob aninhamento).
+ *     (2) Menor segmento bom (segmentos bons são fechados sob contenção).
+ *     Inclui notas sobre quando aplicar o método.
+ * Time: $O(n)$
+ * Status: tested
+ */
+
 x = 0, L = 0 
 for R = 0..n-1
     x += a[R]

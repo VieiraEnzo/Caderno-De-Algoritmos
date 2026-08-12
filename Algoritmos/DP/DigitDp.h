@@ -1,5 +1,12 @@
-//Digit DP
-//Numbers that no two adjacent digits are the same
+/**
+ * Description: Digit DP template. Exemplo: números sem dois dígitos adjacentes iguais.
+ *     $\text{func}(a, b)$ retorna a quantidade de números no intervalo $[a, b]$.
+ * Usage:
+ *     O usuário deve modificar a condição dentro do loop em $\text{solve}$ para
+ *     implementar a restrição desejada sobre os dígitos.
+ * Time: $O(d \cdot 10)$ onde $d$ é o número de dígitos
+ * Status: tested
+ */
 
 ll solve(string &s, int i, int tight, int last, int started){ 
     if(i==(int)s.size()) return 1;

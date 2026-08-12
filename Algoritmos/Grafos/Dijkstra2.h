@@ -1,6 +1,9 @@
-//Dijkstra - O(n*n + m)
-//
-//Algoritmo de Caminho mínimo para grafos compesos não negativos. Um para todos
+/**
+ * Description: Dijkstra $O(n^2 + m)$ para grafos sem pesos negativos.
+ *     De uma fonte para todos. Implementação sem priority queue (densa).
+ * Time: $O(n^2 + m)$
+ * Status: tested
+ */
 
 struct Graph{
     int n;

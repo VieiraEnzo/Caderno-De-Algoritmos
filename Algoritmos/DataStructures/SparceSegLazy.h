@@ -1,4 +1,9 @@
-// SparseSegTree with Lazy
+/**
+ * Description: Sparse Segment Tree com Lazy Propagation. Suporta range add e query de min/max.
+ *     \texttt{add(ql, qr, v)} adiciona $v$ ao range $[ql, qr]$.
+ *     \texttt{get\_minmax(ql, qr)} retorna $\{\min, \max\}$ no range.
+ * Time: $O(\log N)$ por query/update
+ */
 
 struct SparseSegTree {
     struct Node {

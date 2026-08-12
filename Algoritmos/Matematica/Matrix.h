@@ -1,6 +1,8 @@
-//Matrix
-//Multiplicação e Exponensiação de Matrizes
-//Tested: NO
+/**
+ * Description: Multiplicação e exponenciação de matrizes.
+ *     $operator*$ multiplica, $operator\wedge$ exponencia (exponenciação rápida).
+ * Time: $O(n^3)$ para multiplicação, $O(n^3 \log e)$ para exponenciação
+ */
 
 template<typename T> struct Matriz
 {

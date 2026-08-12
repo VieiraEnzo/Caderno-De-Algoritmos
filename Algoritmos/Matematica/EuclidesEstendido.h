@@ -1,8 +1,9 @@
-//Euclides Estendido
-//
-//Retorna o GCD de a e b, e os coeficientes x e y
-//tais que ax + by = gcd(a, b).
-//Complexidade: O(log(min(a, b)))
+/**
+ * Description: Algoritmo de Euclides Estendido. Retorna $\gcd(a, b)$,
+ *     e coeficientes $x, y$ tais que $ax + by = \gcd(a, b)$.
+ * Time: $O(\log(\min(a, b)))$
+ * Status: tested
+ */
 
 int egcd(int a, int b, int& x, int& y) {
     if (b == 0) {

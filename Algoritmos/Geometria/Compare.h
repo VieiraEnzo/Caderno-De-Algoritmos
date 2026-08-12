@@ -1,4 +1,8 @@
-// Angle-Sort points
+/**
+ * Description: Ordena pontos por ângulo polar usando produto vetorial.
+ * Time: $O(1)$ por comparação
+ * Status: tested
+ */
 
 long long cross(const point &a, const point &b) {
     return (long long) a.x * b.y - (long long) a.y * b.x;

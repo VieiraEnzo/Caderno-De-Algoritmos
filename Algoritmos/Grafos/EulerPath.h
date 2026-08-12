@@ -1,8 +1,4 @@
-//Euler Path
 /**
- * Author: Simon Lindholm
- * Date: 2019-12-31
- * License: CC0
  * Source: folklore
  * Description: Eulerian undirected/directed path/cycle algorithm.
  * Input should be a vector of (dest, global edge index), where
@@ -25,8 +21,10 @@
  * Circuito |  de todos os vértices         | "não existe vértice de grau impar"
  *          |  são iguais"                  | 
  * 
- 
+  * Time: $O(V + E)$
+ * Status: stress-tested
  */
+
 vector<int> eulerWalk(vector<vector<pii>>& gr, int nedges, int src=0) {
 	int n = gr.size();
 	vector<int> D(n), its(n), eu(nedges), ret, s = {src};

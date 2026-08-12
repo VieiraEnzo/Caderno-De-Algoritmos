@@ -1,12 +1,10 @@
-//Hashing
-//Complexidade: O(n), onde n é o tamanho da string
-
-//Cria o hashing de uma string
-//ha[0] = 0
-//ha[1] = s[0]
-//ha[2] = p*s[0] + s[1]
-//ha[3] = p^2*s[0] + p*s[1] + s[2]
-
+/**
+ * Description: Hash polinomial de strings módulo $MOD$. Constrói em $O(n)$
+ *     e permite consultas em $O(1)$.
+ * Usage: getRange(a, b) retorna o hash da substring $[a, b)$ (0-indexado).
+ * Time: $O(n)$ build, $O(1)$ query
+ * Status: tested
+ */
 
 template<int MOD> struct Hashing{
     ll base, n;
@@ -27,7 +25,6 @@ template<int MOD> struct Hashing{
         }
     }
     
-    //Retorna o Hashing da substring [a, b), indexado em 0
     int getRange(int a, int b){
         assert(a <= b);
         ll hash =  (ha[b] - (ha[a] * pow[b-a])%MOD)%MOD;

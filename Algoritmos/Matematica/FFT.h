@@ -1,5 +1,14 @@
-//FFT
-//Tirar de dentro da struct para mais desempenho!
+/**
+ * Source: http://neerc.ifmo.ru/trains/toulouse/2017/fft2.pdf
+ * Description: FFT para convolução de polinômios.
+ *     $fft(a)$ computa $\hat{f}(k) = \sum_x a[x] \exp(2\pi i k x / N)$. $N$ deve ser potência de $2$.
+ *     $conv(a, b) = c$, onde $c[x] = \sum a[i] b[x-i]$.
+ *     $convMod<M>$ para convolução módulo $M$ usando FFT de alta precisão.
+ *     Arredondamento é seguro se $(\sum a_i^2 + \sum b_i^2) \log_2 N < 9 \cdot 10^{14}$.
+ * Time: $O(N \log N)$ com $N = |A| + |B|$
+ * Status: somewhat tested
+ */
+
 struct FFT{
     typedef complex<double> C;
     typedef vector<double> vd;
