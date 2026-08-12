@@ -112,13 +112,25 @@ def tex_escape(s):
              .replace("^", r"\textasciicircum{}"))
 
 
+def tex_escape_field(s):
+    r"""Escape LaTeX special characters in a header field, preserving $...$ math.
+
+    Inline math segments ($...$) are left untouched; everything outside them is
+    passed through tex_escape so characters like `_`, `&`, `%`, etc. render
+    correctly in text mode."""
+    parts = s.split("$")
+    out = []
+    for i, part in enumerate(parts):
+        if i % 2 == 0:
+            out.append(tex_escape(part))
+        else:
+            out.append("$" + part + "$")
+    return "".join(out)
+
+
 def render_field(name, value):
-    r"""Render a single field to LaTeX using KACTL-style bold labels (\codeheader).
-    Usage is emitted as a small minted block; other fields as bold-labeled text."""
-    if name == "Usage":
-        return "\\codeheader{Usage}{}\n\\begin{minted}[fontsize=\\footnotesize]{cpp}\n" + value.strip() + "\n\\end{minted}\n"
-    # Description / Time / others: bold label + value.
-    return "\\codeheader{" + name + "}{" + value.strip() + "}\n"
+    r"""Render a single field to LaTeX using KACTL-style bold labels (\codeheader)."""
+    return "\\codeheader{" + name + "}{" + tex_escape_field(value.strip()) + "}\n"
 
 
 def render_algorithm(path, filename, skinny, want_hash):
