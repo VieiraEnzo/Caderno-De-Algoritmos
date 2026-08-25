@@ -6,15 +6,12 @@
  * Status: tested
  */
 
+mt19937 rng((uint32_t)chrono::steady_clock::now().time_since_epoch().count());
+const ll B = uniform_int_distribution<ll>(0, M - 1)(rng);
+
 template<int MOD> struct Hashing{
     ll base, n;
     vector<ll> pow, ha; 
-
-    /*
-    for random base:
-    mt19937 rng((uint32_t)chrono::steady_clock::now().time_since_epoch().count());
-    const ll B = uniform_int_distribution<ll>(0, M - 1)(rng);
-    */
 
     Hashing(string & s, int a) : n(s.size()), base(a) ,pow(n+1), ha(n+1){
 

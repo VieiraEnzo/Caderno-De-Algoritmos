@@ -3,6 +3,7 @@
  *     \texttt{add(ql, qr, v)} adiciona $v$ ao range $[ql, qr]$.
  *     \texttt{get\_minmax(ql, qr)} retorna $\{\min, \max\}$ no range.
  * Time: $O(\log N)$ por query/update
+ * Skip: true
  */
 
 struct SparseSegTree {

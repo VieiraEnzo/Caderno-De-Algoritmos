@@ -5,6 +5,7 @@
  *     $\{d_{odd}, d_{even}\}$ para todos os centros.
  * Time: $O(n)$, onde $n$ é o tamanho da string
  * Status: tested
+ * Skip: false
  */
 
 vector<int> manacher_odd(string s) {
