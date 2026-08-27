@@ -112,19 +112,68 @@ def tex_escape(s):
              .replace("^", r"\textasciicircum{}"))
 
 
-def tex_escape_field(s):
-    r"""Escape LaTeX special characters in a header field, preserving $...$ math.
+def find_matching_brace(s, start_idx):
+    """Find the index of the matching closing brace for the brace starting at start_idx."""
+    balance = 1
+    i = start_idx + 1
+    while i < len(s):
+        if s[i] == '\\' and i + 1 < len(s) and s[i+1] in ('{', '}'):
+            # It's an escaped brace like \{ or \}, we should skip both characters.
+            i += 2
+            continue
+        elif s[i] == '{':
+            balance += 1
+        elif s[i] == '}':
+            balance -= 1
+            if balance == 0:
+                return i
+        i += 1
+    return -1
 
-    Inline math segments ($...$) are left untouched; everything outside them is
-    passed through tex_escape so characters like `_`, `&`, `%`, etc. render
-    correctly in text mode."""
-    parts = s.split("$")
+
+def tex_escape_field(s):
+    r"""Escape LaTeX special characters in a header field, preserving $...$ math and standard formatting commands.
+
+    Inline math segments ($...$) and specific LaTeX commands like \texttt{...} or \url{...} are left
+    untouched; everything outside them is passed through tex_escape so characters like `_`, `&`, `%`, etc.
+    render correctly in text mode."""
     out = []
-    for i, part in enumerate(parts):
-        if i % 2 == 0:
-            out.append(tex_escape(part))
+    i = 0
+    n = len(s)
+    allowed_macros = (r'\texttt{', r'\url{')
+    while i < n:
+        if s[i] == '$':
+            j = s.find('$', i + 1)
+            if j != -1:
+                out.append(s[i:j+1])
+                i = j + 1
+            else:
+                out.append(tex_escape(s[i]))
+                i += 1
+        elif any(s.startswith(macro, i) for macro in allowed_macros):
+            matched_macro = next(macro for macro in allowed_macros if s.startswith(macro, i))
+            start_brace_idx = i + len(matched_macro) - 1
+            j = find_matching_brace(s, start_brace_idx)
+            if j != -1:
+                out.append(s[i:j+1])
+                i = j + 1
+            else:
+                out.append(tex_escape(s[i]))
+                i += 1
         else:
-            out.append("$" + part + "$")
+            next_idx = n
+            idx_dollar = s.find('$', i)
+            if idx_dollar != -1:
+                next_idx = min(next_idx, idx_dollar)
+            for macro in allowed_macros:
+                idx_macro = s.find(macro, i)
+                if idx_macro != -1:
+                    next_idx = min(next_idx, idx_macro)
+            
+            plain_text = s[i:next_idx]
+            out.append(tex_escape(plain_text))
+            i = next_idx
+            
     return "".join(out)
 
 
